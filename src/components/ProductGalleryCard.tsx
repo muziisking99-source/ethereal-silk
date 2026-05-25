@@ -35,15 +35,15 @@ export default function ProductGalleryCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.9, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] }}
-      className={`group g-card flex-shrink-0 relative overflow-hidden cursor-pointer border border-[rgba(180,140,160,0.18)] ${variantClasses[variant]} ${className}`}
+      className={`group g-card flex-shrink-0 relative overflow-hidden cursor-pointer border border-[rgba(196,120,138,0.15)] rounded-[4px] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(100,50,80,0.1)] ${variantClasses[variant]} ${className}`}
     >
       <img
         src={image}
         alt={product.name}
-        className="w-full h-full object-cover saturate-[0.75] contrast-110 transition-all duration-700 group-hover:scale-[1.06]"
+        className="w-full h-full object-cover saturate-[0.75] contrast-110 transition-all duration-700 group-hover:scale-[1.05]"
         loading="lazy"
       />
-      <div className="absolute inset-0 backdrop-blur-[12px] bg-[rgba(250,247,244,0.5)] flex flex-col items-center justify-center gap-4 opacity-0 hover:opacity-100 hover:bg-[rgba(250,247,244,0.35)] transition-all duration-300 group">
+      <div className="absolute inset-0 backdrop-blur-[12px] bg-[rgba(250,247,244,0.5)] flex flex-col items-center justify-center gap-4 opacity-0 hover:opacity-100 hover:bg-[rgba(250,247,244,0.35)] transition-all duration-300">
         <button
           type="button"
           onClick={() =>
@@ -55,20 +55,20 @@ export default function ProductGalleryCard({
               image,
             })
           }
-          className="w-[52px] h-[52px] rounded-full border border-[#6b3a5e] flex items-center justify-center bg-white/80 hover:bg-[#e8849a] hover:border-[#e8849a] hover:text-white transition-all duration-300"
+          className="w-[52px] h-[52px] rounded-full border border-[#6B3556] flex items-center justify-center bg-white/80 hover:bg-[#C4788A] hover:border-[#C4788A] hover:text-white transition-all duration-300"
           aria-label={`Add ${product.name} to basket`}
         >
-          <ShoppingBag className="w-5 h-5 text-[#6b3a5e] group-hover:text-inherit" strokeWidth={1.5} />
+          <ShoppingBag className="w-5 h-5 text-[#6B3556] group-hover:text-inherit" strokeWidth={1.5} />
         </button>
-        <span className="font-[DM_Mono] text-[0.6rem] tracking-[0.25em] uppercase text-[#6b3a5e]">
+        <span className="font-[DM_Mono] text-[0.6rem] tracking-[0.25em] uppercase text-[#6B3556]">
           Add to Order · R{product.price.toLocaleString()}
         </span>
       </div>
       <div className="absolute bottom-4 left-4 z-[2]">
-        <div className="font-[Bodoni_Moda] text-[0.9rem] italic text-[#6b3a5e]">
+        <div className="font-[Cormorant_Garamond] text-[0.9rem] italic text-[#6B3556]">
           {product.name}
         </div>
-        <div className="font-[DM_Mono] text-[0.55rem] tracking-[0.2em] uppercase text-[#e8849a] mt-0.5">
+        <div className="font-[DM_Mono] text-[0.55rem] tracking-[0.2em] uppercase text-[#C4788A] mt-0.5">
           {product.sku}
         </div>
       </div>
