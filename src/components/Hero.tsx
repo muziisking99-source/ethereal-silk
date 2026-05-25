@@ -33,15 +33,16 @@ export default function Hero() {
         <img
           src={content.background_image_url}
           alt=""
-          className="w-full h-full object-cover saturate-[0.85] contrast-105 scale-105 transition-transform duration-700 hover:scale-[1.08]"
+          className="w-full h-full object-cover object-top brightness-110 saturate-100 contrast-100 scale-100"
+        />
+        {/* Dark gradient overlay from bottom */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(to top, rgba(20,8,14,0.75) 0%, rgba(20,8,14,0.2) 50%, transparent 100%)",
+          }}
         />
       </motion.div>
-      <div
-        className="absolute inset-0"
-        style={{
-          background: `linear-gradient(105deg, var(--hero-scrim) 0%, var(--hero-scrim) 42%, var(--hero-scrim-mid) 58%, transparent 100%)`,
-        }}
-      />
 
       <div className="relative z-[2] min-h-[calc(100dvh-5rem)] grid grid-cols-1 lg:grid-cols-[58%_42%]">
         <div className="flex flex-col justify-center px-6 sm:px-10 lg:pl-12 lg:pr-8 py-16 lg:py-24">
@@ -52,11 +53,11 @@ export default function Hero() {
             variants={stagger}
             className="font-[Cormorant_Garamond] text-[clamp(3.2rem,5.5vw,6rem)] font-bold leading-[1] tracking-[-0.01em] mb-8"
           >
-            <span className="block text-[#1A0E14]">{content.line1}</span>
-            <span className="block italic font-light text-[#6B3556] ml-4 lg:ml-6">
+            <span className="block text-white drop-shadow-lg">{content.line1}</span>
+            <span className="block italic font-light text-[#D4A0AD] ml-4 lg:ml-6 drop-shadow-lg">
               {content.line2}
             </span>
-            <span className="block bg-gradient-to-br from-[#C4788A] to-[#D4A0AD] bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-br from-[#E8A4C8] to-[#D4A0AD] bg-clip-text text-transparent drop-shadow-lg">
               {content.line3}
             </span>
           </motion.h1>
@@ -66,7 +67,7 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             variants={stagger}
-            className="text-[1rem] leading-[1.9] text-[#6B5260] max-w-[420px] mb-12 font-light"
+            className="text-[1rem] leading-[1.9] text-white max-w-[420px] mb-12 font-light drop-shadow"
           >
             {content.subtitle}
           </motion.p>
@@ -89,7 +90,7 @@ export default function Hero() {
             </Link>
             <Link
               to="/shop"
-              className="text-[#6B5260] text-[0.78rem] tracking-[0.12em] uppercase flex items-center gap-2 transition-colors duration-300 hover:text-[#6B3556] bg-transparent border-none group"
+              className="text-white text-[0.78rem] tracking-[0.12em] uppercase flex items-center gap-2 transition-colors duration-300 hover:text-[#D4A0AD] bg-transparent border-none group drop-shadow"
             >
               {content.secondary_cta}
               <span className="transition-transform duration-300 group-hover:translate-x-1">
@@ -103,7 +104,7 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             variants={stagger}
-            className="flex items-center gap-5 mt-14 pt-10 border-t border-[rgba(196,120,138,0.15)]"
+            className="flex items-center gap-5 mt-14 pt-10 border-t border-[rgba(255,255,255,0.2)]"
           >
             <div className="flex">
               {[1, 2, 3, 4].map((i) => (
@@ -111,12 +112,12 @@ export default function Hero() {
                   key={i}
                   src={`https://picsum.photos/seed/onlyliyah${i}/60/60`}
                   alt=""
-                  className="w-8 h-8 rounded-full border-2 border-[#FAF7F4] object-cover -ml-2 first:ml-0 saturate-[0.8]"
+                  className="w-8 h-8 rounded-full border-2 border-white object-cover -ml-2 first:ml-0"
                 />
               ))}
             </div>
-            <div className="text-[0.78rem] text-[#6B5260] leading-[1.5]">
-              <strong className="text-[#6B3556] font-medium">{content.proof_strong}</strong>
+            <div className="text-[0.78rem] text-white leading-[1.5] drop-shadow">
+              <strong className="text-white font-medium">{content.proof_strong}</strong>
               <br />
               {content.proof_sub}
             </div>
