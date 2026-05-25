@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Navbar from "@/components/Navbar";
+import ScrollProgressBar from "@/components/ScrollProgressBar";
 import Hero from "@/components/Hero";
 import Marquee from "@/components/Marquee";
 import BentoSection from "@/components/BentoSection";
@@ -20,7 +21,8 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   return (
-    <div className="min-h-screen theme-page">
+    <div className="min-h-screen theme-page bg-[#FAF7F4]">
+      <ScrollProgressBar />
       <Navbar />
       <CartDrawer />
       <MobileCartFab />
