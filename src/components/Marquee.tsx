@@ -1,5 +1,4 @@
-import { useMarqueeContent } from "@/hooks/useSiteContent";
-import { DEFAULT_MARQUEE } from "@/lib/siteContentDefaults";
+import { useMarqueeContent, DEFAULT_MARQUEE } from "@/hooks/useSiteContent";
 
 export default function Marquee() {
   const { data: marquee } = useMarqueeContent();

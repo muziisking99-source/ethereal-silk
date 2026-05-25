@@ -1,8 +1,7 @@
 import React from "react";
 import { Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useHeroContent } from "@/hooks/useSiteContent";
-import { DEFAULT_HERO } from "@/lib/siteContentDefaults";
+import { useHeroContent, DEFAULT_HERO } from "@/hooks/useSiteContent";
 
 export default function Hero() {
   const { data: hero } = useHeroContent();
