@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { useAboutContent, DEFAULT_ABOUT } from "@/hooks/useSiteContent";
+import { useAboutContent } from "@/hooks/useSiteContent";
+import { DEFAULT_ABOUT } from "@/lib/siteContentDefaults";
 
 export default function AboutSection() {
   const { data: about, isLoading } = useAboutContent();
