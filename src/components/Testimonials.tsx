@@ -37,6 +37,7 @@ const miniTestimonials: MiniTestimonial[] = [
   },
 ];
 
+export default function Testimonials() {
   return (
     <section className="py-20 lg:py-28 px-6 lg:px-12 border-t border-[rgba(180,140,160,0.18)]">
       <div className="max-w-[1100px] mx-auto">
@@ -55,27 +56,27 @@ const miniTestimonials: MiniTestimonial[] = [
             transition={{ duration: 0.8 }}
           >
             <div className="font-[Bodoni_Moda] text-[clamp(1.3rem,2.5vw,2rem)] italic font-light leading-[1.55] text-[#1e1218] border-l-2 border-[#e8849a] pl-8 mb-8">
-              "{testimonials[0].big}"
+              "{bigTestimonial.big}"
             </div>
             <div className="flex items-center gap-4 pl-8">
               <div className="w-11 h-11 rounded-full bg-[#f4efe9] border border-[rgba(180,140,160,0.35)] flex items-center justify-center">
                 <span className="font-[Bodoni_Moda] text-[0.9rem] text-[#6b3a5e]">
-                  {testimonials[0]!.name[0]}
+                  {bigTestimonial.name[0]}
                 </span>
               </div>
               <div>
                 <div className="text-[0.75rem] font-medium text-[#6b3a5e] tracking-[0.05em]">
-                  {testimonials[0].name}
+                  {bigTestimonial.name}
                 </div>
                 <div className="font-[DM_Mono] text-[0.6rem] tracking-[0.1em] text-[#8a6e7a] mt-0.5">
-                  {testimonials[0].location}
+                  {bigTestimonial.location}
                 </div>
               </div>
             </div>
           </motion.div>
 
           <div className="flex flex-col gap-5">
-            {testimonials.slice(1).map((t, i) => (
+            {miniTestimonials.map((t, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
