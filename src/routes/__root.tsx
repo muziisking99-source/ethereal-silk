@@ -77,13 +77,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "OnlyLiyah — Luxury Lingerie Boutique" },
+      { title: "OnlyLiyah" },
       { name: "description", content: "South Africa's premier luxury lingerie boutique. Handcrafted pieces designed for elegance and confidence." },
       { name: "author", content: "OnlyLiyah" },
-      { property: "og:title", content: "OnlyLiyah — Luxury Lingerie Boutique" },
+      { property: "og:title", content: "OnlyLiyah" },
       { property: "og:description", content: "South Africa's premier luxury lingerie boutique. Handcrafted pieces designed for elegance and confidence." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
+      { name: "twitter:title", content: "OnlyLiyah" },
+      { name: "twitter:description", content: "South Africa's premier luxury lingerie boutique. Handcrafted pieces designed for elegance and confidence." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/26fa8395-0e27-44af-a77b-892f60b9ef65/id-preview-340ae3d1--68fea179-0d7d-46a7-836f-f5aacb677e4f.lovable.app-1779711402924.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/26fa8395-0e27-44af-a77b-892f60b9ef65/id-preview-340ae3d1--68fea179-0d7d-46a7-836f-f5aacb677e4f.lovable.app-1779711402924.png" },
     ],
     links: [
       {
