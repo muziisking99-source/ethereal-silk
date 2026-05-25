@@ -5,7 +5,6 @@ const footerLinks = [
   { label: "Gallery", href: "/#gallery" },
   { label: "About", href: "/#about" },
   { label: "Shipping", href: "/#shipping" },
-  { label: "FAQ", href: "/#faq" },
   { label: "Checkout", href: "/checkout" },
 ];
 

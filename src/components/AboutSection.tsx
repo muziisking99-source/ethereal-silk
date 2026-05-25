@@ -1,6 +1,10 @@
 import { motion } from "framer-motion";
+import { useAboutContent, DEFAULT_ABOUT } from "@/hooks/useSiteContent";
 
 export default function AboutSection() {
+  const { data: about, isLoading } = useAboutContent();
+  const content = about ?? DEFAULT_ABOUT;
+
   return (
     <section id="about" className="luxury-section border-t border-[rgba(180,140,160,0.18)]">
       <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
@@ -12,16 +16,16 @@ export default function AboutSection() {
           className="relative"
         >
           <img
-            src="https://images.unsplash.com/photo-1617331721458-bd3bd3f9c7f8?w=600&h=750&fit=crop"
+            src={content.image_url}
             alt="About Only Liyah"
             className="w-full aspect-[4/5] object-cover saturate-[0.7] contrast-105"
           />
           <div className="absolute bottom-8 -right-4 lg:-right-8 bg-white border border-[rgba(180,140,160,0.35)] p-6 shadow-[0_20px_60px_rgba(107,58,94,0.12)]">
             <div className="font-[DM_Mono] text-[0.58rem] tracking-[0.25em] uppercase text-[#e8849a] mb-1">
-              Est.
+              {content.badge_label}
             </div>
             <div className="font-[Bodoni_Moda] text-[2rem] font-bold text-[#6b3a5e] leading-none">
-              2023
+              {content.badge_year}
             </div>
           </div>
         </motion.div>
@@ -32,36 +36,34 @@ export default function AboutSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.15 }}
         >
-          <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[#e8849a] mb-3">
-            Our Story
-          </div>
-          <h2 className="font-[Bodoni_Moda] text-[clamp(2rem,4vw,3.2rem)] font-bold leading-[1.1] mb-6">
-            Crafted with Intention, Designed for You
-          </h2>
-          <p className="text-[0.95rem] leading-[1.9] text-[#8a6e7a] mb-5 font-light">
-            Only Liyah was born from a simple belief: every woman deserves to feel luxurious in
-            her own skin. What started as a passion project in Cape Town has grown into a
-            trusted boutique for handcrafted lingerie.
-          </p>
-          <p className="text-[0.95rem] leading-[1.9] text-[#8a6e7a] mb-8 font-light">
-            We source the finest European laces, silks, and satins, then design each set with
-            meticulous attention to fit and finish. Confidence is the most beautiful thing a
-            woman can wear.
-          </p>
-          <div className="grid grid-cols-3 gap-6">
-            {[
-              { num: "500+", label: "Happy Clients" },
-              { num: "150+", label: "Unique Sets" },
-              { num: "9", label: "Provinces Served" },
-            ].map((s) => (
-              <div key={s.label}>
-                <div className="font-[Bodoni_Moda] text-[1.8rem] font-bold text-[#6b3a5e] leading-none mb-1">
-                  {s.num}
-                </div>
-                <div className="text-[0.7rem] text-[#8a6e7a] tracking-[0.05em]">{s.label}</div>
+          {isLoading ? (
+            <div className="h-64 bg-[#f4efe9] animate-pulse" />
+          ) : (
+            <>
+              <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[#e8849a] mb-3">
+                {content.eyebrow}
               </div>
-            ))}
-          </div>
+              <h2 className="font-[Bodoni_Moda] text-[clamp(2rem,4vw,3.2rem)] font-bold leading-[1.1] mb-6">
+                {content.heading}
+              </h2>
+              <p className="text-[0.95rem] leading-[1.9] text-[#8a6e7a] mb-5 font-light">
+                {content.paragraph1}
+              </p>
+              <p className="text-[0.95rem] leading-[1.9] text-[#8a6e7a] mb-8 font-light">
+                {content.paragraph2}
+              </p>
+              <div className="grid grid-cols-3 gap-6">
+                {content.stats.map((s) => (
+                  <div key={s.label}>
+                    <div className="font-[Bodoni_Moda] text-[1.8rem] font-bold text-[#6b3a5e] leading-none mb-1">
+                      {s.num}
+                    </div>
+                    <div className="text-[0.7rem] text-[#8a6e7a] tracking-[0.05em]">{s.label}</div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
         </motion.div>
       </div>
     </section>

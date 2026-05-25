@@ -3,11 +3,12 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useSiteSettings } from "@/hooks/useSiteContent";
+import { buildWhatsAppUrl, openWhatsApp } from "@/lib/whatsapp";
+import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import CartDrawer from "@/components/CartDrawer";
 import Footer from "@/components/Footer";
-
-const WHATSAPP_NUMBER = "27722865579";
 
 export const Route = createFileRoute("/checkout")({
   component: CheckoutPage,
@@ -16,6 +17,7 @@ export const Route = createFileRoute("/checkout")({
 function CheckoutPage() {
   const { items, totalPrice, clearCart } = useCart();
   const navigate = useNavigate();
+  const { data: settings } = useSiteSettings();
   const [submitting, setSubmitting] = React.useState(false);
   const [form, setForm] = React.useState({
     name: "",
@@ -34,8 +36,6 @@ function CheckoutPage() {
     e.preventDefault();
     if (!form.name || !form.phone || !form.address) return;
 
-    setSubmitting(true);
-
     const orderLines = items
       .map(
         (i) =>
@@ -44,7 +44,7 @@ function CheckoutPage() {
       .join("\n");
 
     const message = `
-*New Order from OnlyLiyah*
+*New Order from Only Liyah*
 
 *Customer:*
 Name: ${form.name}
@@ -58,10 +58,18 @@ ${orderLines}
 *Total: R${totalPrice.toLocaleString()}*
     `.trim();
 
-    const encoded = encodeURIComponent(message);
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encoded}`;
+    const whatsappNumber = settings?.whatsapp_number ?? "27722865579";
+    const url = buildWhatsAppUrl(whatsappNumber, message);
 
-    // Store order in localStorage for confirmation page
+    setSubmitting(true);
+
+    // Must open WhatsApp immediately (same click handler) or browsers block the popup
+    const opened = openWhatsApp(url);
+    if (!opened) {
+      window.location.assign(url);
+      return;
+    }
+
     localStorage.setItem(
       "onlyliyah-last-order",
       JSON.stringify({
@@ -73,12 +81,24 @@ ${orderLines}
     );
 
     clearCart();
-    window.location.href = "/order-confirmation";
 
-    // Small delay to show loading
-    setTimeout(() => {
-      window.open(url, "_blank");
-    }, 500);
+    void supabase
+      .from("orders")
+      .insert({
+        customer_name: form.name,
+        customer_phone: form.phone,
+        shipping_address: form.address,
+        notes: form.notes || null,
+        order_items: items,
+        total_price: totalPrice,
+        order_status: "Pending",
+      })
+      .then(({ error }) => {
+        if (error) console.error("Order save failed:", error);
+      });
+
+    navigate({ to: "/order-confirmation" });
+    setSubmitting(false);
   };
 
   if (items.length === 0) return null;
@@ -91,6 +111,7 @@ ${orderLines}
       <div className="pt-32 pb-20 px-6 lg:px-12">
         <div className="max-w-[1000px] mx-auto">
           <button
+            type="button"
             onClick={() => navigate({ to: "/shop" })}
             className="flex items-center gap-2 text-[0.78rem] text-[#8a6e7a] hover:text-[#6b3a5e] transition-colors mb-8"
           >
@@ -106,7 +127,6 @@ ${orderLines}
           </h1>
 
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12">
-            {/* Form */}
             <motion.form
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -174,27 +194,24 @@ ${orderLines}
                 {submitting ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" strokeWidth={1.5} />
-                    Processing...
+                    Opening WhatsApp...
                   </>
                 ) : (
                   "Place Order via WhatsApp"
                 )}
               </button>
               <p className="text-[0.72rem] text-[#8a6e7a] text-center">
-                You will be redirected to WhatsApp to confirm your order
+                WhatsApp will open in a new tab with your order details pre-filled
               </p>
             </motion.form>
 
-            {/* Order Summary */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
               className="bg-white border border-[rgba(180,140,160,0.18)] p-6 h-fit"
             >
-              <h3 className="font-[Bodoni_Moda] text-[1.2rem] font-bold mb-6">
-                Order Summary
-              </h3>
+              <h3 className="font-[Bodoni_Moda] text-[1.2rem] font-bold mb-6">Order Summary</h3>
               <div className="flex flex-col gap-4 mb-6">
                 {items.map((item) => (
                   <div key={item.productId} className="flex gap-3">

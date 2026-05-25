@@ -15,11 +15,13 @@ import {
   EyeOff,
   Check,
   Search,
+  FileText,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useAllProducts } from "@/hooks/useProducts";
 import type { Product } from "@/hooks/useProducts";
+import AdminAboutEditor from "@/components/admin/AdminAboutEditor";
 
 export const Route = createFileRoute("/admin/dashboard")({
   component: AdminDashboard,
@@ -32,7 +34,7 @@ function AdminDashboard() {
   const navigate = useNavigate();
   const { data: products, refetch } = useAllProducts();
 
-  const [tab, setTab] = React.useState<"products" | "orders">("products");
+  const [tab, setTab] = React.useState<"products" | "orders" | "about">("products");
   const [showForm, setShowForm] = React.useState(false);
   const [editing, setEditing] = React.useState<Product | null>(null);
   const [orders, setOrders] = React.useState<any[]>([]);
@@ -209,6 +211,17 @@ function AdminDashboard() {
               <ShoppingCart className="w-4 h-4" strokeWidth={1.5} />
               Orders
             </button>
+            <button
+              onClick={() => setTab("about")}
+              className={`flex items-center gap-2 px-5 py-2.5 text-[0.78rem] tracking-[0.15em] uppercase border transition-all duration-300 ${
+                tab === "about"
+                  ? "bg-[#6b3a5e] text-white border-[#6b3a5e]"
+                  : "bg-white text-[#8a6e7a] border-[rgba(180,140,160,0.18)] hover:border-[#6b3a5e]"
+              }`}
+            >
+              <FileText className="w-4 h-4" strokeWidth={1.5} />
+              About Page
+            </button>
           </div>
 
           {/* Products Tab */}
@@ -216,7 +229,7 @@ function AdminDashboard() {
             <>
               <div className="flex justify-between items-center mb-6">
                 <h2 className="font-[Bodoni_Moda] text-[1.5rem] font-bold">
-                  Products
+                  Lingerie Sets
                 </h2>
                 <button
                   onClick={() => {
@@ -227,7 +240,7 @@ function AdminDashboard() {
                   className="flex items-center gap-2 bg-gradient-to-br from-[#6b3a5e] to-[#a87cad] text-white px-5 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase transition-all duration-300 hover:translate-y-[-2px] shadow-[0_8px_24px_rgba(107,58,94,0.25)]"
                 >
                   <Plus className="w-4 h-4" strokeWidth={1.5} />
-                  Add Product
+                  Add New Set
                 </button>
               </div>
 
@@ -241,7 +254,7 @@ function AdminDashboard() {
                   >
                     <div className="flex justify-between items-center mb-6">
                       <h3 className="font-[Bodoni_Moda] text-[1.2rem] font-bold">
-                        {editing ? "Edit Product" : "Add Product"}
+                        {editing ? "Edit Set" : "Add New Set"}
                       </h3>
                       <button
                         onClick={() => setShowForm(false)}
@@ -308,7 +321,7 @@ function AdminDashboard() {
                           type="submit"
                           className="bg-gradient-to-br from-[#6b3a5e] to-[#a87cad] text-white px-8 py-3 text-[0.78rem] tracking-[0.18em] uppercase font-medium transition-all duration-300 hover:translate-y-[-2px] shadow-[0_8px_24px_rgba(107,58,94,0.25)]"
                         >
-                          {editing ? "Update Product" : "Create Product"}
+                          {editing ? "Update Set" : "Publish Set"}
                         </button>
                       </div>
                     </form>
@@ -372,6 +385,8 @@ function AdminDashboard() {
               </div>
             </>
           )}
+
+          {tab === "about" && <AdminAboutEditor />}
 
           {/* Orders Tab */}
           {tab === "orders" && (

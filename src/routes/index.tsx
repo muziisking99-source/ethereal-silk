@@ -6,7 +6,6 @@ import BentoSection from "@/components/BentoSection";
 import FeaturedCollection from "@/components/FeaturedCollection";
 import AboutSection from "@/components/AboutSection";
 import Testimonials from "@/components/Testimonials";
-import FAQ from "@/components/FAQ";
 import ShippingInfo from "@/components/ShippingInfo";
 import CtaStrip from "@/components/CtaStrip";
 import Footer from "@/components/Footer";
@@ -30,7 +29,6 @@ function HomePage() {
       <AboutSection />
       <ShippingInfo />
       <Testimonials />
-      <FAQ />
       <CtaStrip />
       <Footer />
     </div>

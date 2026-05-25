@@ -12,7 +12,6 @@ export default function Navbar() {
     { to: "/#gallery", label: "Gallery" },
     { to: "/shop", label: "Shop" },
     { to: "/#shipping", label: "Shipping" },
-    { to: "/#faq", label: "FAQ" },
   ];
 
   return (
