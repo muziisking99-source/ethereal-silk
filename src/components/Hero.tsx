@@ -27,13 +27,13 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative min-h-[100dvh] pt-20 overflow-hidden"
+      className="relative min-h-[100dvh] pt-20 overflow-hidden bg-[#FAF7F4]"
     >
       <motion.div className="absolute inset-0" style={{ y: imageY }}>
         <img
           src={content.background_image_url}
           alt=""
-          className="w-full h-full object-cover saturate-[0.85] contrast-105 scale-105"
+          className="w-full h-full object-cover saturate-[0.85] contrast-105 scale-105 transition-transform duration-700 hover:scale-[1.08]"
         />
       </motion.div>
       <div
@@ -50,13 +50,13 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             variants={stagger}
-            className="font-[Bodoni_Moda] text-[clamp(3.2rem,5.5vw,6rem)] font-bold leading-[1] tracking-[-0.01em] mb-8"
+            className="font-[Cormorant_Garamond] text-[clamp(3.2rem,5.5vw,6rem)] font-bold leading-[1] tracking-[-0.01em] mb-8"
           >
-            <span className="block text-[var(--text)]">{content.line1}</span>
-            <span className="block italic font-light text-[var(--plum)] ml-4 lg:ml-6">
+            <span className="block text-[#1A0E14]">{content.line1}</span>
+            <span className="block italic font-light text-[#6B3556] ml-4 lg:ml-6">
               {content.line2}
             </span>
-            <span className="block bg-gradient-to-br from-[var(--blush)] to-[var(--lilac)] bg-clip-text text-transparent">
+            <span className="block bg-gradient-to-br from-[#C4788A] to-[#D4A0AD] bg-clip-text text-transparent">
               {content.line3}
             </span>
           </motion.h1>
@@ -66,7 +66,7 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             variants={stagger}
-            className="text-[1rem] leading-[1.9] text-[var(--muted-text)] max-w-[420px] mb-12 font-light"
+            className="text-[1rem] leading-[1.9] text-[#6B5260] max-w-[420px] mb-12 font-light"
           >
             {content.subtitle}
           </motion.p>
@@ -80,16 +80,16 @@ export default function Hero() {
           >
             <Link
               to="/shop"
-              className="text-white px-10 py-4 rounded-[2px] text-[0.8rem] tracking-[0.18em] uppercase font-medium transition-all duration-[350ms] hover:translate-y-[-2px] shadow-[0_8px_24px_rgba(107,58,94,0.25)] hover:shadow-[0_14px_32px_rgba(107,58,94,0.35)]"
+              className="text-white px-10 py-4 rounded-[4px] text-[0.8rem] tracking-[0.18em] uppercase font-medium transition-all duration-[350ms] hover:translate-y-[-2px] shadow-[0_8px_24px_rgba(107,53,86,0.2)] hover:shadow-[0_12px_40px_rgba(100,50,80,0.15)]"
               style={{
-                background: `linear-gradient(135deg, var(--gradient-from), var(--gradient-to))`,
+                background: `linear-gradient(135deg, #6B3556, #C4788A)`,
               }}
             >
               {content.primary_cta}
             </Link>
             <Link
               to="/shop"
-              className="text-[var(--muted-text)] text-[0.78rem] tracking-[0.12em] uppercase flex items-center gap-2 transition-colors duration-300 hover:text-[var(--plum)] bg-transparent border-none group"
+              className="text-[#6B5260] text-[0.78rem] tracking-[0.12em] uppercase flex items-center gap-2 transition-colors duration-300 hover:text-[#6B3556] bg-transparent border-none group"
             >
               {content.secondary_cta}
               <span className="transition-transform duration-300 group-hover:translate-x-1">
@@ -103,7 +103,7 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             variants={stagger}
-            className="flex items-center gap-5 mt-14 pt-10 border-t border-[var(--border-color)]"
+            className="flex items-center gap-5 mt-14 pt-10 border-t border-[rgba(196,120,138,0.15)]"
           >
             <div className="flex">
               {[1, 2, 3, 4].map((i) => (
@@ -111,12 +111,12 @@ export default function Hero() {
                   key={i}
                   src={`https://picsum.photos/seed/onlyliyah${i}/60/60`}
                   alt=""
-                  className="w-8 h-8 rounded-full border-2 border-[var(--bg)] object-cover -ml-2 first:ml-0 saturate-[0.8]"
+                  className="w-8 h-8 rounded-full border-2 border-[#FAF7F4] object-cover -ml-2 first:ml-0 saturate-[0.8]"
                 />
               ))}
             </div>
-            <div className="text-[0.78rem] text-[var(--muted-text)] leading-[1.5]">
-              <strong className="text-[var(--plum)] font-medium">{content.proof_strong}</strong>
+            <div className="text-[0.78rem] text-[#6B5260] leading-[1.5]">
+              <strong className="text-[#6B3556] font-medium">{content.proof_strong}</strong>
               <br />
               {content.proof_sub}
             </div>
@@ -127,28 +127,26 @@ export default function Hero() {
           <motion.div
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-16 left-0 border border-[var(--border-strong)] p-6 min-w-[200px] shadow-[0_20px_60px_rgba(107,58,94,0.12)] z-[3]"
-            style={{ background: "var(--card-float-bg)" }}
+            className="absolute bottom-16 left-0 border border-[rgba(196,120,138,0.25)] p-6 min-w-[200px] shadow-[0_20px_60px_rgba(107,53,86,0.12)] rounded-[4px] z-[3] bg-white"
           >
-            <div className="font-[DM_Mono] text-[0.58rem] tracking-[0.25em] uppercase text-[var(--blush)] mb-2">
+            <div className="font-[DM_Mono] text-[0.58rem] tracking-[0.25em] uppercase text-[#C4788A] mb-2">
               {content.card1_label}
             </div>
-            <div className="font-[Bodoni_Moda] text-[1.8rem] font-bold text-[var(--plum)] leading-none">
+            <div className="font-[Cormorant_Garamond] text-[1.8rem] font-bold text-[#6B3556] leading-none">
               {content.card1_value}
             </div>
-            <div className="text-[0.7rem] text-[var(--muted-text)] mt-1">{content.card1_sub}</div>
+            <div className="text-[0.7rem] text-[#6B5260] mt-1">{content.card1_sub}</div>
           </motion.div>
 
           <motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-            className="absolute top-16 right-8 p-5 shadow-[0_12px_30px_rgba(107,58,94,0.3)] z-[3] text-white"
-            style={{ background: "var(--card-dark-bg)" }}
+            className="absolute top-16 right-8 p-5 shadow-[0_12px_30px_rgba(107,53,86,0.15)] z-[3] text-white rounded-[4px] bg-[#6B3556]"
           >
             <div className="font-[DM_Mono] text-[0.58rem] tracking-[0.25em] uppercase text-[rgba(255,255,255,0.5)] mb-1">
               {content.card2_label}
             </div>
-            <div className="font-[Bodoni_Moda] text-[1.4rem] font-bold leading-none">
+            <div className="font-[Cormorant_Garamond] text-[1.4rem] font-bold leading-none">
               {content.card2_value}
             </div>
           </motion.div>
