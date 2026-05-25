@@ -39,13 +39,13 @@ const miniTestimonials: MiniTestimonial[] = [
 
 export default function Testimonials() {
   return (
-    <section className="py-20 lg:py-28 px-6 lg:px-12 border-t border-[rgba(180,140,160,0.18)]">
+    <section className="luxury-section border-t border-[rgba(180,140,160,0.18)]">
       <div className="max-w-[1100px] mx-auto">
         <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[#e8849a] mb-3">
           Customer Reviews
         </div>
         <h2 className="font-[Bodoni_Moda] text-[clamp(2rem,4vw,3.2rem)] font-bold leading-[1.1] mb-14">
-          Loved by Women Across South Africa
+          They Keep Coming Back
         </h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-20 items-start">

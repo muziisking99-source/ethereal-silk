@@ -8,7 +8,10 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { CartProvider } from "@/context/CartContext";
+import AgeGate from "@/components/AgeGate";
+import CustomCursor from "@/components/CustomCursor";
 
+import "../styles.css";
 import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
@@ -83,6 +86,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
     links: [
       {
+        rel: "stylesheet",
+        href: appCss,
+      },
+      {
         rel: "preconnect",
         href: "https://fonts.googleapis.com",
       },
@@ -123,6 +130,8 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <CartProvider>
+        <CustomCursor />
+        <AgeGate />
         <Outlet />
       </CartProvider>
     </QueryClientProvider>

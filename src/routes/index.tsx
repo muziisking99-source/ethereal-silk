@@ -8,8 +8,10 @@ import AboutSection from "@/components/AboutSection";
 import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
 import ShippingInfo from "@/components/ShippingInfo";
+import CtaStrip from "@/components/CtaStrip";
 import Footer from "@/components/Footer";
 import CartDrawer from "@/components/CartDrawer";
+import MobileCartFab from "@/components/MobileCartFab";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -20,14 +22,16 @@ function HomePage() {
     <div className="min-h-screen bg-[#faf7f4]">
       <Navbar />
       <CartDrawer />
+      <MobileCartFab />
       <Hero />
       <Marquee />
       <BentoSection />
       <FeaturedCollection />
       <AboutSection />
+      <ShippingInfo />
       <Testimonials />
       <FAQ />
-      <ShippingInfo />
+      <CtaStrip />
       <Footer />
     </div>
   );

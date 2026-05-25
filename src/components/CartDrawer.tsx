@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "@tanstack/react-router";
 import { useCart } from "@/context/CartContext";
 import { X, Minus, Plus, ShoppingBag } from "lucide-react";
 
@@ -95,17 +96,13 @@ export default function CartDrawer() {
                 R{totalPrice.toLocaleString()}
               </span>
             </div>
-            <a
-              href="/checkout"
-              onClick={(e) => {
-                e.preventDefault();
-                setIsCartOpen(false);
-                window.location.href = "/checkout";
-              }}
-              className="block w-full bg-gradient-to-br from-[#6b3a5e] to-[#a87cad] text-white text-center py-4 text-[0.8rem] tracking-[0.18em] uppercase font-medium transition-all duration-300 hover:translate-y-[-2px] shadow-[0_8px_24px_rgba(107,58,94,0.25)]"
+            <Link
+              to="/checkout"
+              onClick={() => setIsCartOpen(false)}
+              className="block w-full bg-gradient-to-br from-[#6b3a5e] to-[#a87cad] text-white text-center py-4 text-[0.8rem] tracking-[0.18em] uppercase font-medium transition-all duration-300 hover:translate-y-[-2px] shadow-[0_8px_24px_rgba(107,58,94,0.25)] no-underline rounded-[2px]"
             >
-              Proceed to Checkout
-            </a>
+              Place Order via WhatsApp
+            </Link>
             <button
               onClick={clearCart}
               className="w-full mt-3 text-[0.72rem] tracking-[0.15em] uppercase text-[#c4aab4] hover:text-[#e8849a] transition-colors"

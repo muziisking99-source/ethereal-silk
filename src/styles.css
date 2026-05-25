@@ -82,6 +82,26 @@ body {
   overflow-x: hidden;
 }
 
+@media (pointer: fine) {
+  body.luxury-cursor {
+    cursor: none;
+  }
+  body.luxury-cursor a,
+  body.luxury-cursor button {
+    cursor: none;
+  }
+}
+
+.luxury-section {
+  padding: 4rem 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .luxury-section {
+    padding: 7rem 3rem;
+  }
+}
+
 /* Grain overlay */
 body::after {
   content: '';

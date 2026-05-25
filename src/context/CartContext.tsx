@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import React, { createContext, useContext, useState, useCallback, useEffect } from "react";
 
 export interface CartItem {
   productId: string;
@@ -24,19 +24,23 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
-  const [items, setItems] = useState<CartItem[]>(() => {
+  const [items, setItems] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  useEffect(() => {
     try {
       const saved = localStorage.getItem("onlyliyah-cart");
-      return saved ? JSON.parse(saved) : [];
+      if (saved) setItems(JSON.parse(saved));
     } catch {
-      return [];
+      /* ignore invalid cart data */
     }
-  });
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  }, []);
 
   const persist = useCallback((next: CartItem[]) => {
     setItems(next);
-    localStorage.setItem("onlyliyah-cart", JSON.stringify(next));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("onlyliyah-cart", JSON.stringify(next));
+    }
   }, []);
 
   const addItem = useCallback(
@@ -89,7 +93,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clearCart = useCallback(() => {
     setItems([]);
-    localStorage.removeItem("onlyliyah-cart");
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("onlyliyah-cart");
+    }
   }, []);
 
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0);

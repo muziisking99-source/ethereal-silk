@@ -33,7 +33,7 @@ export default function FAQ() {
   ];
 
   return (
-    <section id="faq" className="py-20 lg:py-28 px-6 lg:px-12 border-t border-[rgba(180,140,160,0.18)] bg-[#f4efe9]">
+    <section id="faq" className="luxury-section border-t border-[rgba(180,140,160,0.18)] bg-[#f4efe9]">
       <div className="max-w-[800px] mx-auto">
         <div className="text-center mb-14">
           <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[#e8849a] mb-3">

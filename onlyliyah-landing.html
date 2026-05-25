@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Only Liyah — Exclusive Membership</title>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,300;0,6..96,400;0,6..96,700;1,6..96,300;1,6..96,400;1,6..96,700&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:#faf7f4;
+  --bg2:#f4efe9;
+  --surface:#fff;
+  --card:#fdf9f6;
+  --border:rgba(180,140,160,0.18);
+  --border-strong:rgba(180,140,160,0.35);
+  --plum:#6b3a5e;
+  --plum-dim:rgba(107,58,94,0.08);
+  --blush:#e8849a;
+  --blush-dim:rgba(232,132,154,0.12);
+  --lilac:#a87cad;
+  --text:#1e1218;
+  --muted:#8a6e7a;
+  --dim:#c4aab4;
+  --white:#fff;
+}
+
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Outfit',sans-serif;
+  font-weight:300;
+  overflow-x:hidden;
+  cursor:none;
+}
+
+/* Custom cursor */
+.cursor{
+  position:fixed;width:8px;height:8px;
+  background:var(--plum);border-radius:50%;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);
+  transition:transform 0.1s;
+}
+.cursor-ring{
+  position:fixed;width:32px;height:32px;
+  border:1px solid var(--blush);border-radius:50%;
+  pointer-events:none;z-index:9997;
+  transform:translate(-50%,-50%);
+  transition:all 0.15s ease-out;
+  opacity:0.7;
+}
+
+/* Grain */
+body::after{
+  content:'';position:fixed;inset:0;z-index:9999;
+  pointer-events:none;opacity:0.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px 200px;
+}
+
+/* ─── NAV ─── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.5rem 3rem;
+  background:rgba(250,247,244,0.88);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+}
+
+.logo{
+  font-family:'Bodoni Moda',serif;
+  font-size:1.4rem;font-weight:700;
+  letter-spacing:0.04em;color:var(--plum);
+}
+.logo span{font-style:italic;color:var(--blush)}
+
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{
+  color:var(--muted);text-decoration:none;
+  font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;
+  font-weight:400;transition:color 0.3s;
+}
+.nav-links a:hover{color:var(--plum)}
+
+.nav-cta{
+  background:var(--plum);color:#fff;border:none;
+  padding:0.65rem 1.75rem;border-radius:2px;
+  font-family:'Outfit',sans-serif;font-size:0.72rem;
+  letter-spacing:0.18em;text-transform:uppercase;
+  font-weight:500;cursor:pointer;transition:all 0.3s;
+}
+.nav-cta:hover{background:var(--blush);transform:translateY(-1px)}
+
+/* ─── HERO ─── */
+.hero{
+  min-height:100dvh;
+  display:grid;grid-template-columns:55% 45%;
+  padding-top:80px;
+  position:relative;overflow:hidden;
+}
+
+/* left side — text */
+.hero-left{
+  display:flex;flex-direction:column;
+  justify-content:center;
+  padding:6rem 4rem 6rem 3rem;
+  position:relative;z-index:2;
+}
+
+/* Decorative blob bg */
+.hero-blob{
+  position:absolute;top:-10%;left:-20%;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(168,124,173,0.1) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+
+.hero-eyebrow{
+  display:flex;align-items:center;gap:0.75rem;
+  font-family:'DM Mono',monospace;
+  font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--blush);margin-bottom:2.5rem;position:relative;z-index:1;
+}
+.hero-eyebrow::after{
+  content:'';flex:1;max-width:50px;
+  height:1px;background:var(--blush);opacity:0.5;
+}
+
+h1{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(3.2rem,5.5vw,6rem);
+  font-weight:700;line-height:1;
+  letter-spacing:-0.01em;
+  margin-bottom:2rem;position:relative;z-index:1;
+}
+h1 .line1{display:block;color:var(--text)}
+h1 .line2{
+  display:block;font-style:italic;font-weight:300;
+  color:var(--plum);margin-left:1.5rem;
+}
+h1 .line3{
+  display:block;
+  background:linear-gradient(135deg,var(--blush),var(--lilac));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+}
+
+.hero-sub{
+  font-size:1rem;line-height:1.9;color:var(--muted);
+  max-width:420px;margin-bottom:3rem;font-weight:300;
+  position:relative;z-index:1;
+}
+
+.hero-actions{
+  display:flex;gap:1rem;align-items:center;
+  position:relative;z-index:1;
+}
+
+.btn-main{
+  background:linear-gradient(135deg,var(--plum),var(--lilac));
+  color:#fff;border:none;
+  padding:1rem 2.5rem;border-radius:2px;
+  font-family:'Outfit',sans-serif;font-size:0.8rem;
+  letter-spacing:0.18em;text-transform:uppercase;font-weight:500;
+  cursor:pointer;transition:all 0.35s;
+  box-shadow:0 8px 24px rgba(107,58,94,0.25);
+}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(107,58,94,0.35)}
+
+.btn-text{
+  color:var(--muted);font-size:0.78rem;
+  letter-spacing:0.12em;text-transform:uppercase;
+  text-decoration:none;display:flex;align-items:center;gap:0.5rem;
+  transition:color 0.3s;cursor:pointer;background:none;border:none;
+}
+.btn-text:hover{color:var(--plum)}
+.btn-text::after{content:'→';transition:transform 0.3s}
+.btn-text:hover::after{transform:translateX(4px)}
+
+/* Social proof row */
+.proof-row{
+  display:flex;align-items:center;gap:1.25rem;
+  margin-top:3.5rem;
+  padding-top:2.5rem;
+  border-top:1px solid var(--border);
+  position:relative;z-index:1;
+}
+.proof-avatars{display:flex}
+.proof-avatars img{
+  width:32px;height:32px;border-radius:50%;
+  border:2px solid var(--bg);object-fit:cover;
+  margin-left:-8px;filter:saturate(0.8);
+}
+.proof-avatars img:first-child{margin-left:0}
+.proof-text{font-size:0.78rem;color:var(--muted);line-height:1.5}
+.proof-text strong{color:var(--plum);font-weight:500}
+
+/* right side — visual */
+.hero-right{
+  position:relative;overflow:hidden;
+  background:var(--bg2);
+}
+
+.hero-img-main{
+  position:absolute;inset:0;
+  background-image:url('https://picsum.photos/seed/elegance221/700/900');
+  background-size:cover;background-position:center top;
+  filter:saturate(0.85) contrast(1.05);
+}
+
+.hero-img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(250,247,244,0.1) 0%,
+    transparent 30%,
+    transparent 60%,
+    rgba(250,247,244,0.6) 100%
+  );
+}
+
+/* Floating info card */
+.info-card{
+  position:absolute;bottom:3rem;left:-2.5rem;
+  background:var(--surface);
+  border:1px solid var(--border-strong);
+  padding:1.5rem;min-width:200px;
+  box-shadow:0 20px 60px rgba(107,58,94,0.12);
+  z-index:3;
+}
+.info-card .ic-label{
+  font-family:'DM Mono',monospace;
+  font-size:0.58rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--blush);margin-bottom:0.5rem;
+}
+.info-card .ic-val{
+  font-family:'Bodoni Moda',serif;
+  font-size:1.8rem;font-weight:700;color:var(--plum);line-height:1;
+}
+.info-card .ic-sub{
+  font-size:0.7rem;color:var(--muted);margin-top:0.2rem;
+}
+
+/* Second floating card */
+.info-card2{
+  position:absolute;top:3rem;right:2rem;
+  background:var(--plum);
+  border:none;
+  padding:1.1rem 1.4rem;
+  box-shadow:0 12px 30px rgba(107,58,94,0.3);
+  z-index:3;
+}
+.info-card2 .ic-label{
+  font-family:'DM Mono',monospace;
+  font-size:0.58rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:rgba(255,255,255,0.5);margin-bottom:0.4rem;
+}
+.info-card2 .ic-val{
+  font-family:'Bodoni Moda',serif;
+  font-size:1.4rem;font-weight:700;color:#fff;line-height:1;
+}
+
+/* ─── MARQUEE ─── */
+.marquee-wrap{
+  background:var(--plum);
+  padding:1.1rem 0;overflow:hidden;
+}
+.marquee-track{
+  display:inline-flex;gap:3rem;
+  animation:marq 28s linear infinite;
+  white-space:nowrap;
+}
+.marquee-item{
+  font-family:'Bodoni Moda',serif;
+  font-size:0.85rem;font-style:italic;
+  color:rgba(255,255,255,0.6);
+  display:flex;align-items:center;gap:0.75rem;
+}
+.marquee-sep{color:var(--blush);font-style:normal;font-size:0.5rem}
+@keyframes marq{to{transform:translateX(-50%)}}
+
+/* ─── SECTION ─── */
+section{padding:7rem 3rem}
+
+.s-label{
+  font-family:'DM Mono',monospace;
+  font-size:0.62rem;letter-spacing:0.35em;text-transform:uppercase;
+  color:var(--blush);margin-bottom:1rem;
+}
+
+.s-title{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(2rem,4vw,3.2rem);
+  font-weight:700;line-height:1.1;
+  margin-bottom:1.5rem;
+}
+
+/* ─── FEATURES BENTO ─── */
+.bento-section{background:var(--bg2);border-top:1px solid var(--border)}
+
+.bento-grid{
+  max-width:1200px;margin:3.5rem auto 0;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  grid-template-rows:220px 220px;
+  gap:12px;
+  grid-auto-flow:dense;
+}
+
+.bento-cell{
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:2rem;
+  position:relative;overflow:hidden;
+  transition:border-color 0.3s,transform 0.3s;
+}
+.bento-cell:hover{border-color:var(--blush);transform:translateY(-2px)}
+
+.bento-cell.wide{grid-column:span 2}
+.bento-cell.tall{grid-row:span 2}
+
+.bento-cell.dark{
+  background:var(--plum);
+  border-color:var(--plum);
+  color:#fff;
+}
+
+.bento-icon{
+  width:40px;height:40px;border-radius:10px;
+  background:var(--plum-dim);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.25rem;
+}
+.bento-cell.dark .bento-icon{
+  background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.15);
+}
+.bento-icon svg{width:18px;height:18px;stroke:var(--plum);fill:none;stroke-width:1.5}
+.bento-cell.dark .bento-icon svg{stroke:#fff}
+
+.bento-cell h3{
+  font-family:'Bodoni Moda',serif;
+  font-size:1.15rem;font-weight:700;
+  margin-bottom:0.6rem;
+}
+.bento-cell.dark h3{color:#fff}
+
+.bento-cell p{
+  font-size:0.82rem;line-height:1.75;
+  color:var(--muted);
+}
+.bento-cell.dark p{color:rgba(255,255,255,0.6)}
+
+/* Image bento cell */
+.bento-img{
+  position:absolute;inset:0;
+  background-image:url('https://picsum.photos/seed/portrait772/600/500');
+  background-size:cover;background-position:center;
+  filter:saturate(0.7);
+}
+.bento-img-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(107,58,94,0.8) 0%,transparent 60%);
+}
+.bento-img-label{
+  position:absolute;bottom:1.5rem;left:1.5rem;
+  font-family:'Bodoni Moda',serif;
+  font-size:1.1rem;font-style:italic;color:#fff;
+}
+
+/* Big number */
+.big-num{
+  font-family:'Bodoni Moda',serif;
+  font-size:3.5rem;font-weight:700;line-height:1;
+  background:linear-gradient(135deg,var(--blush),var(--lilac));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  margin-bottom:0.5rem;
+}
+
+/* ─── GALLERY ─── */
+.gallery-section{border-top:1px solid var(--border)}
+
+.gallery-top{
+  max-width:1200px;margin:0 auto 3rem;
+  display:flex;justify-content:space-between;align-items:flex-end;
+}
+
+/* Horizontal scroll gallery */
+.gallery-scroll-wrap{overflow:hidden}
+.gallery-scroll{
+  display:flex;gap:12px;
+  max-width:1200px;margin:0 auto;
+}
+
+.g-card{
+  flex:0 0 auto;position:relative;overflow:hidden;cursor:pointer;
+  border:1px solid var(--border);
+}
+
+.g-card.portrait{width:280px;height:420px}
+.g-card.landscape{width:380px;height:280px;align-self:flex-end}
+.g-card.square{width:310px;height:310px}
+
+.g-card img{
+  width:100%;height:100%;object-fit:cover;
+  filter:saturate(0.75) contrast(1.1);
+  transition:transform 0.7s ease,filter 0.5s ease;
+}
+.g-card:hover img{transform:scale(1.06);filter:saturate(0.9) contrast(1.05)}
+
+.g-blur{
+  position:absolute;inset:0;
+  backdrop-filter:blur(12px);
+  background:rgba(250,247,244,0.5);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:1rem;
+  transition:background 0.3s;
+}
+.g-card:hover .g-blur{background:rgba(250,247,244,0.35)}
+
+.lock-circle{
+  width:52px;height:52px;border-radius:50%;
+  border:1px solid var(--plum);
+  display:flex;align-items:center;justify-content:center;
+}
+.lock-circle svg{width:20px;height:20px;stroke:var(--plum);fill:none;stroke-width:1.5}
+
+.g-unlock-text{
+  font-family:'DM Mono',monospace;
+  font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--plum);
+}
+
+.g-tag{
+  position:absolute;bottom:1rem;left:1rem;
+  font-family:'Bodoni Moda',serif;
+  font-size:0.9rem;font-style:italic;
+  color:var(--plum);z-index:2;
+}
+
+/* ─── PRICING ─── */
+.pricing-section{background:var(--bg2);border-top:1px solid var(--border)}
+
+.pricing-header{text-align:center;margin-bottom:4rem}
+.pricing-header .s-label{justify-content:center}
+
+.pricing-grid{
+  max-width:1050px;margin:0 auto;
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:16px;
+}
+
+.plan-card{
+  background:var(--surface);
+  border:1px solid var(--border);
+  padding:2.5rem 2rem;
+  position:relative;
+  transition:all 0.3s;border-radius:2px;
+}
+.plan-card:hover{border-color:var(--lilac);transform:translateY(-4px);box-shadow:0 20px 50px rgba(107,58,94,0.1)}
+
+.plan-card.featured{
+  background:var(--plum);
+  border-color:var(--plum);
+  color:#fff;
+  transform:scale(1.03);
+}
+.plan-card.featured:hover{transform:scale(1.03) translateY(-4px)}
+
+.plan-chip{
+  display:inline-block;
+  background:var(--blush);color:#fff;
+  font-family:'DM Mono',monospace;
+  font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;
+  padding:0.25rem 0.75rem;margin-bottom:1.5rem;
+}
+
+.plan-name{
+  font-family:'DM Mono',monospace;
+  font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--blush);margin-bottom:1.25rem;
+}
+.plan-card.featured .plan-name{color:rgba(255,255,255,0.6)}
+
+.plan-price{
+  font-family:'Bodoni Moda',serif;
+  font-size:3.8rem;font-weight:700;line-height:1;
+  margin-bottom:0.3rem;color:var(--plum);
+  display:flex;align-items:flex-start;gap:0.15rem;
+}
+.plan-card.featured .plan-price{color:#fff}
+
+.plan-price sup{
+  font-size:1.3rem;font-weight:400;
+  font-family:'Outfit',sans-serif;
+  margin-top:0.7rem;
+}
+
+.plan-per{
+  font-size:0.75rem;color:var(--muted);
+  margin-bottom:2.5rem;letter-spacing:0.05em;
+}
+.plan-card.featured .plan-per{color:rgba(255,255,255,0.55)}
+
+.plan-features{list-style:none;margin-bottom:2.5rem}
+.plan-features li{
+  font-size:0.82rem;padding:0.6rem 0;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:0.75rem;
+  color:var(--muted);
+}
+.plan-card.featured .plan-features li{
+  border-bottom-color:rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.7);
+}
+.plan-features li::before{
+  content:'';
+  width:6px;height:6px;border-radius:50%;
+  background:var(--blush);flex-shrink:0;
+}
+
+.plan-btn{
+  width:100%;padding:0.9rem;
+  font-family:'Outfit',sans-serif;font-size:0.75rem;
+  letter-spacing:0.18em;text-transform:uppercase;font-weight:500;
+  cursor:pointer;border-radius:2px;transition:all 0.3s;
+}
+
+.plan-card:not(.featured) .plan-btn{
+  background:transparent;
+  border:1px solid var(--border-strong);
+  color:var(--plum);
+}
+.plan-card:not(.featured) .plan-btn:hover{
+  background:var(--plum);border-color:var(--plum);color:#fff;
+}
+
+.plan-card.featured .plan-btn{
+  background:#fff;color:var(--plum);border:none;
+  font-weight:600;
+}
+.plan-card.featured .plan-btn:hover{
+  background:var(--blush);color:#fff;
+}
+
+/* ─── TESTIMONIALS ─── */
+.testi-section{border-top:1px solid var(--border)}
+
+.testi-layout{
+  max-width:1100px;margin:3rem auto 0;
+  display:grid;grid-template-columns:1.2fr 1fr;
+  gap:5rem;align-items:start;
+}
+
+.testi-big{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(1.5rem,2.8vw,2.2rem);
+  font-style:italic;font-weight:300;
+  line-height:1.55;color:var(--text);
+  border-left:2px solid var(--blush);
+  padding-left:2rem;margin-bottom:2rem;
+}
+
+.testi-author-big{
+  display:flex;align-items:center;gap:1rem;padding-left:2rem;
+}
+.testi-author-big img{
+  width:44px;height:44px;border-radius:50%;
+  object-fit:cover;filter:saturate(0.7);
+  border:2px solid var(--border-strong);
+}
+.testi-author-big .name{
+  font-size:0.75rem;font-weight:500;color:var(--plum);
+  letter-spacing:0.05em;
+}
+.testi-author-big .since{
+  font-family:'DM Mono',monospace;
+  font-size:0.6rem;letter-spacing:0.1em;color:var(--muted);margin-top:0.1rem;
+}
+
+.testi-mini-list{display:flex;flex-direction:column;gap:1.25rem}
+.testi-mini{
+  padding:1.25rem;background:var(--surface);
+  border:1px solid var(--border);
+  transition:border-color 0.3s;
+}
+.testi-mini:hover{border-color:var(--lilac)}
+.testi-mini .stars{color:var(--blush);font-size:0.6rem;letter-spacing:0.15em;margin-bottom:0.5rem}
+.testi-mini p{font-size:0.82rem;color:var(--muted);line-height:1.7;margin-bottom:0.75rem}
+.testi-mini .auth{
+  font-family:'DM Mono',monospace;
+  font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);
+}
+
+/* ─── CTA STRIP ─── */
+.cta-strip{
+  background:var(--plum);
+  padding:6rem 3rem;text-align:center;
+  position:relative;overflow:hidden;
+}
+.cta-strip::before{
+  content:'Liyah';
+  position:absolute;
+  font-family:'Bodoni Moda',serif;
+  font-size:20vw;font-weight:700;font-style:italic;
+  color:rgba(255,255,255,0.04);
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  pointer-events:none;white-space:nowrap;letter-spacing:-0.02em;
+}
+
+.cta-strip h2{
+  font-family:'Bodoni Moda',serif;
+  font-size:clamp(2.5rem,5vw,4.5rem);
+  font-weight:700;color:#fff;
+  line-height:1.05;margin-bottom:1.5rem;position:relative;z-index:1;
+}
+.cta-strip h2 em{font-style:italic;color:var(--blush)}
+
+.cta-strip p{
+  font-size:0.95rem;color:rgba(255,255,255,0.55);
+  max-width:460px;margin:0 auto 2.5rem;line-height:1.8;
+  position:relative;z-index:1;
+}
+
+.btn-white{
+  background:#fff;color:var(--plum);border:none;
+  padding:1rem 3rem;border-radius:2px;
+  font-family:'Outfit',sans-serif;font-size:0.8rem;
+  letter-spacing:0.2em;text-transform:uppercase;font-weight:600;
+  cursor:pointer;transition:all 0.3s;position:relative;z-index:1;
+}
+.btn-white:hover{background:var(--blush);color:#fff;transform:translateY(-2px)}
+
+/* ─── FOOTER ─── */
+footer{
+  padding:3rem;border-top:1px solid var(--border);
+  display:grid;grid-template-columns:1fr auto 1fr;
+  align-items:center;gap:2rem;background:var(--surface);
+}
+
+.footer-logo{
+  font-family:'Bodoni Moda',serif;
+  font-size:1.1rem;font-weight:700;color:var(--plum);
+}
+.footer-logo span{font-style:italic;color:var(--blush)}
+
+.footer-links{
+  display:flex;flex-wrap:wrap;gap:1.5rem;
+  list-style:none;justify-content:center;
+}
+.footer-links a{
+  color:var(--dim);font-size:0.62rem;text-decoration:none;
+  letter-spacing:0.15em;text-transform:uppercase;transition:color 0.3s;
+}
+.footer-links a:hover{color:var(--plum)}
+
+.footer-right{
+  text-align:right;
+  font-family:'DM Mono',monospace;
+  font-size:0.6rem;color:var(--dim);letter-spacing:0.05em;line-height:1.8;
+}
+
+/* ─── AGE GATE ─── */
+.age-gate{
+  position:fixed;inset:0;z-index:2000;
+  background:rgba(250,247,244,0.97);
+  backdrop-filter:blur(20px);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;text-align:center;padding:2rem;
+  transition:opacity 0.5s;
+}
+.age-gate .ag-logo{
+  font-family:'Bodoni Moda',serif;
+  font-size:2.5rem;font-weight:700;color:var(--plum);
+  margin-bottom:2.5rem;
+}
+.age-gate .ag-logo span{font-style:italic;color:var(--blush)}
+
+.age-gate h2{
+  font-family:'Bodoni Moda',serif;
+  font-size:1.8rem;font-weight:700;
+  color:var(--text);margin-bottom:1rem;
+}
+.age-gate p{
+  font-size:0.85rem;color:var(--muted);
+  max-width:420px;line-height:1.8;margin-bottom:2.5rem;
+}
+
+.age-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+.age-yes{
+  background:var(--plum);color:#fff;border:none;
+  padding:0.85rem 2.5rem;border-radius:2px;
+  font-family:'Outfit',sans-serif;font-size:0.78rem;
+  letter-spacing:0.18em;text-transform:uppercase;font-weight:500;
+  cursor:pointer;transition:all 0.3s;
+}
+.age-yes:hover{background:var(--blush)}
+
+.age-no{
+  background:transparent;color:var(--muted);
+  border:1px solid var(--border-strong);
+  padding:0.85rem 2rem;border-radius:2px;
+  font-family:'Outfit',sans-serif;font-size:0.78rem;
+  letter-spacing:0.18em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.3s;
+}
+.age-no:hover{border-color:var(--muted);color:var(--text)}
+
+.ag-legal{
+  margin-top:2rem;
+  font-family:'DM Mono',monospace;
+  font-size:0.58rem;letter-spacing:0.1em;
+  color:var(--dim);
+}
+
+/* ─── SCROLL ─── */
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--blush)}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:960px){
+  .hero{grid-template-columns:1fr}
+  .hero-right{display:none}
+  nav .nav-links{display:none}
+  nav{padding:1rem 1.5rem}
+  .bento-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto}
+  .bento-cell.wide,.bento-cell.tall{grid-column:auto;grid-row:auto}
+  .gallery-scroll{flex-wrap:wrap}
+  .g-card.portrait,.g-card.landscape,.g-card.square{width:100%;height:260px}
+  .pricing-grid{grid-template-columns:1fr;gap:12px}
+  .plan-card.featured{transform:none}
+  .testi-layout{grid-template-columns:1fr}
+  footer{grid-template-columns:1fr;text-align:center}
+  .footer-right{text-align:center}
+  section{padding:4rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- AGE GATE (full screen on arrival) -->
+<div class="age-gate" id="ageGate">
+  <div class="ag-logo">Only <span>Liyah</span></div>
+  <h2>Are you 18 or older?</h2>
+  <p>This platform contains adult content intended for mature audiences only. By entering you confirm you are at least 18 years of age.</p>
+  <div class="age-btns">
+    <button class="age-no" onclick="document.getElementById('ageGate').style.opacity='0';setTimeout(()=>document.getElementById('ageGate').style.display='none',500)">
+      No, I'm Under 18
+    </button>
+    <button class="age-yes" onclick="document.getElementById('ageGate').style.opacity='0';setTimeout(()=>document.getElementById('ageGate').style.display='none',500)">
+      Yes, I'm 18+ — Enter
+    </button>
+  </div>
+  <div class="ag-legal">18+ only · All content is legal adult material · ZA</div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Only <span>Liyah</span></div>
+  <ul class="nav-links">
+    <li><a href="#">About</a></li>
+    <li><a href="#">Gallery</a></li>
+    <li><a href="#">Membership</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <button class="nav-cta">Join Liyah</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-left" id="heroLeft">
+    <div class="hero-blob"></div>
+    <div class="hero-eyebrow">Exclusive Content Creator</div>
+    <h1>
+      <span class="line1">Sensual.</span>
+      <span class="line2">Authentic.</span>
+      <span class="line3">Only Liyah.</span>
+    </h1>
+    <p class="hero-sub">
+      A private world crafted entirely for those who appreciate real intimacy. Daily content, genuine connection, and an experience unlike anything else.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-main">Start from R99/mo</button>
+      <button class="btn-text">Preview Gallery</button>
+    </div>
+    <div class="proof-row">
+      <div class="proof-avatars">
+        <img src="https://picsum.photos/seed/av1/60/60" alt=""/>
+        <img src="https://picsum.photos/seed/av2/60/60" alt=""/>
+        <img src="https://picsum.photos/seed/av3/60/60" alt=""/>
+        <img src="https://picsum.photos/seed/av4/60/60" alt=""/>
+      </div>
+      <div class="proof-text">
+        <strong>9,400+ members</strong> already subscribed<br>
+        Rated 4.9/5 by verified subscribers
+      </div>
+    </div>
+  </div>
+  <div class="hero-right" id="heroRight">
+    <div class="hero-img-main" id="heroImg"></div>
+    <div class="hero-img-overlay"></div>
+    <div class="info-card">
+      <div class="ic-label">New drops</div>
+      <div class="ic-val">Daily</div>
+      <div class="ic-sub">Fresh content every morning</div>
+    </div>
+    <div class="info-card2">
+      <div class="ic-label">Renewal rate</div>
+      <div class="ic-val">97%</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="marquee-sep">✦</span>Exclusive Photo Sets</span>
+    <span class="marquee-item"><span class="marquee-sep">✦</span>Private Videos</span>
+    <span class="marquee-item"><span class="marquee-sep">✦</span>DMs with Liyah</span>
+    <span class="marquee-item"><span class="marquee-sep">✦</span>Live Sessions</span>
+    <span class="marquee-item"><span class="marquee-sep">✦</span>Custom Requests</span>
+    <span class="marquee-item"><span class="marquee-sep">✦</span>Behind the Scenes</span>
+    <span class="marquee-item"><span class="marquee-sep">✦</span>Members-Only Stories</span>
+    <span class="marquee-item"><span class="marquee-sep">✦</span>VIP Video Calls</span>
+    <span class="marquee-item"><span class="marquee-sep">✦</span>Exclusive Photo Sets</span>
+    <span class="marquee-item"><span class="marquee-sep">✦</span>Private Videos</span>
+    <span class="marquee-item"><span class="marquee-sep">✦</span>DMs with Liyah</span>
+    <span class="marquee-item"><span class="marquee-sep">✦</span>Live Sessions</span>
+    <span class="marquee-item"><span class="marquee-sep">✦</span>Custom Requests</span>
+    <span class="marquee-item"><span class="marquee-sep">✦</span>Behind the Scenes</span>
+    <span class="marquee-item"><span class="marquee-sep">✦</span>Members-Only Stories</span>
+    <span class="marquee-item"><span class="marquee-sep">✦</span>VIP Video Calls</span>
+  </div>
+</div>
+
+<!-- BENTO FEATURES -->
+<section class="bento-section">
+  <div style="max-width:1200px;margin:0 auto">
+    <div class="s-label">Why Join</div>
+    <h2 class="s-title">Everything You've Been Missing</h2>
+  </div>
+  <div class="bento-grid" id="bentoGrid">
+    <!-- Image cell -->
+    <div class="bento-cell" style="padding:0;overflow:hidden">
+      <div class="bento-img"></div>
+      <div class="bento-img-overlay"></div>
+      <div class="bento-img-label">Liyah, unfiltered</div>
+    </div>
+    <!-- Wide text -->
+    <div class="bento-cell wide dark">
+      <div class="big-num">Daily</div>
+      <h3>Fresh Content Every Single Day</h3>
+      <p>No gaps, no dry spells. Liyah drops new content every morning — photos, videos, stories, and more.</p>
+    </div>
+    <!-- DM -->
+    <div class="bento-cell">
+      <div class="bento-icon">
+        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <h3>She Actually Replies</h3>
+      <p>Direct messages answered by Liyah herself. Real conversations, not bots.</p>
+    </div>
+    <!-- Wide stat -->
+    <div class="bento-cell wide">
+      <div class="big-num" style="font-size:2.8rem">9,400+</div>
+      <h3>South African Members Trust Liyah</h3>
+      <p>Join a growing community of subscribers who keep coming back month after month.</p>
+    </div>
+    <!-- Custom -->
+    <div class="bento-cell dark">
+      <div class="bento-icon">
+        <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </div>
+      <h3>Custom Requests</h3>
+      <p>VIP members can request personalised content made just for them.</p>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section" id="gallery">
+  <div class="gallery-top">
+    <div>
+      <div class="s-label">Preview</div>
+      <h2 class="s-title">Unlock the Full Library</h2>
+    </div>
+    <button class="btn-main" style="align-self:flex-end">Subscribe to See More</button>
+  </div>
+  <div class="gallery-scroll-wrap">
+    <div class="gallery-scroll" id="galleryScroll">
+      <div class="g-card portrait">
+        <img src="https://picsum.photos/seed/style881/400/600" alt=""/>
+        <div class="g-blur">
+          <div class="lock-circle">
+            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="g-unlock-text">Members Only</div>
+        </div>
+        <div class="g-tag">Featured</div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="g-card landscape">
+          <img src="https://picsum.photos/seed/glam334/500/280" alt=""/>
+          <div class="g-blur">
+            <div class="lock-circle">
+              <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <div class="g-unlock-text">Subscribe</div>
+          </div>
+          <div class="g-tag">Lifestyle</div>
+        </div>
+        <div class="g-card landscape">
+          <img src="https://picsum.photos/seed/fashion558/500/280" alt=""/>
+          <div class="g-blur">
+            <div class="lock-circle">
+              <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <div class="g-unlock-text">Subscribe</div>
+          </div>
+          <div class="g-tag">Behind Scenes</div>
+        </div>
+      </div>
+      <div class="g-card portrait">
+        <img src="https://picsum.photos/seed/model663/400/600" alt=""/>
+        <div class="g-blur">
+          <div class="lock-circle">
+            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="g-unlock-text">Members Only</div>
+        </div>
+        <div class="g-tag">Boudoir</div>
+      </div>
+      <div class="g-card square" style="align-self:center">
+        <img src="https://picsum.photos/seed/luxury112/400/400" alt=""/>
+        <div class="g-blur">
+          <div class="lock-circle">
+            <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <div class="g-unlock-text">Subscribe</div>
+        </div>
+        <div class="g-tag">Exclusive</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section">
+  <div class="pricing-header">
+    <div class="s-label">Membership Tiers</div>
+    <h2 class="s-title">Choose Your Level of Access</h2>
+    <p style="color:var(--muted);font-size:0.88rem;max-width:440px;margin:0 auto;line-height:1.8">All prices in South African Rand. Secure monthly billing. Cancel anytime.</p>
+  </div>
+  <div class="pricing-grid">
+
+    <div class="plan-card">
+      <div class="plan-name">Admirer</div>
+      <div class="plan-price"><sup>R</sup>99</div>
+      <div class="plan-per">per month</div>
+      <ul class="plan-features">
+        <li>Weekly exclusive photo sets</li>
+        <li>Members-only stories</li>
+        <li>Community access</li>
+        <li>Monthly behind-the-scenes</li>
+      </ul>
+      <button class="plan-btn">Get Started</button>
+    </div>
+
+    <div class="plan-card featured">
+      <div class="plan-chip">Most Popular</div>
+      <div class="plan-name">Devotee</div>
+      <div class="plan-price"><sup>R</sup>249</div>
+      <div class="plan-per">per month</div>
+      <ul class="plan-features">
+        <li>Daily exclusive content</li>
+        <li>Full private video library</li>
+        <li>Direct DMs — Liyah replies</li>
+        <li>Monthly live session</li>
+        <li>First access to new drops</li>
+      </ul>
+      <button class="plan-btn">Subscribe Now</button>
+    </div>
+
+    <div class="plan-card">
+      <div class="plan-name">VIP</div>
+      <div class="plan-price"><sup>R</sup>599</div>
+      <div class="plan-per">per month</div>
+      <ul class="plan-features">
+        <li>Everything in Devotee</li>
+        <li>Custom content requests</li>
+        <li>Priority DMs — same day</li>
+        <li>Weekly 1-on-1 video call</li>
+        <li>Birthday personalised content</li>
+      </ul>
+      <button class="plan-btn">Go VIP</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testi-section">
+  <div style="max-width:1100px;margin:0 auto">
+    <div class="s-label">Member Reviews</div>
+    <h2 class="s-title">They Keep Coming Back</h2>
+    <div class="testi-layout">
+      <div>
+        <div class="testi-big">
+          "Liyah is the only creator I've subscribed to for over a year. The content is stunning but what keeps me is that she actually feels present — like she knows her subscribers."
+        </div>
+        <div class="testi-author-big">
+          <img src="https://picsum.photos/seed/man11/80/80" alt=""/>
+          <div>
+            <div class="name">Verified Subscriber</div>
+            <div class="since">Member since February 2024 · Johannesburg</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-mini-list">
+        <div class="testi-mini">
+          <div class="stars">★★★★★</div>
+          <p>"Upgraded to VIP after two months on Devotee. The 1-on-1 calls alone are worth every rand of R599."</p>
+          <div class="auth">— Top Supporter · Cape Town</div>
+        </div>
+        <div class="testi-mini">
+          <div class="stars">★★★★★</div>
+          <p>"Content quality is elite. She drops daily without fail — never disappoints. Admirer plan is a steal at R99."</p>
+          <div class="auth">— Verified Member · Durban</div>
+        </div>
+        <div class="testi-mini">
+          <div class="stars">★★★★★</div>
+          <p>"Finally a creator that responds to DMs personally. Feels real and authentic — nothing manufactured."</p>
+          <div class="auth">— Premium Member · Pretoria</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA STRIP -->
+<div class="cta-strip">
+  <h2>Ready to Meet<br><em>Only Liyah?</em></h2>
+  <p>Join thousands of South African subscribers already inside. Your exclusive membership starts from R99 per month.</p>
+  <button class="btn-white">Join the Community</button>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Only <span>Liyah</span></div>
+  <ul class="footer-links">
+    <li><a href="#">Privacy Policy</a></li>
+    <li><a href="#">Terms of Service</a></li>
+    <li><a href="#">DMCA</a></li>
+    <li><a href="#">18 U.S.C. 2257</a></li>
+    <li><a href="#">Refund Policy</a></li>
+    <li><a href="#">Support</a></li>
+  </ul>
+  <div class="footer-right">
+    18+ Only · All Rights Reserved © 2025<br>
+    Only Liyah · Payments in ZAR · South Africa
+  </div>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+// Custom cursor
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('cursorRing');
+window.addEventListener('mousemove', e => {
+  cursor.style.left = e.clientX + 'px';
+  cursor.style.top = e.clientY + 'px';
+  setTimeout(() => {
+    ring.style.left = e.clientX + 'px';
+    ring.style.top = e.clientY + 'px';
+  }, 80);
+});
+
+// Hero parallax
+gsap.to("#heroImg", {
+  yPercent: 20,
+  ease: "none",
+  scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true }
+});
+
+// Hero entrance
+gsap.from("#heroLeft > *", {
+  opacity: 0, y: 35,
+  duration: 1, ease: "power3.out",
+  stagger: 0.13, delay: 0.5
+});
+
+// Hero right slide in
+gsap.from("#heroRight", {
+  opacity: 0, x: 40,
+  duration: 1.2, ease: "power3.out",
+  delay: 0.3
+});
+
+// Bento cells
+gsap.from("#bentoGrid .bento-cell", {
+  opacity: 0, y: 30, scale: 0.97,
+  duration: 0.8, ease: "power3.out",
+  stagger: 0.08,
+  scrollTrigger: { trigger: "#bentoGrid", start: "top 80%", toggleActions: "play none none none" }
+});
+
+// Gallery
+gsap.from("#galleryScroll > *", {
+  opacity: 0, y: 40,
+  duration: 0.9, ease: "power3.out",
+  stagger: 0.12,
+  scrollTrigger: { trigger: "#galleryScroll", start: "top 82%", toggleActions: "play none none none" }
+});
+
+// Pricing
+gsap.from(".plan-card", {
+  opacity: 0, y: 50,
+  duration: 0.85, ease: "power3.out",
+  stagger: 0.15,
+  scrollTrigger: { trigger: ".pricing-grid", start: "top 80%", toggleActions: "play none none none" }
+});
+
+// Testimonials
+gsap.from(".testi-big, .testi-author-big, .testi-mini", {
+  opacity: 0, y: 30,
+  duration: 0.8, ease: "power3.out",
+  stagger: 0.1,
+  scrollTrigger: { trigger: ".testi-layout", start: "top 82%", toggleActions: "play none none none" }
+});
+
+// CTA
+gsap.from(".cta-strip h2, .cta-strip p, .btn-white", {
+  opacity: 0, y: 25,
+  duration: 0.9, ease: "power3.out",
+  stagger: 0.12,
+  scrollTrigger: { trigger: ".cta-strip", start: "top 80%", toggleActions: "play none none none" }
+});
+
+// Floating cards subtle float animation
+gsap.to(".info-card", {
+  y: -8, duration: 2.5,
+  ease: "sine.inOut", repeat: -1, yoyo: true
+});
+gsap.to(".info-card2", {
+  y: 6, duration: 3,
+  ease: "sine.inOut", repeat: -1, yoyo: true, delay: 0.8
+});
+</script>
+</body>
+</html>
