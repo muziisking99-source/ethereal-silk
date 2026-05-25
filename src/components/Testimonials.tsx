@@ -38,13 +38,15 @@ const miniTestimonials: MiniTestimonial[] = [
 ];
 
 export default function Testimonials() {
+  const [activeIndex, setActiveIndex] = React.useState(0);
+
   return (
-    <section className="luxury-section border-t border-[rgba(180,140,160,0.18)]">
+    <section className="luxury-section border-t border-[rgba(196,120,138,0.15)] bg-[#F2ECE6]">
       <div className="max-w-[1100px] mx-auto">
-        <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[#e8849a] mb-3">
+        <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[#C4788A] mb-3">
           Customer Reviews
         </div>
-        <h2 className="font-[Bodoni_Moda] text-[clamp(2rem,4vw,3.2rem)] font-bold leading-[1.1] mb-14">
+        <h2 className="font-[Cormorant_Garamond] text-[clamp(2rem,4vw,3.2rem)] font-bold leading-[1.1] mb-14 text-[#1A0E14]">
           They Keep Coming Back
         </h2>
 
@@ -55,47 +57,64 @@ export default function Testimonials() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <div className="font-[Bodoni_Moda] text-[clamp(1.3rem,2.5vw,2rem)] italic font-light leading-[1.55] text-[#1e1218] border-l-2 border-[#e8849a] pl-8 mb-8">
+            <div className="font-[Cormorant_Garamond] text-[clamp(1.3rem,2.5vw,2rem)] italic font-light leading-[1.55] text-[#1A0E14] border-l-4 border-[#C4788A] pl-8 mb-8">
               "{bigTestimonial.big}"
             </div>
             <div className="flex items-center gap-4 pl-8">
-              <div className="w-11 h-11 rounded-full bg-[#f4efe9] border border-[rgba(180,140,160,0.35)] flex items-center justify-center">
-                <span className="font-[Bodoni_Moda] text-[0.9rem] text-[#6b3a5e]">
+              <div className="w-11 h-11 rounded-full bg-[#FAF7F4] border border-[rgba(196,120,138,0.25)] flex items-center justify-center">
+                <span className="font-[Cormorant_Garamond] text-[0.9rem] text-[#6B3556]">
                   {bigTestimonial.name[0]}
                 </span>
               </div>
               <div>
-                <div className="text-[0.75rem] font-medium text-[#6b3a5e] tracking-[0.05em]">
+                <div className="text-[0.75rem] font-medium text-[#6B3556] tracking-[0.05em]">
                   {bigTestimonial.name}
                 </div>
-                <div className="font-[DM_Mono] text-[0.6rem] tracking-[0.1em] text-[#8a6e7a] mt-0.5">
+                <div className="font-[DM_Mono] text-[0.6rem] tracking-[0.1em] text-[#6B5260] mt-0.5">
                   {bigTestimonial.location}
                 </div>
               </div>
             </div>
           </motion.div>
 
-          <div className="flex flex-col gap-5">
-            {miniTestimonials.map((t, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7, delay: (i + 1) * 0.1 }}
-                className="p-5 bg-white border border-[rgba(180,140,160,0.18)] transition-all duration-300 hover:border-[#a87cad]"
-              >
-                <div className="text-[#e8849a] text-[0.6rem] tracking-[0.15em] mb-2">
-                  {t.stars}
-                </div>
-                <p className="text-[0.82rem] text-[#8a6e7a] leading-[1.7] mb-3">
-                  "{t.text}"
-                </p>
-                <div className="font-[DM_Mono] text-[0.6rem] tracking-[0.15em] uppercase text-[#c4aab4]">
-                  {t.auth}
-                </div>
-              </motion.div>
-            ))}
+          {/* Carousel Container */}
+          <div className="flex flex-col gap-8">
+            {/* Main Carousel Display */}
+            <motion.div
+              key={activeIndex}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.5 }}
+              className="p-6 bg-white border border-[rgba(196,120,138,0.15)] rounded-[4px] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(100,50,80,0.1)]"
+            >
+              <div className="text-[#C4788A] text-[0.6rem] tracking-[0.15em] mb-3">
+                {miniTestimonials[activeIndex].stars}
+              </div>
+              <p className="text-[0.82rem] text-[#6B5260] leading-[1.7] mb-4 font-light">
+                "{miniTestimonials[activeIndex].text}"
+              </p>
+              <div className="font-[DM_Mono] text-[0.6rem] tracking-[0.15em] uppercase text-[#D4A0AD]">
+                {miniTestimonials[activeIndex].auth}
+              </div>
+            </motion.div>
+
+            {/* Dot Navigation */}
+            <div className="flex justify-center gap-3">
+              {miniTestimonials.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setActiveIndex(index)}
+                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                    index === activeIndex
+                      ? "bg-[#C4788A] w-8"
+                      : "bg-[rgba(196,120,138,0.3)] hover:bg-[rgba(196,120,138,0.5)]"
+                  }`}
+                  aria-label={`Go to testimonial ${index + 1}`}
+                  aria-current={index === activeIndex}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
