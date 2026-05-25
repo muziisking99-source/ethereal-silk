@@ -10,9 +10,9 @@ const footerLinks = [
 
 export default function Footer() {
   return (
-    <footer className="py-12 px-6 lg:px-12 border-t border-[rgba(180,140,160,0.18)] bg-white grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 items-center">
-      <div className="font-[Bodoni_Moda] text-[1.1rem] font-bold text-[#6b3a5e] text-center md:text-left">
-        Only <span className="italic text-[#e8849a]">Liyah</span>
+    <footer className="py-12 px-6 lg:px-12 border-t border-[rgba(196,120,138,0.15)] bg-[#FAF7F4] grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 items-center">
+      <div className="font-[Cormorant_Garamond] text-[1.1rem] font-bold text-[#6B3556] text-center md:text-left">
+        Only <span className="italic text-[#C4788A]">Liyah</span>
       </div>
 
       <ul className="flex flex-wrap gap-6 list-none justify-center m-0 p-0">
@@ -21,7 +21,7 @@ export default function Footer() {
             <li key={l.label}>
               <a
                 href={l.href}
-                className="text-[#c4aab4] text-[0.62rem] no-underline tracking-[0.15em] uppercase transition-colors duration-300 hover:text-[#6b3a5e]"
+                className="text-[#D4A0AD] text-[0.62rem] no-underline tracking-[0.15em] uppercase transition-colors duration-300 hover:text-[#6B3556] font-light"
               >
                 {l.label}
               </a>
@@ -30,7 +30,7 @@ export default function Footer() {
             <li key={l.label}>
               <Link
                 to={l.href}
-                className="text-[#c4aab4] text-[0.62rem] no-underline tracking-[0.15em] uppercase transition-colors duration-300 hover:text-[#6b3a5e]"
+                className="text-[#D4A0AD] text-[0.62rem] no-underline tracking-[0.15em] uppercase transition-colors duration-300 hover:text-[#6B3556] font-light"
               >
                 {l.label}
               </Link>
@@ -39,7 +39,7 @@ export default function Footer() {
         )}
       </ul>
 
-      <div className="text-center md:text-right font-[DM_Mono] text-[0.6rem] text-[#c4aab4] tracking-[0.05em] leading-[1.8]">
+      <div className="text-center md:text-right font-[DM_Mono] text-[0.6rem] text-[#D4A0AD] tracking-[0.05em] leading-[1.8]">
         18+ Only · All Rights Reserved © {new Date().getFullYear()}
         <br />
         Only Liyah · Payments in ZAR · South Africa
