@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,300;0,6..96,400;0,6..96,700;1,6..96,300;1,6..96,400;1,6..96,700&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400;500;600&display=swap');
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Google Fonts */
+
+@theme inline {
+  --font-serif: 'Bodoni Moda', serif;
+  --font-mono: 'DM Mono', monospace;
+  --font-sans: 'Outfit', sans-serif;
+
+  --color-bg: #faf7f4;
+  --color-bg2: #f4efe9;
+  --color-surface: #ffffff;
+  --color-card: #fdf9f6;
+  --color-border: rgba(180,140,160,0.18);
+  --color-border-strong: rgba(180,140,160,0.35);
+  --color-plum: #6b3a5e;
+  --color-plum-dim: rgba(107,58,94,0.08);
+  --color-blush: #e8849a;
+  --color-blush-dim: rgba(232,132,154,0.12);
+  --color-lilac: #a87cad;
+  --color-text: #1e1218;
+  --color-muted-text: #8a6e7a;
+  --color-dim: #c4aab4;
+
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  --color-background: var(--color-bg);
+  --color-foreground: var(--color-text);
+  --color-primary: var(--color-plum);
+  --color-primary-foreground: #ffffff;
+  --color-secondary: var(--color-bg2);
+  --color-secondary-foreground: var(--color-text);
+  --color-muted: var(--color-bg2);
+  --color-muted-foreground: var(--color-muted-text);
+  --color-accent: var(--color-blush);
+  --color-accent-foreground: #ffffff;
+  --color-destructive: #e53e3e;
+  --color-destructive-foreground: #ffffff;
+  --color-card-foreground: var(--color-text);
+  --color-border: var(--color-border);
+  --color-input: var(--color-border-strong);
+  --color-ring: var(--color-blush);
+}
+
+:root {
+  --font-serif: 'Bodoni Moda', serif;
+  --font-mono: 'DM Mono', monospace;
+  --font-sans: 'Outfit', sans-serif;
+  --bg: #faf7f4;
+  --bg2: #f4efe9;
+  --surface: #ffffff;
+  --card: #fdf9f6;
+  --border-color: rgba(180,140,160,0.18);
+  --border-strong: rgba(180,140,160,0.35);
+  --plum: #6b3a5e;
+  --plum-dim: rgba(107,58,94,0.08);
+  --blush: #e8849a;
+  --blush-dim: rgba(232,132,154,0.12);
+  --lilac: #a87cad;
+  --text: #1e1218;
+  --muted-text: #8a6e7a;
+  --dim: #c4aab4;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 300;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* Grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* Marquee animation */
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 3px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--blush);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+}
