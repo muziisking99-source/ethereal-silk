@@ -1,29 +1,41 @@
 import React from "react";
 import { motion } from "framer-motion";
 
-export default function Testimonials() {
-  const testimonials = [
-    {
-      big: "The quality of OnlyLiyah pieces is unmatched. Every set I've ordered feels luxurious and fits perfectly. This is my go-to boutique for special occasions.",
-      name: "Thandi M.",
-      location: "Johannesburg",
-    },
-    {
-      stars: "★★★★★",
-      text: "Ordered a bridal set for my wedding day. The packaging was beautiful and the lace detail was exquisite. Highly recommend!",
-      auth: "— Verified Customer · Cape Town",
-    },
-    {
-      stars: "★★★★★",
-      text: "Fast delivery, discreet packaging, and the fabric quality is incredible. I've already ordered three more sets.",
-      auth: "— Verified Customer · Durban",
-    },
-    {
-      stars: "★★★★★",
-      text: "Finally a South African lingerie brand that understands luxury. The silk collection is to die for.",
-      auth: "— Verified Customer · Pretoria",
-    },
-  ];
+interface BigTestimonial {
+  big: string;
+  name: string;
+  location: string;
+}
+
+interface MiniTestimonial {
+  stars: string;
+  text: string;
+  auth: string;
+}
+
+const bigTestimonial: BigTestimonial = {
+  big: "The quality of OnlyLiyah pieces is unmatched. Every set I've ordered feels luxurious and fits perfectly. This is my go-to boutique for special occasions.",
+  name: "Thandi M.",
+  location: "Johannesburg",
+};
+
+const miniTestimonials: MiniTestimonial[] = [
+  {
+    stars: "★★★★★",
+    text: "Ordered a bridal set for my wedding day. The packaging was beautiful and the lace detail was exquisite. Highly recommend!",
+    auth: "— Verified Customer · Cape Town",
+  },
+  {
+    stars: "★★★★★",
+    text: "Fast delivery, discreet packaging, and the fabric quality is incredible. I've already ordered three more sets.",
+    auth: "— Verified Customer · Durban",
+  },
+  {
+    stars: "★★★★★",
+    text: "Finally a South African lingerie brand that understands luxury. The silk collection is to die for.",
+    auth: "— Verified Customer · Pretoria",
+  },
+];
 
   return (
     <section className="py-20 lg:py-28 px-6 lg:px-12 border-t border-[rgba(180,140,160,0.18)]">
