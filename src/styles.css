@@ -50,7 +50,8 @@
   --color-ring: var(--color-blush);
 }
 
-:root {
+:root,
+html[data-theme="day"] {
   --font-serif: 'Bodoni Moda', serif;
   --font-mono: 'DM Mono', monospace;
   --font-sans: 'Outfit', sans-serif;
@@ -58,16 +59,55 @@
   --bg2: #f4efe9;
   --surface: #ffffff;
   --card: #fdf9f6;
-  --border-color: rgba(180,140,160,0.18);
-  --border-strong: rgba(180,140,160,0.35);
+  --border-color: rgba(180, 140, 160, 0.18);
+  --border-strong: rgba(180, 140, 160, 0.35);
   --plum: #6b3a5e;
-  --plum-dim: rgba(107,58,94,0.08);
+  --plum-dim: rgba(107, 58, 94, 0.08);
   --blush: #e8849a;
-  --blush-dim: rgba(232,132,154,0.12);
+  --blush-dim: rgba(232, 132, 154, 0.12);
   --lilac: #a87cad;
   --text: #1e1218;
   --muted-text: #8a6e7a;
   --dim: #c4aab4;
+  --nav-bg: rgba(250, 247, 244, 0.88);
+  --hero-scrim: rgba(250, 247, 244, 0.93);
+  --hero-scrim-mid: rgba(250, 247, 244, 0.55);
+  --marquee-bg: #6b3a5e;
+  --cta-bg: #6b3a5e;
+  --cta-text: #ffffff;
+  --cta-muted: rgba(255, 255, 255, 0.55);
+  --gradient-from: #6b3a5e;
+  --gradient-to: #a87cad;
+  --card-float-bg: #ffffff;
+  --card-dark-bg: #6b3a5e;
+}
+
+html[data-theme="night"] {
+  --bg: #120e14;
+  --bg2: #1a1420;
+  --surface: #221a26;
+  --card: #2a2030;
+  --border-color: rgba(200, 160, 190, 0.14);
+  --border-strong: rgba(200, 160, 190, 0.28);
+  --plum: #d4a8c8;
+  --plum-dim: rgba(212, 168, 200, 0.1);
+  --blush: #e8849a;
+  --blush-dim: rgba(232, 132, 154, 0.15);
+  --lilac: #b89ac4;
+  --text: #faf5f7;
+  --muted-text: #b8a4b4;
+  --dim: #7a6474;
+  --nav-bg: rgba(18, 14, 20, 0.92);
+  --hero-scrim: rgba(18, 14, 20, 0.9);
+  --hero-scrim-mid: rgba(18, 14, 20, 0.5);
+  --marquee-bg: #2a1830;
+  --cta-bg: #1e1424;
+  --cta-text: #faf5f7;
+  --cta-muted: rgba(250, 245, 247, 0.55);
+  --gradient-from: #4a2848;
+  --gradient-to: #7a4a78;
+  --card-float-bg: #2a2030;
+  --card-dark-bg: #3d2448;
 }
 
 html {
@@ -80,6 +120,12 @@ body {
   background: var(--bg);
   color: var(--text);
   overflow-x: hidden;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.theme-page {
+  background: var(--bg);
+  color: var(--text);
 }
 
 @media (pointer: fine) {

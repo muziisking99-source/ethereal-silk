@@ -109,7 +109,7 @@ function ShopPage() {
   }, [search]);
 
   return (
-    <div className="min-h-screen bg-[#faf7f4]">
+    <div className="min-h-screen theme-page">
       <Navbar />
       <CartDrawer />
       <MobileCartFab />

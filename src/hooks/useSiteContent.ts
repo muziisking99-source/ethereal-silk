@@ -18,6 +18,75 @@ export type SiteSettings = {
   whatsapp_number: string;
 };
 
+export type HeroContent = {
+  background_image_url: string;
+  line1: string;
+  line2: string;
+  line3: string;
+  subtitle: string;
+  primary_cta: string;
+  secondary_cta: string;
+  proof_strong: string;
+  proof_sub: string;
+  card1_label: string;
+  card1_value: string;
+  card1_sub: string;
+  card2_label: string;
+  card2_value: string;
+};
+
+export type MarqueeContent = {
+  items: string[];
+};
+
+export type CtaContent = {
+  watermark: string;
+  heading_line1: string;
+  heading_accent: string;
+  body: string;
+  button_text: string;
+};
+
+export const DEFAULT_HERO: HeroContent = {
+  background_image_url:
+    "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600&h=1000&fit=crop",
+  line1: "Sensual.",
+  line2: "Elegant.",
+  line3: "Only Liyah.",
+  subtitle:
+    "A curated world of luxury lingerie crafted for those who appreciate the art of femininity. Every set is designed to feel intimate, confident, and unmistakably yours.",
+  primary_cta: "Shop Collection",
+  secondary_cta: "View Catalogue",
+  proof_strong: "500+ happy clients",
+  proof_sub: "Handcrafted luxury · South Africa",
+  card1_label: "New Arrivals",
+  card1_value: "Weekly",
+  card1_sub: "Fresh sets every week",
+  card2_label: "Boutique Rating",
+  card2_value: "4.9★",
+};
+
+export const DEFAULT_MARQUEE: MarqueeContent = {
+  items: [
+    "Luxury Lace",
+    "Silk Essentials",
+    "Boudoir Sets",
+    "Bridal Collection",
+    "Evening Wear",
+    "Comfort First",
+    "South African Made",
+    "Handcrafted Details",
+  ],
+};
+
+export const DEFAULT_CTA: CtaContent = {
+  watermark: "Liyah",
+  heading_line1: "Ready to Indulge in",
+  heading_accent: "Only Liyah?",
+  body: "Curated lingerie sets from R299. Add to your basket and complete your order via WhatsApp — discreet delivery across South Africa.",
+  button_text: "Shop the Collection",
+};
+
 export const DEFAULT_ABOUT: AboutContent = {
   eyebrow: "Our Story",
   heading: "Crafted with Intention, Designed for You",
@@ -66,6 +135,27 @@ export function useSiteSettings() {
   return useQuery({
     queryKey: ["site_content", "settings"],
     queryFn: () => fetchContent("settings", DEFAULT_SETTINGS),
+  });
+}
+
+export function useHeroContent() {
+  return useQuery({
+    queryKey: ["site_content", "hero"],
+    queryFn: () => fetchContent("hero", DEFAULT_HERO),
+  });
+}
+
+export function useMarqueeContent() {
+  return useQuery({
+    queryKey: ["site_content", "marquee"],
+    queryFn: () => fetchContent("marquee", DEFAULT_MARQUEE),
+  });
+}
+
+export function useCtaContent() {
+  return useQuery({
+    queryKey: ["site_content", "cta"],
+    queryFn: () => fetchContent("cta", DEFAULT_CTA),
   });
 }
 

@@ -1,35 +1,43 @@
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
+import { useCtaContent, DEFAULT_CTA } from "@/hooks/useSiteContent";
 
 export default function CtaStrip() {
+  const { data: cta } = useCtaContent();
+  const content = cta ?? DEFAULT_CTA;
+
   return (
-    <div className="bg-[#6b3a5e] py-24 px-6 lg:px-12 text-center relative overflow-hidden">
+    <div
+      className="py-24 px-6 lg:px-12 text-center relative overflow-hidden"
+      style={{ background: "var(--cta-bg)", color: "var(--cta-text)" }}
+    >
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-[Bodoni_Moda] text-[20vw] font-bold italic text-[rgba(255,255,255,0.04)] whitespace-nowrap pointer-events-none select-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-[Bodoni_Moda] text-[20vw] font-bold italic whitespace-nowrap pointer-events-none select-none"
+        style={{ color: "rgba(255,255,255,0.04)" }}
         aria-hidden
       >
-        Liyah
+        {content.watermark}
       </div>
       <motion.h2
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-        className="font-[Bodoni_Moda] text-[clamp(2.5rem,5vw,4.5rem)] font-bold text-white leading-[1.05] mb-6 relative z-[1]"
+        className="font-[Bodoni_Moda] text-[clamp(2.5rem,5vw,4.5rem)] font-bold leading-[1.05] mb-6 relative z-[1]"
       >
-        Ready to Indulge in
+        {content.heading_line1}
         <br />
-        <em className="text-[#e8849a] not-italic">Only Liyah?</em>
+        <em className="text-[var(--blush)] not-italic">{content.heading_accent}</em>
       </motion.h2>
       <motion.p
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.9, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-        className="text-[0.95rem] text-[rgba(255,255,255,0.55)] max-w-[460px] mx-auto mb-10 leading-[1.8] relative z-[1]"
+        className="text-[0.95rem] max-w-[460px] mx-auto mb-10 leading-[1.8] relative z-[1]"
+        style={{ color: "var(--cta-muted)" }}
       >
-        Curated lingerie sets from R299. Add to your basket and complete your order via
-        WhatsApp — discreet delivery across South Africa.
+        {content.body}
       </motion.p>
       <motion.div
         initial={{ opacity: 0, y: 25 }}
@@ -40,9 +48,9 @@ export default function CtaStrip() {
       >
         <Link
           to="/shop"
-          className="inline-block bg-white text-[#6b3a5e] px-12 py-4 rounded-[2px] text-[0.8rem] tracking-[0.2em] uppercase font-semibold transition-all duration-300 hover:bg-[#e8849a] hover:text-white hover:translate-y-[-2px]"
+          className="inline-block bg-white text-[var(--plum)] px-12 py-4 rounded-[2px] text-[0.8rem] tracking-[0.2em] uppercase font-semibold transition-all duration-300 hover:bg-[var(--blush)] hover:text-white hover:translate-y-[-2px]"
         >
-          Shop the Collection
+          {content.button_text}
         </Link>
       </motion.div>
     </div>

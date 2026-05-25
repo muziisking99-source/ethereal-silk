@@ -22,6 +22,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAllProducts } from "@/hooks/useProducts";
 import type { Product } from "@/hooks/useProducts";
 import AdminAboutEditor from "@/components/admin/AdminAboutEditor";
+import AdminHomeEditor from "@/components/admin/AdminHomeEditor";
 
 export const Route = createFileRoute("/admin/dashboard")({
   component: AdminDashboard,
@@ -34,7 +35,9 @@ function AdminDashboard() {
   const navigate = useNavigate();
   const { data: products, refetch } = useAllProducts();
 
-  const [tab, setTab] = React.useState<"products" | "orders" | "about">("products");
+  const [tab, setTab] = React.useState<"products" | "orders" | "homepage" | "about">(
+    "products"
+  );
   const [showForm, setShowForm] = React.useState(false);
   const [editing, setEditing] = React.useState<Product | null>(null);
   const [orders, setOrders] = React.useState<any[]>([]);
@@ -52,8 +55,9 @@ function AdminDashboard() {
   });
 
   React.useEffect(() => {
-    if (!authLoading && (!user || !isAdmin)) {
-      navigate({ to: "/admin/login" });
+    if (authLoading) return;
+    if (!user || !isAdmin) {
+      navigate({ to: "/admin/login", replace: true });
     }
   }, [authLoading, user, isAdmin, navigate]);
 
@@ -156,15 +160,13 @@ function AdminDashboard() {
     loadOrders();
   };
 
-  if (authLoading) {
+  if (authLoading || !user || !isAdmin) {
     return (
       <div className="min-h-screen bg-[#faf7f4] flex items-center justify-center">
         <Loader2 className="w-8 h-8 text-[#6b3a5e] animate-spin" strokeWidth={1.5} />
       </div>
     );
   }
-
-  if (!user || !isAdmin) return null;
 
   return (
     <div className="min-h-screen bg-[#faf7f4]">
@@ -188,7 +190,7 @@ function AdminDashboard() {
       <div className="px-6 lg:px-12 py-8">
         <div className="max-w-[1200px] mx-auto">
           {/* Tabs */}
-          <div className="flex gap-2 mb-8">
+          <div className="flex flex-wrap gap-2 mb-8">
             <button
               onClick={() => setTab("products")}
               className={`flex items-center gap-2 px-5 py-2.5 text-[0.78rem] tracking-[0.15em] uppercase border transition-all duration-300 ${
@@ -210,6 +212,17 @@ function AdminDashboard() {
             >
               <ShoppingCart className="w-4 h-4" strokeWidth={1.5} />
               Orders
+            </button>
+            <button
+              onClick={() => setTab("homepage")}
+              className={`flex items-center gap-2 px-5 py-2.5 text-[0.78rem] tracking-[0.15em] uppercase border transition-all duration-300 ${
+                tab === "homepage"
+                  ? "bg-[#6b3a5e] text-white border-[#6b3a5e]"
+                  : "bg-white text-[#8a6e7a] border-[rgba(180,140,160,0.18)] hover:border-[#6b3a5e]"
+              }`}
+            >
+              <FileText className="w-4 h-4" strokeWidth={1.5} />
+              Homepage
             </button>
             <button
               onClick={() => setTab("about")}
@@ -386,6 +399,7 @@ function AdminDashboard() {
             </>
           )}
 
+          {tab === "homepage" && <AdminHomeEditor />}
           {tab === "about" && <AdminAboutEditor />}
 
           {/* Orders Tab */}

@@ -3,6 +3,8 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { checkIsAdmin } from "@/lib/admin";
+import { useAuth } from "@/hooks/useAuth";
 
 export const Route = createFileRoute("/admin/login")({
   component: AdminLogin,
@@ -15,6 +17,13 @@ function AdminLogin() {
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
   const navigate = useNavigate();
+  const { user, isAdmin, loading: authLoading } = useAuth();
+
+  React.useEffect(() => {
+    if (!authLoading && user && isAdmin) {
+      navigate({ to: "/admin/dashboard", replace: true });
+    }
+  }, [authLoading, user, isAdmin, navigate]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,21 +41,34 @@ function AdminLogin() {
       return;
     }
 
-    // Check admin role
-    const { data: hasAdmin } = await supabase.rpc("has_role", {
-      _user_id: data.user!.id,
-      _role: "admin",
-    });
-
-    if (!hasAdmin) {
-      await supabase.auth.signOut();
-      setError("You do not have admin access.");
+    if (!data.user) {
+      setError("Sign in failed. Please try again.");
       setLoading(false);
       return;
     }
 
-    navigate({ to: "/admin/dashboard" });
+    const hasAdmin = await checkIsAdmin(data.user.id);
+
+    if (!hasAdmin) {
+      await supabase.auth.signOut();
+      setError(
+        "You do not have admin access. Add your user to user_roles in Supabase (role: admin)."
+      );
+      setLoading(false);
+      return;
+    }
+
+    navigate({ to: "/admin/dashboard", replace: true });
+    setLoading(false);
   };
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-[#faf7f4] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-[#6b3a5e] animate-spin" strokeWidth={1.5} />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#faf7f4] flex items-center justify-center px-6">

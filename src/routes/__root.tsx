@@ -8,6 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { CartProvider } from "@/context/CartContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import AgeGate from "@/components/AgeGate";
 import CustomCursor from "@/components/CustomCursor";
 
@@ -112,9 +113,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="day" suppressHydrationWarning>
       <head>
         <HeadContent />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('onlyliyah-theme');if(t==='night'||t==='day')document.documentElement.setAttribute('data-theme',t)}catch(e){}})();`,
+          }}
+        />
       </head>
       <body>
         {children}
@@ -129,11 +135,13 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <CartProvider>
-        <CustomCursor />
-        <AgeGate />
-        <Outlet />
-      </CartProvider>
+      <ThemeProvider>
+        <CartProvider>
+          <CustomCursor />
+          <AgeGate />
+          <Outlet />
+        </CartProvider>
+      </ThemeProvider>
     </QueryClientProvider>
   );
 }
