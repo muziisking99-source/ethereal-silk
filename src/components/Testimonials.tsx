@@ -48,7 +48,7 @@ export default function Testimonials() {
             <div className="flex items-center gap-4 pl-8">
               <div className="w-11 h-11 rounded-full bg-[#f4efe9] border border-[rgba(180,140,160,0.35)] flex items-center justify-center">
                 <span className="font-[Bodoni_Moda] text-[0.9rem] text-[#6b3a5e]">
-                  {testimonials[0].name[0]}
+                  {testimonials[0]!.name[0]}
                 </span>
               </div>
               <div>
