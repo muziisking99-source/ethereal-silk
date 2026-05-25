@@ -14,6 +14,8 @@ import MobileCartFab from "@/components/MobileCartFab";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
+  // Avoid SSR route-load failures on Lovable when env/modules differ from local dev
+  ssr: false,
 });
 
 function HomePage() {

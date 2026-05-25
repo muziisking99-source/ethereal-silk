@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { useCtaContent, DEFAULT_CTA } from "@/hooks/useSiteContent";
+import { useCtaContent } from "@/hooks/useSiteContent";
+import { DEFAULT_CTA } from "@/lib/siteContentDefaults";
 
 export default function CtaStrip() {
   const { data: cta } = useCtaContent();
