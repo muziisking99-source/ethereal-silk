@@ -32,10 +32,10 @@ export default function AgeGate() {
       role="dialog"
       aria-labelledby="age-gate-title"
     >
-      <div className="font-[Bodoni_Moda] text-[2.5rem] font-bold text-[#6b3a5e] mb-10">
+      <div className="font-[Cormorant_Garamond] text-[2.5rem] font-bold text-[#FF2D6B] mb-10">
         Only <span className="italic text-[#e8849a]">Liyah</span>
       </div>
-      <h2 id="age-gate-title" className="font-[Bodoni_Moda] text-[1.8rem] font-bold text-[#1e1218] mb-4">
+      <h2 id="age-gate-title" className="font-[Cormorant_Garamond] text-[1.8rem] font-bold text-[#F5F0EB] mb-4">
         Are you 18 or older?
       </h2>
       <p className="text-[0.85rem] text-[#8a6e7a] max-w-[420px] leading-[1.8] mb-10">
