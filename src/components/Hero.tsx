@@ -27,19 +27,19 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative min-h-[100dvh] pt-20 overflow-hidden bg-[#FAF7F4]"
+      className="relative min-h-[100dvh] pt-20 overflow-hidden bg-[#0D0D0D]"
     >
       <motion.div className="absolute inset-0" style={{ y: imageY }}>
         <img
           src={content.background_image_url}
           alt=""
-          className="w-full h-full object-cover object-top brightness-110 saturate-100 contrast-100 scale-100"
+          className="w-full h-full object-cover object-top brightness-75 saturate-[0.85] contrast-110"
         />
-        {/* Dark gradient overlay from bottom */}
         <div
           className="absolute inset-0"
           style={{
-            background: "linear-gradient(to top, rgba(20,8,14,0.75) 0%, rgba(20,8,14,0.2) 50%, transparent 100%)",
+            background:
+              "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 50%, transparent 100%)",
           }}
         />
       </motion.div>
@@ -54,12 +54,10 @@ export default function Hero() {
             className="font-[Cormorant_Garamond] text-[clamp(3.2rem,5.5vw,6rem)] font-bold leading-[1] tracking-[-0.01em] mb-8"
           >
             <span className="block text-white drop-shadow-lg">{content.line1}</span>
-            <span className="block italic font-light text-[#D4A0AD] ml-4 lg:ml-6 drop-shadow-lg">
+            <span className="block italic font-light text-[#FF2D6B] ml-4 lg:ml-6 drop-shadow-lg">
               {content.line2}
             </span>
-            <span className="block bg-gradient-to-br from-[#E8A4C8] to-[#D4A0AD] bg-clip-text text-transparent drop-shadow-lg">
-              {content.line3}
-            </span>
+            <span className="block text-white drop-shadow-lg">{content.line3}</span>
           </motion.h1>
 
           <motion.p
@@ -67,7 +65,7 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             variants={stagger}
-            className="text-[1rem] leading-[1.9] text-white max-w-[420px] mb-12 font-light drop-shadow"
+            className="text-[1rem] leading-[1.9] text-[#F5F0EB] max-w-[420px] mb-12 font-light drop-shadow font-[Jost]"
           >
             {content.subtitle}
           </motion.p>
@@ -81,16 +79,13 @@ export default function Hero() {
           >
             <Link
               to="/shop"
-              className="text-white px-10 py-4 rounded-[4px] text-[0.8rem] tracking-[0.18em] uppercase font-medium transition-all duration-[350ms] hover:translate-y-[-2px] shadow-[0_8px_24px_rgba(107,53,86,0.2)] hover:shadow-[0_12px_40px_rgba(100,50,80,0.15)]"
-              style={{
-                background: `linear-gradient(135deg, #6B3556, #C4788A)`,
-              }}
+              className="text-white px-10 py-4 rounded-[4px] text-[0.8rem] tracking-[0.18em] uppercase font-medium transition-all duration-[350ms] hover:translate-y-[-2px] bg-[#FF2D6B] hover:bg-[#e02560] shadow-[0_8px_24px_rgba(255,45,107,0.35)] hover:shadow-[0_12px_40px_rgba(255,45,107,0.5)] font-[Jost]"
             >
               {content.primary_cta}
             </Link>
             <Link
               to="/shop"
-              className="text-white text-[0.78rem] tracking-[0.12em] uppercase flex items-center gap-2 transition-colors duration-300 hover:text-[#D4A0AD] bg-transparent border-none group drop-shadow"
+              className="text-white text-[0.78rem] tracking-[0.12em] uppercase flex items-center gap-2 transition-colors duration-300 hover:text-[#FF2D6B] bg-transparent border-none group drop-shadow font-[Jost]"
             >
               {content.secondary_cta}
               <span className="transition-transform duration-300 group-hover:translate-x-1">
@@ -104,22 +99,13 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             variants={stagger}
-            className="flex items-center gap-5 mt-14 pt-10 border-t border-[rgba(255,255,255,0.2)]"
+            className="flex items-center gap-5 mt-14 pt-10 border-t border-[rgba(255,45,107,0.25)]"
           >
-            <div className="flex">
-              {[1, 2, 3, 4].map((i) => (
-                <img
-                  key={i}
-                  src={`https://picsum.photos/seed/onlyliyah${i}/60/60`}
-                  alt=""
-                  className="w-8 h-8 rounded-full border-2 border-white object-cover -ml-2 first:ml-0"
-                />
-              ))}
-            </div>
-            <div className="text-[0.78rem] text-white leading-[1.5] drop-shadow">
+            <div className="w-2 h-2 rounded-full bg-[#FF2D6B] animate-pulse" />
+            <div className="text-[0.78rem] text-white leading-[1.5] drop-shadow font-[Jost]">
               <strong className="text-white font-medium">{content.proof_strong}</strong>
               <br />
-              {content.proof_sub}
+              <span className="text-[#B8AEA8]">{content.proof_sub}</span>
             </div>
           </motion.div>
         </div>
@@ -128,21 +114,21 @@ export default function Hero() {
           <motion.div
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-16 left-0 border border-[rgba(196,120,138,0.25)] p-6 min-w-[200px] shadow-[0_20px_60px_rgba(107,53,86,0.12)] rounded-[4px] z-[3] bg-white"
+            className="absolute bottom-16 left-0 border border-[rgba(255,45,107,0.25)] p-6 min-w-[200px] shadow-[0_20px_60px_rgba(0,0,0,0.5)] rounded-[4px] z-[3] bg-[#1F1F1F]"
           >
-            <div className="font-[DM_Mono] text-[0.58rem] tracking-[0.25em] uppercase text-[#C4788A] mb-2">
+            <div className="font-[DM_Mono] text-[0.58rem] tracking-[0.25em] uppercase text-[#FF2D6B] mb-2">
               {content.card1_label}
             </div>
-            <div className="font-[Cormorant_Garamond] text-[1.8rem] font-bold text-[#6B3556] leading-none">
+            <div className="font-[Cormorant_Garamond] text-[1.8rem] font-bold text-[#F5F0EB] leading-none">
               {content.card1_value}
             </div>
-            <div className="text-[0.7rem] text-[#6B5260] mt-1">{content.card1_sub}</div>
+            <div className="text-[0.7rem] text-[#B8AEA8] mt-1 font-[Jost]">{content.card1_sub}</div>
           </motion.div>
 
           <motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-            className="absolute top-16 right-8 p-5 shadow-[0_12px_30px_rgba(107,53,86,0.15)] z-[3] text-white rounded-[4px] bg-[#6B3556]"
+            className="absolute top-16 right-8 p-5 shadow-[0_12px_30px_rgba(255,45,107,0.4)] z-[3] text-white rounded-[4px] bg-[#FF2D6B]"
           >
             <div className="font-[DM_Mono] text-[0.58rem] tracking-[0.25em] uppercase text-[rgba(255,255,255,0.5)] mb-1">
               {content.card2_label}
