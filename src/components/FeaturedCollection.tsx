@@ -18,19 +18,19 @@ export default function FeaturedCollection() {
   const [first, second, third, fourth, fifth] = products;
 
   return (
-    <section id="gallery" className="luxury-section border-t border-[rgba(180,140,160,0.18)]">
+    <section id="gallery" className="luxury-section bg-[#0D0D0D] border-t border-[rgba(255,45,107,0.15)]">
       <div className="max-w-[1200px] mx-auto mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-6">
         <div>
-          <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[#e8849a] mb-3">
-            The Collection
+          <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[#FF2D6B] mb-3">
+            This Week's Drops
           </div>
-          <h2 className="font-[Bodoni_Moda] text-[clamp(2rem,4vw,3.2rem)] font-bold leading-[1.1]">
-            Curated Lingerie Sets
+          <h2 className="font-[Cormorant_Garamond] text-[clamp(2rem,4vw,3.2rem)] font-bold leading-[1.1] text-[#F5F0EB]">
+            Fresh <span className="italic text-[#FF2D6B]">Inventory</span>
           </h2>
         </div>
         <Link
           to="/shop"
-          className="bg-gradient-to-br from-[#6b3a5e] to-[#a87cad] text-white px-8 py-4 rounded-[2px] text-[0.8rem] tracking-[0.18em] uppercase font-medium transition-all duration-[350ms] hover:translate-y-[-2px] shadow-[0_8px_24px_rgba(107,58,94,0.25)] hover:shadow-[0_14px_32px_rgba(107,58,94,0.35)] shrink-0"
+          className="bg-[#FF2D6B] hover:bg-[#e02560] text-white px-8 py-4 rounded-[2px] text-[0.8rem] tracking-[0.18em] uppercase font-medium transition-all duration-[350ms] hover:translate-y-[-2px] shadow-[0_8px_24px_rgba(255,45,107,0.35)] hover:shadow-[0_14px_32px_rgba(255,45,107,0.5)] shrink-0 font-[Jost]"
         >
           View Full Catalogue
         </Link>
@@ -39,7 +39,7 @@ export default function FeaturedCollection() {
       {isLoading ? (
         <div className="max-w-[1200px] mx-auto flex gap-3 overflow-hidden">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="w-[280px] h-[420px] bg-[#f4efe9] animate-pulse shrink-0" />
+            <div key={i} className="w-[280px] h-[420px] bg-[#1A1A1A] animate-pulse shrink-0" />
           ))}
         </div>
       ) : products.length > 0 ? (
@@ -72,8 +72,8 @@ export default function FeaturedCollection() {
           </div>
         </div>
       ) : (
-        <div className="max-w-[1200px] mx-auto text-center py-16 text-[#8a6e7a]">
-          New sets arriving soon. Visit the shop to browse.
+        <div className="max-w-[1200px] mx-auto text-center py-16 text-[#B8AEA8] font-[Jost]">
+          New drops loading. Check back Monday.
         </div>
       )}
     </section>
