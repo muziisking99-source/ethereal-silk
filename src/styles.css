@@ -12,20 +12,20 @@
   --font-mono: 'DM Mono', monospace;
   --font-sans: 'Jost', sans-serif;
 
-  --color-bg: #0D0D0D;
-  --color-bg2: #1A1A1A;
-  --color-surface: #1F1F1F;
-  --color-card: #1F1F1F;
-  --color-border: rgba(255,45,107,0.2);
-  --color-border-strong: rgba(255,45,107,0.35);
-  --color-plum: #FF2D6B;
-  --color-plum-dim: rgba(255,45,107,0.08);
-  --color-blush: #FF2D6B;
-  --color-blush-dim: rgba(255,45,107,0.12);
+  --color-bg: #FAF7F4;
+  --color-bg2: #F2ECE6;
+  --color-surface: #FFFFFF;
+  --color-card: #FFFFFF;
+  --color-border: rgba(180,140,160,0.18);
+  --color-border-strong: rgba(180,140,160,0.35);
+  --color-plum: #6B3A5E;
+  --color-plum-dim: rgba(107,58,94,0.08);
+  --color-blush: #E8849A;
+  --color-blush-dim: rgba(232,132,154,0.12);
   --color-lilac: #C4788A;
-  --color-text: #F5F0EB;
-  --color-muted-text: #B8AEA8;
-  --color-dim: #6B5F58;
+  --color-text: #1E1218;
+  --color-muted-text: #8A6E7A;
+  --color-dim: #C4AAB4;
 
   --radius-sm: 2px;
   --radius-md: 4px;
@@ -55,31 +55,31 @@ html[data-theme="day"] {
   --font-serif: 'Cormorant Garamond', serif;
   --font-mono: 'DM Mono', monospace;
   --font-sans: 'Jost', sans-serif;
-  --bg: #0D0D0D;
-  --bg2: #1A1A1A;
-  --surface: #1F1F1F;
-  --card: #1F1F1F;
-  --border-color: rgba(255, 45, 107, 0.2);
-  --border-strong: rgba(255, 45, 107, 0.4);
-  --plum: #FF2D6B;
-  --plum-dim: rgba(255, 45, 107, 0.08);
-  --blush: #FF2D6B;
-  --blush-dim: rgba(255, 45, 107, 0.12);
+  --bg: #FAF7F4;
+  --bg2: #F2ECE6;
+  --surface: #FFFFFF;
+  --card: #FFFFFF;
+  --border-color: rgba(180, 140, 160, 0.18);
+  --border-strong: rgba(180, 140, 160, 0.35);
+  --plum: #6B3A5E;
+  --plum-dim: rgba(107, 58, 94, 0.08);
+  --blush: #E8849A;
+  --blush-dim: rgba(232, 132, 154, 0.12);
   --lilac: #C4788A;
-  --text: #F5F0EB;
-  --muted-text: #B8AEA8;
-  --dim: #6B5F58;
-  --nav-bg: rgba(13, 13, 13, 0.85);
-  --hero-scrim: rgba(0, 0, 0, 0.9);
-  --hero-scrim-mid: rgba(0, 0, 0, 0.5);
-  --marquee-bg: #FF2D6B;
-  --cta-bg: #1A1A1A;
-  --cta-text: #F5F0EB;
-  --cta-muted: rgba(245, 240, 235, 0.6);
-  --gradient-from: #FF2D6B;
-  --gradient-to: #C4788A;
-  --card-float-bg: #1F1F1F;
-  --card-dark-bg: #1F1F1F;
+  --text: #1E1218;
+  --muted-text: #8A6E7A;
+  --dim: #C4AAB4;
+  --nav-bg: rgba(250, 247, 244, 0.92);
+  --hero-scrim: rgba(250, 247, 244, 0.8);
+  --hero-scrim-mid: rgba(250, 247, 244, 0.4);
+  --marquee-bg: #E8849A;
+  --cta-bg: #FAF7F4;
+  --cta-text: #1E1218;
+  --cta-muted: rgba(30, 18, 24, 0.6);
+  --gradient-from: #6B3A5E;
+  --gradient-to: #A87CAD;
+  --card-float-bg: #FFFFFF;
+  --card-dark-bg: #F2ECE6;
 }
 
 html[data-theme="night"] {
@@ -156,7 +156,7 @@ body::after {
   z-index: 9999;
   pointer-events: none;
   opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='120'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 200px 200px;
 }
 
