@@ -21,17 +21,17 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   return (
-    <div className="min-h-screen theme-page bg-[#FAF7F4]">
+    <div className="min-h-screen theme-page bg-[#0D0D0D] text-[#F5F0EB]">
       <ScrollProgressBar />
       <Navbar />
       <CartDrawer />
       <MobileCartFab />
       <Hero />
       <Marquee />
-      <BentoSection />
-      <FeaturedCollection />
-      <AboutSection />
       <ShippingInfo />
+      <AboutSection />
+      <FeaturedCollection />
+      <BentoSection />
       <Testimonials />
       <CtaStrip />
       <Footer />
