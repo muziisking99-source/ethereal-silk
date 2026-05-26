@@ -47,58 +47,57 @@ export type CtaContent = {
 export const DEFAULT_HERO: HeroContent = {
   background_image_url:
     "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600&h=1000&fit=crop",
-  line1: "Sensual.",
-  line2: "Elegant.",
-  line3: "Only Liyah.",
+  line1: "Worn.",
+  line2: "Intimate.",
+  line3: "Yours.",
   subtitle:
-    "A curated world of luxury lingerie crafted for those who appreciate the art of femininity. Every set is designed to feel intimate, confident, and unmistakably yours.",
-  primary_cta: "Shop Collection",
-  secondary_cta: "View Catalogue",
-  proof_strong: "500+ happy clients",
-  proof_sub: "Handcrafted luxury · South Africa",
-  card1_label: "New Arrivals",
-  card1_value: "Weekly",
-  card1_sub: "Fresh sets every week",
-  card2_label: "Boutique Rating",
-  card2_value: "4.9★",
+    "Freshly worn pieces direct from me — limited stock, real and authentic.",
+  primary_cta: "Shop This Week's Drops",
+  secondary_cta: "View Full Catalogue",
+  proof_strong: "Limited weekly inventory",
+  proof_sub: "New drops every Monday",
+  card1_label: "This Week",
+  card1_value: "Fresh",
+  card1_sub: "New drops every Monday",
+  card2_label: "Stock",
+  card2_value: "Limited",
 };
 
 export const DEFAULT_MARQUEE: MarqueeContent = {
   items: [
-    "Luxury Lace",
-    "Silk Essentials",
-    "Boudoir Sets",
-    "Bridal Collection",
-    "Evening Wear",
-    "Comfort First",
-    "South African Made",
-    "Handcrafted Details",
+    "FRESHLY WORN",
+    "LIMITED STOCK",
+    "DIRECT FROM ME",
+    "NEW DROPS WEEKLY",
+    "AUTHENTIC",
+    "DISCREET DELIVERY",
+    "CLAIM YOURS",
   ],
 };
 
 export const DEFAULT_CTA: CtaContent = {
   watermark: "Liyah",
-  heading_line1: "Ready to Indulge in",
-  heading_accent: "Only Liyah?",
-  body: "Curated lingerie sets from R299. Add to your basket and complete your order via WhatsApp — discreet delivery across South Africa.",
-  button_text: "Shop the Collection",
+  heading_line1: "Claim Yours",
+  heading_accent: "Before It's Gone",
+  body: "Stock is limited and sells fast. Send a WhatsApp message with the item you want and we'll confirm availability, take payment, and get it shipped — all in one conversation.",
+  button_text: "Order on WhatsApp",
 };
 
 export const DEFAULT_ABOUT: AboutContent = {
-  eyebrow: "Our Story",
-  heading: "Crafted with Intention, Designed for You",
+  eyebrow: "The Creator",
+  heading: "Real. Raw. Unapologetically Me.",
   paragraph1:
-    "Only Liyah was born from a simple belief: every woman deserves to feel luxurious in her own skin. What started as a passion project in Cape Town has grown into a trusted boutique for handcrafted lingerie.",
+    "This started as something personal — a way to connect and share something intimate with people who appreciate authenticity.",
   paragraph2:
-    "We source the finest European laces, silks, and satins, then design each set with meticulous attention to fit and finish. Confidence is the most beautiful thing a woman can wear.",
+    "Every piece in this collection has been worn by me personally. No gimmicks, no fakes. Just real, limited items direct from my hands to yours.",
   image_url:
     "https://images.unsplash.com/photo-1617331721458-bd3bd3f9c7f8?w=600&h=750&fit=crop",
   badge_label: "Est.",
   badge_year: "2023",
   stats: [
-    { num: "500+", label: "Happy Clients" },
-    { num: "150+", label: "Unique Sets" },
-    { num: "9", label: "Provinces Served" },
+    { num: "100%", label: "Authentic" },
+    { num: "9", label: "Provinces" },
+    { num: "24h", label: "Ship Window" },
   ],
 };
 

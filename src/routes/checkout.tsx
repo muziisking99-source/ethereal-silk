@@ -89,7 +89,7 @@ ${orderLines}
         customer_phone: form.phone,
         shipping_address: form.address,
         notes: form.notes || null,
-        order_items: items,
+        order_items: items as never,
         total_price: totalPrice,
         order_status: "Pending",
       })

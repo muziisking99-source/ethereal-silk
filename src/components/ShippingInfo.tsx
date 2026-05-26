@@ -1,50 +1,45 @@
 import { motion } from "framer-motion";
-import { Truck, Clock, Package, MapPin } from "lucide-react";
+import { Truck, Clock, MessageCircle } from "lucide-react";
 
 export default function ShippingInfo() {
   const info = [
     {
       icon: Truck,
       title: "Nationwide Delivery",
-      desc: "We deliver across all provinces in South Africa via trusted courier partners.",
+      desc: "We ship across all 9 provinces via trusted couriers in plain, unmarked packaging.",
     },
     {
       icon: Clock,
-      title: "Processing Time",
-      desc: "Orders are processed within 24 hours on business days after WhatsApp confirmation.",
+      title: "Same Week Shipping",
+      desc: "Orders placed and confirmed via WhatsApp are processed within 24 hours on business days.",
     },
     {
-      icon: Package,
-      title: "Discreet Packaging",
-      desc: "Every order arrives in plain, unbranded packaging — your privacy is protected.",
-    },
-    {
-      icon: MapPin,
-      title: "Express Cities",
-      desc: "1–2 day express available for Johannesburg, Cape Town, Durban, and Pretoria.",
+      icon: MessageCircle,
+      title: "Order via WhatsApp",
+      desc: "Browse the collection, pick your item, and confirm in one simple WhatsApp message — no complicated checkout.",
     },
   ];
 
   return (
     <section
       id="shipping"
-      className="luxury-section bg-[#f4efe9] border-t border-[rgba(180,140,160,0.18)]"
+      className="luxury-section bg-[#1A1A1A] border-t border-[rgba(255,45,107,0.15)]"
     >
       <div className="max-w-[1200px] mx-auto">
         <div className="text-center mb-14">
-          <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[#e8849a] mb-3">
-            Delivery & Shipping
+          <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[#FF2D6B] mb-3">
+            How It Works
           </div>
-          <h2 className="font-[Bodoni_Moda] text-[clamp(2rem,4vw,3.2rem)] font-bold leading-[1.1] mb-4">
-            How We Deliver
+          <h2 className="font-[Cormorant_Garamond] text-[clamp(2rem,4vw,3.2rem)] font-bold leading-[1.1] mb-4 text-[#F5F0EB]">
+            Simple. Discreet. Direct.
           </h2>
-          <p className="text-[0.88rem] text-[#8a6e7a] max-w-[440px] mx-auto leading-[1.8]">
+          <p className="text-[0.88rem] text-[#B8AEA8] max-w-[480px] mx-auto leading-[1.8] font-[Jost]">
             All prices in South African Rand. Order via WhatsApp and receive discreet,
-            tracked delivery to your door.
+            tracked delivery straight to your door.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {info.map((item, i) => (
             <motion.div
               key={item.title}
@@ -52,13 +47,13 @@ export default function ShippingInfo() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="bg-white border border-[rgba(180,140,160,0.18)] p-6 text-center rounded-[2px] transition-all duration-300 hover:border-[#a87cad] hover:translate-y-[-4px] hover:shadow-[0_20px_50px_rgba(107,58,94,0.1)]"
+              className="bg-[#1F1F1F] border border-[rgba(255,45,107,0.2)] p-8 text-center rounded-[2px] transition-all duration-300 hover:border-[#FF2D6B] hover:translate-y-[-4px] hover:shadow-[0_20px_50px_rgba(255,45,107,0.15)]"
             >
-              <div className="w-10 h-10 mx-auto rounded-[10px] bg-[rgba(107,58,94,0.08)] border border-[rgba(180,140,160,0.18)] flex items-center justify-center mb-4">
-                <item.icon className="w-[18px] h-[18px] text-[#6b3a5e]" strokeWidth={1.5} />
+              <div className="w-12 h-12 mx-auto rounded-[10px] bg-[rgba(255,45,107,0.1)] border border-[rgba(255,45,107,0.25)] flex items-center justify-center mb-5">
+                <item.icon className="w-[20px] h-[20px] text-[#FF2D6B]" strokeWidth={1.5} />
               </div>
-              <h3 className="font-[Bodoni_Moda] text-[1.05rem] font-bold mb-2">{item.title}</h3>
-              <p className="text-[0.82rem] leading-[1.75] text-[#8a6e7a]">{item.desc}</p>
+              <h3 className="font-[Cormorant_Garamond] text-[1.25rem] font-bold mb-3 text-[#F5F0EB]">{item.title}</h3>
+              <p className="text-[0.82rem] leading-[1.75] text-[#B8AEA8] font-[Jost]">{item.desc}</p>
             </motion.div>
           ))}
         </div>

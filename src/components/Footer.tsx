@@ -2,17 +2,21 @@ import { Link } from "@tanstack/react-router";
 
 const footerLinks = [
   { label: "Shop", href: "/shop" },
-  { label: "Gallery", href: "/#gallery" },
+  { label: "How It Works", href: "/#shipping" },
   { label: "About", href: "/#about" },
-  { label: "Shipping", href: "/#shipping" },
-  { label: "Checkout", href: "/checkout" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export default function Footer() {
   return (
-    <footer className="py-12 px-6 lg:px-12 border-t border-[rgba(196,120,138,0.15)] bg-[#FAF7F4] grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 items-center">
-      <div className="font-[Cormorant_Garamond] text-[1.1rem] font-bold text-[#6B3556] text-center md:text-left">
-        Only <span className="italic text-[#C4788A]">Liyah</span>
+    <footer className="py-12 px-6 lg:px-12 border-t border-[rgba(255,45,107,0.2)] bg-[#0D0D0D] grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 items-center">
+      <div className="text-center md:text-left">
+        <div className="font-[Cormorant_Garamond] text-[1.2rem] font-bold text-[#F5F0EB]">
+          Only <span className="italic text-[#FF2D6B]">Liyah</span>
+        </div>
+        <div className="font-[Cormorant_Garamond] italic text-[0.8rem] text-[#B8AEA8] mt-1">
+          Real. Worn. Yours.
+        </div>
       </div>
 
       <ul className="flex flex-wrap gap-6 list-none justify-center m-0 p-0">
@@ -21,7 +25,7 @@ export default function Footer() {
             <li key={l.label}>
               <a
                 href={l.href}
-                className="text-[#D4A0AD] text-[0.62rem] no-underline tracking-[0.15em] uppercase transition-colors duration-300 hover:text-[#6B3556] font-light"
+                className="text-[#B8AEA8] text-[0.62rem] no-underline tracking-[0.15em] uppercase transition-colors duration-300 hover:text-[#FF2D6B] font-light font-[Jost]"
               >
                 {l.label}
               </a>
@@ -30,7 +34,7 @@ export default function Footer() {
             <li key={l.label}>
               <Link
                 to={l.href}
-                className="text-[#D4A0AD] text-[0.62rem] no-underline tracking-[0.15em] uppercase transition-colors duration-300 hover:text-[#6B3556] font-light"
+                className="text-[#B8AEA8] text-[0.62rem] no-underline tracking-[0.15em] uppercase transition-colors duration-300 hover:text-[#FF2D6B] font-light font-[Jost]"
               >
                 {l.label}
               </Link>
@@ -39,10 +43,8 @@ export default function Footer() {
         )}
       </ul>
 
-      <div className="text-center md:text-right font-[DM_Mono] text-[0.6rem] text-[#D4A0AD] tracking-[0.05em] leading-[1.8]">
-        18+ Only · All Rights Reserved © {new Date().getFullYear()}
-        <br />
-        Only Liyah · Payments in ZAR · South Africa
+      <div className="text-center md:text-right font-[DM_Mono] text-[0.6rem] text-[#6B5F58] tracking-[0.05em] leading-[1.8]">
+        © {new Date().getFullYear()} Only Liyah. All rights reserved. South Africa.
       </div>
     </footer>
   );
