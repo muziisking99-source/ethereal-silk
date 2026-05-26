@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,300;0,6..96,400;0,6..96,700;1,6..96,300;1,6..96,400;1,6..96,700&family=DM+Mono:wght@300;400&family=Outfit:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&family=DM+Mono:wght@300;400&display=swap');
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -8,24 +8,24 @@
 /* Google Fonts */
 
 @theme inline {
-  --font-serif: 'Bodoni Moda', serif;
+  --font-serif: 'Cormorant Garamond', serif;
   --font-mono: 'DM Mono', monospace;
-  --font-sans: 'Outfit', sans-serif;
+  --font-sans: 'Jost', sans-serif;
 
-  --color-bg: #faf7f4;
-  --color-bg2: #f4efe9;
-  --color-surface: #ffffff;
-  --color-card: #fdf9f6;
-  --color-border: rgba(180,140,160,0.18);
-  --color-border-strong: rgba(180,140,160,0.35);
-  --color-plum: #6b3a5e;
-  --color-plum-dim: rgba(107,58,94,0.08);
-  --color-blush: #e8849a;
-  --color-blush-dim: rgba(232,132,154,0.12);
-  --color-lilac: #a87cad;
-  --color-text: #1e1218;
-  --color-muted-text: #8a6e7a;
-  --color-dim: #c4aab4;
+  --color-bg: #0D0D0D;
+  --color-bg2: #1A1A1A;
+  --color-surface: #1F1F1F;
+  --color-card: #1F1F1F;
+  --color-border: rgba(255,45,107,0.2);
+  --color-border-strong: rgba(255,45,107,0.35);
+  --color-plum: #FF2D6B;
+  --color-plum-dim: rgba(255,45,107,0.08);
+  --color-blush: #FF2D6B;
+  --color-blush-dim: rgba(255,45,107,0.12);
+  --color-lilac: #C4788A;
+  --color-text: #F5F0EB;
+  --color-muted-text: #B8AEA8;
+  --color-dim: #6B5F58;
 
   --radius-sm: 2px;
   --radius-md: 4px;
@@ -52,34 +52,34 @@
 
 :root,
 html[data-theme="day"] {
-  --font-serif: 'Bodoni Moda', serif;
+  --font-serif: 'Cormorant Garamond', serif;
   --font-mono: 'DM Mono', monospace;
-  --font-sans: 'Outfit', sans-serif;
-  --bg: #faf7f4;
-  --bg2: #f4efe9;
-  --surface: #ffffff;
-  --card: #fdf9f6;
-  --border-color: rgba(180, 140, 160, 0.18);
-  --border-strong: rgba(180, 140, 160, 0.35);
-  --plum: #6b3a5e;
-  --plum-dim: rgba(107, 58, 94, 0.08);
-  --blush: #e8849a;
-  --blush-dim: rgba(232, 132, 154, 0.12);
-  --lilac: #a87cad;
-  --text: #1e1218;
-  --muted-text: #8a6e7a;
-  --dim: #c4aab4;
-  --nav-bg: rgba(250, 247, 244, 0.88);
-  --hero-scrim: rgba(250, 247, 244, 0.93);
-  --hero-scrim-mid: rgba(250, 247, 244, 0.55);
-  --marquee-bg: #6b3a5e;
-  --cta-bg: #6b3a5e;
-  --cta-text: #ffffff;
-  --cta-muted: rgba(255, 255, 255, 0.55);
-  --gradient-from: #6b3a5e;
-  --gradient-to: #a87cad;
-  --card-float-bg: #ffffff;
-  --card-dark-bg: #6b3a5e;
+  --font-sans: 'Jost', sans-serif;
+  --bg: #0D0D0D;
+  --bg2: #1A1A1A;
+  --surface: #1F1F1F;
+  --card: #1F1F1F;
+  --border-color: rgba(255, 45, 107, 0.2);
+  --border-strong: rgba(255, 45, 107, 0.4);
+  --plum: #FF2D6B;
+  --plum-dim: rgba(255, 45, 107, 0.08);
+  --blush: #FF2D6B;
+  --blush-dim: rgba(255, 45, 107, 0.12);
+  --lilac: #C4788A;
+  --text: #F5F0EB;
+  --muted-text: #B8AEA8;
+  --dim: #6B5F58;
+  --nav-bg: rgba(13, 13, 13, 0.85);
+  --hero-scrim: rgba(0, 0, 0, 0.9);
+  --hero-scrim-mid: rgba(0, 0, 0, 0.5);
+  --marquee-bg: #FF2D6B;
+  --cta-bg: #1A1A1A;
+  --cta-text: #F5F0EB;
+  --cta-muted: rgba(245, 240, 235, 0.6);
+  --gradient-from: #FF2D6B;
+  --gradient-to: #C4788A;
+  --card-float-bg: #1F1F1F;
+  --card-dark-bg: #1F1F1F;
 }
 
 html[data-theme="night"] {
@@ -115,7 +115,7 @@ html {
 }
 
 body {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Jost', sans-serif;
   font-weight: 300;
   background: var(--bg);
   color: var(--text);
