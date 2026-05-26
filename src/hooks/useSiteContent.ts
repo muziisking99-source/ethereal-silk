@@ -79,9 +79,9 @@ export function useUpdateSiteContent() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ key, value }: { key: string; value: object }) => {
+    mutationFn: async ({ key, value }: { key: string; value: Record<string, unknown> }) => {
       const { error } = await supabase.from("site_content").upsert(
-        { key, value, updated_at: new Date().toISOString() },
+        { key, value: value as never, updated_at: new Date().toISOString() },
         { onConflict: "key" }
       );
       if (error) throw error;
