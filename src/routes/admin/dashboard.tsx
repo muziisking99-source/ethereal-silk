@@ -24,6 +24,7 @@ import { useAllProducts } from "@/hooks/useProducts";
 import type { Product } from "@/hooks/useProducts";
 import AdminAboutEditor from "@/components/admin/AdminAboutEditor";
 import AdminHomeEditor from "@/components/admin/AdminHomeEditor";
+import AdminBentoEditor from "@/components/admin/AdminBentoEditor";
 import AdminAvailabilityEditor from "@/components/admin/AdminAvailabilityEditor";
 
 export const Route = createFileRoute("/admin/dashboard")({
@@ -37,7 +38,7 @@ function AdminDashboard() {
   const navigate = useNavigate();
   const { data: products, refetch } = useAllProducts();
 
-  const [tab, setTab] = React.useState<"products" | "orders" | "homepage" | "about" | "availability">(
+  const [tab, setTab] = React.useState<"products" | "orders" | "homepage" | "about" | "bento" | "availability">(
     "products"
   );
   const [showForm, setShowForm] = React.useState(false);
@@ -238,6 +239,17 @@ function AdminDashboard() {
               Homepage
             </button>
             <button
+              onClick={() => setTab("bento")}
+              className={`flex items-center gap-2 px-5 py-2.5 text-[0.78rem] tracking-[0.15em] uppercase border transition-all duration-300 ${
+                tab === "bento"
+                  ? "bg-[var(--plum)] text-white border-[var(--plum)]"
+                  : "bg-[var(--surface)] text-[var(--muted-text)] border-[var(--border-color)] hover:border-[var(--plum)]"
+              }`}
+            >
+              <Image className="w-4 h-4" strokeWidth={1.5} />
+              Bento Section
+            </button>
+            <button
               onClick={() => setTab("about")}
               className={`flex items-center gap-2 px-5 py-2.5 text-[0.78rem] tracking-[0.15em] uppercase border transition-all duration-300 ${
                 tab === "about"
@@ -263,7 +275,7 @@ function AdminDashboard() {
                     resetForm();
                     setShowForm(true);
                   }}
-                  className="flex items-center gap-2 bg-gradient-to-br from-[var(--plum)] to-[var(--accent-2)] text-white px-5 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase transition-all duration-300 hover:shadow-lg"
+                  className="flex items-center gap-2 bg-gradient-to-br from-[var(--plum)] to-[var(--accent-2)] text-white px-5 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase transition-all duration-300 hover:shadow-[0_8px_20px_rgba(var(--plum-rgb),0.3)]"
                 >
                   <Plus className="w-4 h-4" strokeWidth={1.5} />
                   Add New Set
@@ -292,23 +304,23 @@ function AdminDashboard() {
                     <form onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div>
                         <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">Name *</label>
-                        <input required value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[var(--text)] focus:border-[var(--plum)] focus:outline-none transition-colors" />
+                        <input required value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:outline-none focus:border-[var(--plum)]" />
                       </div>
                       <div>
                         <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">SKU *</label>
-                        <input required value={form.sku} onChange={(e) => setForm((f) => ({ ...f, sku: e.target.value }))} className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[var(--text)] focus:border-[var(--plum)] focus:outline-none transition-colors" />
+                        <input required value={form.sku} onChange={(e) => setForm((f) => ({ ...f, sku: e.target.value }))} className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:outline-none focus:border-[var(--plum)]" />
                       </div>
                       <div>
                         <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">Price (ZAR) *</label>
-                        <input required type="number" min="0" step="0.01" value={form.price} onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))} className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[var(--text)] focus:border-[var(--plum)] focus:outline-none transition-colors" />
+                        <input required type="number" min="0" step="0.01" value={form.price} onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))} className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:outline-none focus:border-[var(--plum)]" />
                       </div>
                       <div>
                         <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">Category</label>
-                        <input value={form.category} onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))} className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[var(--text)] focus:border-[var(--plum)] focus:outline-none transition-colors" />
+                        <input value={form.category} onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))} className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:outline-none focus:border-[var(--plum)]" />
                       </div>
                       <div className="md:col-span-2">
                         <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">Description</label>
-                        <textarea rows={3} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[var(--text)] focus:border-[var(--plum)] focus:outline-none transition-colors resize-none" />
+                        <textarea rows={3} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] resize-none focus:outline-none focus:border-[var(--plum)]" />
                       </div>
                       <div className="md:col-span-2">
                         <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">Images</label>
@@ -345,7 +357,7 @@ function AdminDashboard() {
                       <div className="md:col-span-2">
                         <button
                           type="submit"
-                          className="bg-gradient-to-br from-[var(--plum)] to-[var(--accent-2)] text-white px-8 py-3 text-[0.78rem] tracking-[0.18em] uppercase font-medium transition-all duration-300 hover:shadow-lg"
+                          className="bg-gradient-to-br from-[var(--plum)] to-[var(--accent-2)] text-white px-8 py-3 text-[0.78rem] tracking-[0.18em] uppercase font-medium transition-all duration-300 hover:shadow-[0_8px_20px_rgba(var(--plum-rgb),0.3)]"
                         >
                           {editing ? "Update Set" : "Publish Set"}
                         </button>
@@ -414,6 +426,7 @@ function AdminDashboard() {
 
           {tab === "availability" && <AdminAvailabilityEditor />}
           {tab === "homepage" && <AdminHomeEditor />}
+          {tab === "bento" && <AdminBentoEditor />}
           {tab === "about" && <AdminAboutEditor />}
 
           {/* Orders Tab */}
@@ -458,7 +471,7 @@ function AdminDashboard() {
                             <select
                               value={o.order_status}
                               onChange={(e) => updateOrderStatus(o.id, e.target.value)}
-                              className="text-[0.72rem] tracking-[0.1em] uppercase px-2 py-1 bg-[var(--bg)] border border-[var(--border-color)] text-[var(--plum)] focus:outline-none focus:border-[var(--plum)] transition-colors"
+                              className="text-[0.72rem] tracking-[0.1em] uppercase px-2 py-1 bg-[var(--bg)] border border-[var(--border-color)] text-[var(--plum)] focus:outline-none focus:border-[var(--plum)]"
                             >
                               {STATUS_OPTIONS.map((s) => (
                                 <option key={s} value={s}>{s}</option>
