@@ -35,12 +35,12 @@ export default function CustomCursor() {
     <>
       <div
         ref={cursorRef}
-        className="luxury-cursor-dot fixed w-2 h-2 bg-[#6b3a5e] rounded-full pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2 hidden md:block"
+        className="luxury-cursor-dot fixed w-2 h-2 bg-[var(--accent)] rounded-full pointer-events-none z-[9998] -translate-x-1/2 -translate-y-1/2 hidden md:block"
         aria-hidden
       />
       <div
         ref={ringRef}
-        className="luxury-cursor-ring fixed w-8 h-8 border border-[#e8849a] rounded-full pointer-events-none z-[9997] -translate-x-1/2 -translate-y-1/2 opacity-70 hidden md:block"
+        className="luxury-cursor-ring fixed w-8 h-8 border border-[var(--accent)] rounded-full pointer-events-none z-[9997] -translate-x-1/2 -translate-y-1/2 opacity-70 hidden md:block"
         aria-hidden
       />
     </>

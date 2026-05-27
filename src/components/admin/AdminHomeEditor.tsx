@@ -70,7 +70,7 @@ export default function AdminHomeEditor() {
   if (heroLoading || marqueeLoading || ctaLoading) {
     return (
       <div className="flex justify-center py-20">
-        <Loader2 className="w-8 h-8 text-[#6b3a5e] animate-spin" strokeWidth={1.5} />
+        <Loader2 className="w-8 h-8 text-[var(--accent)] animate-spin" strokeWidth={1.5} />
       </div>
     );
   }
@@ -82,7 +82,7 @@ export default function AdminHomeEditor() {
         <button
           type="submit"
           disabled={updateContent.isPending}
-          className="flex items-center gap-2 bg-gradient-to-br from-[#6b3a5e] to-[#a87cad] text-white px-6 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase disabled:opacity-60"
+          className="flex items-center gap-2 bg-gradient-to-br from-[var(--accent)] to-[var(--accent-2)] text-white px-6 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase disabled:opacity-60"
         >
           {updateContent.isPending ? (
             <Loader2 className="w-4 h-4 animate-spin" />
@@ -94,11 +94,11 @@ export default function AdminHomeEditor() {
       </div>
 
       {/* Hero */}
-      <section className="bg-white border border-[rgba(180,140,160,0.18)] p-6 space-y-4">
+      <section className="bg-white border border-[rgba(var(--border-rgb),0.18)] p-6 space-y-4">
         <h3 className="font-[Bodoni_Moda] text-[1.2rem] font-bold">Hero Section</h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div>
-            <p className="text-[0.72rem] tracking-[0.15em] uppercase text-[#8a6e7a] mb-2">
+            <p className="text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted)] mb-2">
               Background Image
             </p>
             <img
@@ -106,7 +106,7 @@ export default function AdminHomeEditor() {
               alt="Hero preview"
               className="w-full aspect-[16/10] object-cover mb-3"
             />
-            <label className="inline-flex items-center gap-2 px-4 py-2 border cursor-pointer hover:border-[#6b3a5e] text-[0.78rem] text-[#8a6e7a]">
+            <label className="inline-flex items-center gap-2 px-4 py-2 border cursor-pointer hover:border-[var(--accent)] text-[0.78rem] text-[var(--muted)]">
               <Image className="w-4 h-4" />
               {uploading ? "Uploading..." : "Upload Image"}
               <input type="file" accept="image/*" className="hidden" onChange={handleHeroImage} />
@@ -115,7 +115,7 @@ export default function AdminHomeEditor() {
               type="url"
               value={hero.background_image_url}
               onChange={(e) => setHero((h) => ({ ...h, background_image_url: e.target.value }))}
-              className="w-full mt-3 px-4 py-3 bg-[#faf7f4] border text-[0.85rem] focus:outline-none focus:border-[#6b3a5e]"
+              className="w-full mt-3 px-4 py-3 bg-[var(--bg)] border text-[0.85rem] focus:outline-none focus:border-[var(--accent)]"
               placeholder="Image URL"
             />
           </div>
@@ -133,7 +133,7 @@ export default function AdminHomeEditor() {
               ] as const
             ).map(([key, label]) => (
               <div key={key}>
-                <label className="block text-[0.65rem] uppercase tracking-[0.12em] text-[#8a6e7a] mb-1">
+                <label className="block text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted)] mb-1">
                   {label}
                 </label>
                 {key === "subtitle" ? (
@@ -141,13 +141,13 @@ export default function AdminHomeEditor() {
                     rows={3}
                     value={hero[key]}
                     onChange={(e) => setHero((h) => ({ ...h, [key]: e.target.value }))}
-                    className="w-full px-3 py-2 bg-[#faf7f4] border text-[0.85rem] resize-none focus:outline-none focus:border-[#6b3a5e]"
+                    className="w-full px-3 py-2 bg-[var(--bg)] border text-[0.85rem] resize-none focus:outline-none focus:border-[var(--accent)]"
                   />
                 ) : (
                   <input
                     value={hero[key]}
                     onChange={(e) => setHero((h) => ({ ...h, [key]: e.target.value }))}
-                    className="w-full px-3 py-2 bg-[#faf7f4] border text-[0.85rem] focus:outline-none focus:border-[#6b3a5e]"
+                    className="w-full px-3 py-2 bg-[var(--bg)] border text-[0.85rem] focus:outline-none focus:border-[var(--accent)]"
                   />
                 )}
               </div>
@@ -165,11 +165,11 @@ export default function AdminHomeEditor() {
             ] as const
           ).map(([key, label]) => (
             <div key={key}>
-              <label className="block text-[0.65rem] uppercase text-[#8a6e7a] mb-1">{label}</label>
+              <label className="block text-[0.65rem] uppercase text-[var(--muted)] mb-1">{label}</label>
               <input
                 value={hero[key]}
                 onChange={(e) => setHero((h) => ({ ...h, [key]: e.target.value }))}
-                className="w-full px-3 py-2 bg-[#faf7f4] border text-[0.85rem] focus:outline-none focus:border-[#6b3a5e]"
+                className="w-full px-3 py-2 bg-[var(--bg)] border text-[0.85rem] focus:outline-none focus:border-[var(--accent)]"
               />
             </div>
           ))}
@@ -177,18 +177,18 @@ export default function AdminHomeEditor() {
       </section>
 
       {/* Marquee */}
-      <section className="bg-white border border-[rgba(180,140,160,0.18)] p-6 space-y-4">
+      <section className="bg-white border border-[rgba(var(--border-rgb),0.18)] p-6 space-y-4">
         <div className="flex justify-between items-center">
           <h3 className="font-[Bodoni_Moda] text-[1.2rem] font-bold">Scrolling Banner</h3>
           <button
             type="button"
             onClick={() => setMarquee((m) => ({ items: [...m.items, "New phrase"] }))}
-            className="flex items-center gap-1 text-[0.72rem] uppercase tracking-[0.12em] text-[#6b3a5e]"
+            className="flex items-center gap-1 text-[0.72rem] uppercase tracking-[0.12em] text-[var(--accent)]"
           >
             <Plus className="w-4 h-4" /> Add phrase
           </button>
         </div>
-        <p className="text-[0.82rem] text-[#8a6e7a]">
+        <p className="text-[0.82rem] text-[var(--muted)]">
           These phrases rotate in the plum banner below the hero.
         </p>
         <div className="space-y-2">
@@ -201,14 +201,14 @@ export default function AdminHomeEditor() {
                     items: m.items.map((t, j) => (j === i ? e.target.value : t)),
                   }))
                 }
-                className="flex-1 px-3 py-2 bg-[#faf7f4] border text-[0.85rem] focus:outline-none focus:border-[#6b3a5e]"
+                className="flex-1 px-3 py-2 bg-[var(--bg)] border text-[0.85rem] focus:outline-none focus:border-[var(--accent)]"
               />
               <button
                 type="button"
                 onClick={() =>
                   setMarquee((m) => ({ items: m.items.filter((_, j) => j !== i) }))
                 }
-                className="p-2 text-[#8a6e7a] hover:text-[#e8849a]"
+                className="p-2 text-[var(--muted)] hover:text-[var(--accent)]"
                 aria-label="Remove phrase"
               >
                 <Trash2 className="w-4 h-4" />
@@ -219,7 +219,7 @@ export default function AdminHomeEditor() {
       </section>
 
       {/* CTA */}
-      <section className="bg-white border border-[rgba(180,140,160,0.18)] p-6 space-y-4">
+      <section className="bg-white border border-[rgba(var(--border-rgb),0.18)] p-6 space-y-4">
         <h3 className="font-[Bodoni_Moda] text-[1.2rem] font-bold">Bottom CTA Strip</h3>
         {(
           [
@@ -231,7 +231,7 @@ export default function AdminHomeEditor() {
           ] as const
         ).map(([key, label]) => (
           <div key={key}>
-            <label className="block text-[0.65rem] uppercase tracking-[0.12em] text-[#8a6e7a] mb-1">
+            <label className="block text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted)] mb-1">
               {label}
             </label>
             {key === "body" ? (
@@ -239,13 +239,13 @@ export default function AdminHomeEditor() {
                 rows={3}
                 value={cta[key]}
                 onChange={(e) => setCta((c) => ({ ...c, [key]: e.target.value }))}
-                className="w-full px-3 py-2 bg-[#faf7f4] border text-[0.85rem] resize-none focus:outline-none focus:border-[#6b3a5e]"
+                className="w-full px-3 py-2 bg-[var(--bg)] border text-[0.85rem] resize-none focus:outline-none focus:border-[var(--accent)]"
               />
             ) : (
               <input
                 value={cta[key]}
                 onChange={(e) => setCta((c) => ({ ...c, [key]: e.target.value }))}
-                className="w-full px-3 py-2 bg-[#faf7f4] border text-[0.85rem] focus:outline-none focus:border-[#6b3a5e]"
+                className="w-full px-3 py-2 bg-[var(--bg)] border text-[0.85rem] focus:outline-none focus:border-[var(--accent)]"
               />
             )}
           </div>

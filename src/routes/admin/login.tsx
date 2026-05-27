@@ -64,32 +64,32 @@ function AdminLogin() {
 
   if (authLoading) {
     return (
-      <div className="min-h-screen bg-[#faf7f4] flex items-center justify-center">
-        <Loader2 className="w-8 h-8 text-[#6b3a5e] animate-spin" strokeWidth={1.5} />
+      <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-[var(--accent)] animate-spin" strokeWidth={1.5} />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#faf7f4] flex items-center justify-center px-6">
+    <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center px-6">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="max-w-sm w-full bg-white border border-[rgba(180,140,160,0.18)] p-8"
+        className="max-w-sm w-full bg-white border border-[rgba(var(--border-rgb),0.18)] p-8"
       >
         <div className="text-center mb-8">
-          <div className="font-[Bodoni_Moda] text-[1.5rem] font-bold text-[#6b3a5e] mb-1">
-            Only <span className="italic text-[#e8849a]">Liyah</span>
+          <div className="font-[Bodoni_Moda] text-[1.5rem] font-bold text-[var(--accent)] mb-1">
+            Only <span className="italic text-[var(--accent)]">Liyah</span>
           </div>
-          <div className="font-[DM_Mono] text-[0.6rem] tracking-[0.3em] uppercase text-[#8a6e7a]">
+          <div className="font-[DM_Mono] text-[0.6rem] tracking-[0.3em] uppercase text-[var(--muted)]">
             Admin Login
           </div>
         </div>
 
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
           <div>
-            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[#8a6e7a] mb-2">
+            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted)] mb-2">
               Email
             </label>
             <input
@@ -97,12 +97,12 @@ function AdminLogin() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 bg-[#faf7f4] border border-[rgba(180,140,160,0.18)] text-[0.9rem] text-[#1e1218] focus:border-[#6b3a5e] focus:outline-none transition-colors"
+              className="w-full px-4 py-3 bg-[var(--bg)] border border-[rgba(var(--border-rgb),0.18)] text-[0.9rem] text-[var(--text)] focus:border-[var(--accent)] focus:outline-none transition-colors"
               placeholder="admin@example.com"
             />
           </div>
           <div>
-            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[#8a6e7a] mb-2">
+            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted)] mb-2">
               Password
             </label>
             <div className="relative">
@@ -111,13 +111,13 @@ function AdminLogin() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 pr-12 bg-[#faf7f4] border border-[rgba(180,140,160,0.18)] text-[0.9rem] text-[#1e1218] focus:border-[#6b3a5e] focus:outline-none transition-colors"
+                className="w-full px-4 py-3 pr-12 bg-[var(--bg)] border border-[rgba(var(--border-rgb),0.18)] text-[0.9rem] text-[var(--text)] focus:border-[var(--accent)] focus:outline-none transition-colors"
                 placeholder="••••••••"
               />
               <button
                 type="button"
                 onClick={() => setShowPass(!showPass)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#c4aab4] hover:text-[#6b3a5e]"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--dim)] hover:text-[var(--accent)]"
               >
                 {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -133,7 +133,7 @@ function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-gradient-to-br from-[#6b3a5e] to-[#a87cad] text-white py-3.5 text-[0.78rem] tracking-[0.18em] uppercase font-medium transition-all duration-300 hover:translate-y-[-2px] shadow-[0_8px_24px_rgba(107,58,94,0.25)] disabled:opacity-60 flex items-center justify-center gap-2"
+            className="w-full bg-gradient-to-br from-[var(--accent)] to-[var(--accent-2)] text-white py-3.5 text-[0.78rem] tracking-[0.18em] uppercase font-medium transition-all duration-300 hover:translate-y-[-2px] shadow-[0_8px_24px_rgba(var(--accent-rgb),0.25)] disabled:opacity-60 flex items-center justify-center gap-2"
           >
             {loading ? (
               <>

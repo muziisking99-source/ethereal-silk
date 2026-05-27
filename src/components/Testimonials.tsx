@@ -17,14 +17,14 @@ const priceCards: PriceCard[] = [
 
 export default function Testimonials() {
   return (
-    <section className="luxury-section border-t border-[rgba(255,45,107,0.15)] bg-[#1A1A1A]">
+    <section className="luxury-section border-t border-[rgba(var(--accent-rgb),0.15)] bg-[var(--bg2)]">
       <div className="max-w-[1100px] mx-auto">
         <div className="text-center mb-14">
-          <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[#FF2D6B] mb-3">
+          <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[var(--accent)] mb-3">
             Current Inventory
           </div>
-          <h2 className="font-[Cormorant_Garamond] text-[clamp(2rem,4vw,3.2rem)] font-bold leading-[1.1] text-[#F5F0EB]">
-            What's <span className="italic text-[#FF2D6B]">Available Now</span>
+          <h2 className="font-[Cormorant_Garamond] text-[clamp(2rem,4vw,3.2rem)] font-bold leading-[1.1] text-[var(--text)]">
+            What's <span className="italic text-[var(--accent)]">Available Now</span>
           </h2>
         </div>
 
@@ -40,29 +40,29 @@ export default function Testimonials() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
-                className={`relative bg-[#1F1F1F] border p-8 rounded-[4px] transition-all duration-300 hover:translate-y-[-4px] hover:shadow-[0_20px_50px_rgba(255,45,107,0.2)] ${
-                  featured ? "border-[#FF2D6B]" : "border-[rgba(255,45,107,0.2)] hover:border-[#FF2D6B]"
+                className={`relative bg-[var(--surface-2)] border p-8 rounded-[4px] transition-all duration-300 hover:translate-y-[-4px] hover:shadow-[0_20px_50px_rgba(var(--accent-rgb),0.2)] ${
+                  featured ? "border-[var(--accent)]" : "border-[rgba(var(--accent-rgb),0.2)] hover:border-[var(--accent)]"
                 }`}
               >
                 {card.badge && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#FF2D6B] text-white font-[DM_Mono] text-[0.55rem] tracking-[0.25em] uppercase px-3 py-1 rounded-full">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[var(--accent)] text-white font-[DM_Mono] text-[0.55rem] tracking-[0.25em] uppercase px-3 py-1 rounded-full">
                     {card.badge}
                   </div>
                 )}
-                <h3 className="font-[Cormorant_Garamond] text-[1.6rem] font-bold text-[#F5F0EB] mb-2">
+                <h3 className="font-[Cormorant_Garamond] text-[1.6rem] font-bold text-[var(--text)] mb-2">
                   {card.name}
                 </h3>
-                <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.2em] uppercase text-[#B8AEA8] mb-6">
+                <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.2em] uppercase text-[var(--muted)] mb-6">
                   {card.condition}
                 </div>
-                <div className="font-[Cormorant_Garamond] text-[3rem] font-bold text-[#FF2D6B] leading-none mb-6">
+                <div className="font-[Cormorant_Garamond] text-[3rem] font-bold text-[var(--accent)] leading-none mb-6">
                   R{card.price}
                 </div>
                 <a
                   href={href}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="block text-center w-full py-3 bg-[#FF2D6B] hover:bg-[#e02560] text-white text-[0.75rem] tracking-[0.18em] uppercase font-medium rounded-[2px] transition-all duration-300 font-[Jost]"
+                  className="block text-center w-full py-3 bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white text-[0.75rem] tracking-[0.18em] uppercase font-medium rounded-[2px] transition-all duration-300 font-[Jost]"
                 >
                   Claim This
                 </a>
@@ -71,7 +71,7 @@ export default function Testimonials() {
           })}
         </div>
 
-        <p className="text-center text-[0.78rem] text-[#B8AEA8] mt-10 max-w-[640px] mx-auto leading-[1.8] font-[Jost]">
+        <p className="text-center text-[0.78rem] text-[var(--muted)] mt-10 max-w-[640px] mx-auto leading-[1.8] font-[Jost]">
           Prices in ZAR. Items ship once payment confirmed via WhatsApp. Stock is not reserved until payment is received.
         </p>
       </div>

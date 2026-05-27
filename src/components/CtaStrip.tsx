@@ -15,11 +15,11 @@ export default function CtaStrip() {
   return (
     <div
       id="contact"
-      className="py-24 px-6 lg:px-12 text-center relative overflow-hidden bg-[#0D0D0D] text-[#F5F0EB] border-t border-[rgba(255,45,107,0.15)]"
+      className="py-24 px-6 lg:px-12 text-center relative overflow-hidden bg-[var(--bg)] text-[var(--text)] border-t border-[rgba(var(--accent-rgb),0.15)]"
     >
       <div
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 font-[Bodoni_Moda] text-[20vw] font-bold italic whitespace-nowrap pointer-events-none select-none"
-        style={{ color: "rgba(255,45,107,0.05)" }}
+        style={{ color: "rgba(var(--accent-rgb),0.05)" }}
         aria-hidden
       >
         {content.watermark}
@@ -29,7 +29,7 @@ export default function CtaStrip() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.6 }}
-        className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[#FF2D6B] mb-4 relative z-[1]"
+        className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[var(--accent)] mb-4 relative z-[1]"
       >
         Ready?
       </motion.div>
@@ -38,18 +38,18 @@ export default function CtaStrip() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-        className="font-[Cormorant_Garamond] text-[clamp(2.5rem,5vw,4.5rem)] font-bold leading-[1.05] mb-6 relative z-[1] text-[#F5F0EB]"
+        className="font-[Cormorant_Garamond] text-[clamp(2.5rem,5vw,4.5rem)] font-bold leading-[1.05] mb-6 relative z-[1] text-[var(--text)]"
       >
         {content.heading_line1}
         <br />
-        <em className="text-[#FF2D6B] italic">{content.heading_accent}</em>
+        <em className="text-[var(--accent)] italic">{content.heading_accent}</em>
       </motion.h2>
       <motion.p
         initial={{ opacity: 0, y: 25 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-80px" }}
         transition={{ duration: 0.9, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-        className="text-[0.95rem] max-w-[520px] mx-auto mb-10 leading-[1.8] relative z-[1] text-[#B8AEA8] font-[Jost]"
+        className="text-[0.95rem] max-w-[520px] mx-auto mb-10 leading-[1.8] relative z-[1] text-[var(--muted)] font-[Jost]"
       >
         {content.body}
       </motion.p>
@@ -73,7 +73,7 @@ export default function CtaStrip() {
         </a>
         <Link
           to="/shop"
-          className="text-[#F5F0EB] hover:text-[#FF2D6B] text-[0.78rem] tracking-[0.12em] uppercase flex items-center gap-2 transition-colors duration-300 font-[Jost] group"
+          className="text-[var(--text)] hover:text-[var(--accent)] text-[0.78rem] tracking-[0.12em] uppercase flex items-center gap-2 transition-colors duration-300 font-[Jost] group"
         >
           Browse Full Catalogue
           <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>

@@ -263,7 +263,7 @@ function AdminDashboard() {
                     resetForm();
                     setShowForm(true);
                   }}
-                  className="flex items-center gap-2 bg-gradient-to-br from-[var(--plum)] to-[#a87cad] text-white px-5 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase transition-all duration-300 hover:shadow-lg"
+                  className="flex items-center gap-2 bg-gradient-to-br from-[var(--plum)] to-[var(--accent-2)] text-white px-5 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase transition-all duration-300 hover:shadow-lg"
                 >
                   <Plus className="w-4 h-4" strokeWidth={1.5} />
                   Add New Set
@@ -345,7 +345,7 @@ function AdminDashboard() {
                       <div className="md:col-span-2">
                         <button
                           type="submit"
-                          className="bg-gradient-to-br from-[var(--plum)] to-[#a87cad] text-white px-8 py-3 text-[0.78rem] tracking-[0.18em] uppercase font-medium transition-all duration-300 hover:shadow-lg"
+                          className="bg-gradient-to-br from-[var(--plum)] to-[var(--accent-2)] text-white px-8 py-3 text-[0.78rem] tracking-[0.18em] uppercase font-medium transition-all duration-300 hover:shadow-lg"
                         >
                           {editing ? "Update Set" : "Publish Set"}
                         </button>

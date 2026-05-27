@@ -9,12 +9,12 @@ const footerLinks = [
 
 export default function Footer() {
   return (
-    <footer className="py-12 px-6 lg:px-12 border-t border-[rgba(255,45,107,0.2)] bg-[#0D0D0D] grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 items-center">
+    <footer className="py-12 px-6 lg:px-12 border-t border-[rgba(var(--accent-rgb),0.2)] bg-[var(--bg)] grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 items-center">
       <div className="text-center md:text-left">
-        <div className="font-[Cormorant_Garamond] text-[1.2rem] font-bold text-[#F5F0EB]">
-          Only <span className="italic text-[#FF2D6B]">Liyah</span>
+        <div className="font-[Cormorant_Garamond] text-[1.2rem] font-bold text-[var(--text)]">
+          Only <span className="italic text-[var(--accent)]">Liyah</span>
         </div>
-        <div className="font-[Cormorant_Garamond] italic text-[0.8rem] text-[#B8AEA8] mt-1">
+        <div className="font-[Cormorant_Garamond] italic text-[0.8rem] text-[var(--muted)] mt-1">
           Real. Worn. Yours.
         </div>
       </div>
@@ -25,7 +25,7 @@ export default function Footer() {
             <li key={l.label}>
               <a
                 href={l.href}
-                className="text-[#B8AEA8] text-[0.62rem] no-underline tracking-[0.15em] uppercase transition-colors duration-300 hover:text-[#FF2D6B] font-light font-[Jost]"
+                className="text-[var(--muted)] text-[0.62rem] no-underline tracking-[0.15em] uppercase transition-colors duration-300 hover:text-[var(--accent)] font-light font-[Jost]"
               >
                 {l.label}
               </a>
@@ -34,7 +34,7 @@ export default function Footer() {
             <li key={l.label}>
               <Link
                 to={l.href}
-                className="text-[#B8AEA8] text-[0.62rem] no-underline tracking-[0.15em] uppercase transition-colors duration-300 hover:text-[#FF2D6B] font-light font-[Jost]"
+                className="text-[var(--muted)] text-[0.62rem] no-underline tracking-[0.15em] uppercase transition-colors duration-300 hover:text-[var(--accent)] font-light font-[Jost]"
               >
                 {l.label}
               </Link>
@@ -43,7 +43,7 @@ export default function Footer() {
         )}
       </ul>
 
-      <div className="text-center md:text-right font-[DM_Mono] text-[0.6rem] text-[#6B5F58] tracking-[0.05em] leading-[1.8]">
+      <div className="text-center md:text-right font-[DM_Mono] text-[0.6rem] text-[var(--dim)] tracking-[0.05em] leading-[1.8]">
         © {new Date().getFullYear()} Only Liyah. All rights reserved. South Africa.
       </div>
     </footer>

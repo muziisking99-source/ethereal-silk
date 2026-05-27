@@ -11,25 +11,25 @@ export default function CartDrawer() {
   return (
     <>
       <div
-        className="fixed inset-0 bg-[rgba(30,18,24,0.3)] backdrop-blur-sm z-[600] transition-opacity"
+        className="fixed inset-0 bg-[rgba(var(--text-rgb),0.3)] backdrop-blur-sm z-[600] transition-opacity"
         onClick={() => setIsCartOpen(false)}
       />
-      <div className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-[#0D0D0D] z-[601] shadow-[-20px_0_60px_rgba(0,0,0,0.7)] flex flex-col">
-        <div className="flex items-center justify-between p-6 border-b border-[rgba(255,45,107,0.2)]">
-          <h2 className="font-[Cormorant_Garamond] text-[1.2rem] font-bold text-[#F5F0EB]">
+      <div className="fixed top-0 right-0 bottom-0 w-full max-w-md bg-[var(--bg)] z-[601] shadow-[-20px_0_60px_rgba(0,0,0,0.7)] flex flex-col">
+        <div className="flex items-center justify-between p-6 border-b border-[rgba(var(--accent-rgb),0.2)]">
+          <h2 className="font-[Cormorant_Garamond] text-[1.2rem] font-bold text-[var(--text)]">
             Your Basket
           </h2>
           <button
             onClick={() => setIsCartOpen(false)}
-            className="p-2 hover:bg-[rgba(255,45,107,0.12)] rounded-full transition-colors"
+            className="p-2 hover:bg-[rgba(var(--accent-rgb),0.12)] rounded-full transition-colors"
           >
-            <X className="w-5 h-5 text-[#FF2D6B]" strokeWidth={1.5} />
+            <X className="w-5 h-5 text-[var(--accent)]" strokeWidth={1.5} />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-6">
           {items.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-[#B8AEA8]">
+            <div className="flex flex-col items-center justify-center h-full text-[var(--muted)]">
               <ShoppingBag className="w-12 h-12 mb-4 opacity-40" strokeWidth={1} />
               <p className="text-[0.9rem]">Your basket is empty</p>
               <p className="text-[0.78rem] mt-1">Add some beautiful pieces</p>
@@ -39,7 +39,7 @@ export default function CartDrawer() {
               {items.map((item) => (
                 <div
                   key={item.productId}
-                  className="flex gap-4 bg-[#1F1F1F] border border-[rgba(255,45,107,0.2)] p-4"
+                  className="flex gap-4 bg-[var(--surface-2)] border border-[rgba(var(--accent-rgb),0.2)] p-4"
                 >
                   <img
                     src={item.image}
@@ -47,38 +47,38 @@ export default function CartDrawer() {
                     className="w-20 h-20 object-cover saturate-[0.75]"
                   />
                   <div className="flex-1 min-w-0">
-                    <div className="font-[Cormorant_Garamond] text-[0.95rem] font-bold text-[#F5F0EB] truncate">
+                    <div className="font-[Cormorant_Garamond] text-[0.95rem] font-bold text-[var(--text)] truncate">
                       {item.name}
                     </div>
-                    <div className="font-[DM_Mono] text-[0.6rem] tracking-[0.2em] uppercase text-[#FF2D6B] mb-2">
+                    <div className="font-[DM_Mono] text-[0.6rem] tracking-[0.2em] uppercase text-[var(--accent)] mb-2">
                       {item.sku}
                     </div>
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                          className="w-7 h-7 border border-[rgba(255,45,107,0.35)] flex items-center justify-center hover:border-[#FF2D6B] transition-colors"
+                          className="w-7 h-7 border border-[rgba(var(--accent-rgb),0.35)] flex items-center justify-center hover:border-[var(--accent)] transition-colors"
                         >
-                          <Minus className="w-3 h-3 text-[#FF2D6B]" strokeWidth={1.5} />
+                          <Minus className="w-3 h-3 text-[var(--accent)]" strokeWidth={1.5} />
                         </button>
-                        <span className="text-[0.85rem] text-[#F5F0EB] w-6 text-center">
+                        <span className="text-[0.85rem] text-[var(--text)] w-6 text-center">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                          className="w-7 h-7 border border-[rgba(255,45,107,0.35)] flex items-center justify-center hover:border-[#FF2D6B] transition-colors"
+                          className="w-7 h-7 border border-[rgba(var(--accent-rgb),0.35)] flex items-center justify-center hover:border-[var(--accent)] transition-colors"
                         >
-                          <Plus className="w-3 h-3 text-[#FF2D6B]" strokeWidth={1.5} />
+                          <Plus className="w-3 h-3 text-[var(--accent)]" strokeWidth={1.5} />
                         </button>
                       </div>
-                      <div className="font-[DM_Mono] text-[0.85rem] text-[#FF2D6B] font-medium">
+                      <div className="font-[DM_Mono] text-[0.85rem] text-[var(--accent)] font-medium">
                         R{(item.price * item.quantity).toLocaleString()}
                       </div>
                     </div>
                   </div>
                   <button
                     onClick={() => removeItem(item.productId)}
-                    className="self-start p-1 text-[#6B5F58] hover:text-[#FF2D6B] transition-colors"
+                    className="self-start p-1 text-[var(--dim)] hover:text-[var(--accent)] transition-colors"
                   >
                     <X className="w-4 h-4" strokeWidth={1.5} />
                   </button>
@@ -89,23 +89,23 @@ export default function CartDrawer() {
         </div>
 
         {items.length > 0 && (
-          <div className="p-6 border-t border-[rgba(255,45,107,0.2)] bg-[#1F1F1F]">
+          <div className="p-6 border-t border-[rgba(var(--accent-rgb),0.2)] bg-[var(--surface-2)]">
             <div className="flex justify-between items-center mb-4">
-              <span className="text-[0.85rem] text-[#B8AEA8]">Subtotal</span>
-              <span className="font-[Cormorant_Garamond] text-[1.3rem] font-bold text-[#FF2D6B]">
+              <span className="text-[0.85rem] text-[var(--muted)]">Subtotal</span>
+              <span className="font-[Cormorant_Garamond] text-[1.3rem] font-bold text-[var(--accent)]">
                 R{totalPrice.toLocaleString()}
               </span>
             </div>
             <Link
               to="/checkout"
               onClick={() => setIsCartOpen(false)}
-              className="block w-full bg-[#FF2D6B] hover:bg-[#e02560] text-white text-center py-4 text-[0.8rem] tracking-[0.18em] uppercase font-medium transition-all duration-300 hover:translate-y-[-2px] shadow-[0_8px_24px_rgba(255,45,107,0.35)] no-underline rounded-[2px]"
+              className="block w-full bg-[var(--accent)] hover:bg-[var(--accent-hover)] text-white text-center py-4 text-[0.8rem] tracking-[0.18em] uppercase font-medium transition-all duration-300 hover:translate-y-[-2px] shadow-[0_8px_24px_rgba(var(--accent-rgb),0.35)] no-underline rounded-[2px]"
             >
               Place Order via WhatsApp
             </Link>
             <button
               onClick={clearCart}
-              className="w-full mt-3 text-[0.72rem] tracking-[0.15em] uppercase text-[#6B5F58] hover:text-[#FF2D6B] transition-colors"
+              className="w-full mt-3 text-[0.72rem] tracking-[0.15em] uppercase text-[var(--dim)] hover:text-[var(--accent)] transition-colors"
             >
               Clear Basket
             </button>

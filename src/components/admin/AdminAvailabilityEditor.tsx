@@ -47,13 +47,13 @@ export default function AdminAvailabilityEditor() {
   const loadItems = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("availability_items")
         .select("*")
         .order("order", { ascending: true });
       
       if (!error && data && data.length > 0) {
-        setItems(data);
+        setItems(data as AvailabilityItem[]);
       }
     } catch (err) {
       console.error("Error loading availability items:", err);
@@ -112,13 +112,13 @@ export default function AdminAvailabilityEditor() {
 
     try {
       // Delete existing items
-      await supabase.from("availability_items").delete().gt("id", "0");
+      await (supabase as any).from("availability_items").delete().gt("id", "0");
 
       // Insert new items
       for (const item of items) {
         const { id, ...data } = item;
-        await supabase.from("availability_items").insert({
-          id: parseInt(id) || undefined,
+        await (supabase as any).from("availability_items").insert({
+          id: id,
           ...data,
         });
       }
@@ -156,7 +156,7 @@ export default function AdminAvailabilityEditor() {
           <button
             type="submit"
             disabled={saving}
-            className="flex items-center gap-2 bg-gradient-to-br from-[var(--plum)] to-[#a87cad] text-white px-6 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase disabled:opacity-60 transition-all duration-300 hover:shadow-lg"
+            className="flex items-center gap-2 bg-gradient-to-br from-[var(--plum)] to-[var(--accent-2)] text-white px-6 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase disabled:opacity-60 transition-all duration-300 hover:shadow-lg"
           >
             {saving ? (
               <Loader2 className="w-4 h-4 animate-spin" />
