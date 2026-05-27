@@ -47,13 +47,13 @@ export default function AdminAvailabilityEditor() {
   const loadItems = async () => {
     setLoading(true);
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("availability_items")
         .select("*")
         .order("order", { ascending: true });
       
       if (!error && data && data.length > 0) {
-        setItems(data);
+        setItems(data as AvailabilityItem[]);
       }
     } catch (err) {
       console.error("Error loading availability items:", err);
@@ -118,7 +118,7 @@ export default function AdminAvailabilityEditor() {
       for (const item of items) {
         const { id, ...data } = item;
         await (supabase as any).from("availability_items").insert({
-          id: parseInt(id) || undefined,
+          id: id,
           ...data,
         });
       }
