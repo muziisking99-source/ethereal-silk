@@ -112,12 +112,12 @@ export default function AdminAvailabilityEditor() {
 
     try {
       // Delete existing items
-      await supabase.from("availability_items").delete().gt("id", "0");
+      await (supabase as any).from("availability_items").delete().gt("id", "0");
 
       // Insert new items
       for (const item of items) {
         const { id, ...data } = item;
-        await supabase.from("availability_items").insert({
+        await (supabase as any).from("availability_items").insert({
           id: parseInt(id) || undefined,
           ...data,
         });
