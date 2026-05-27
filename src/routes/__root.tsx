@@ -17,17 +17,17 @@ import appCss from "../styles.css?url";
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#faf7f4] px-4">
+    <div className="flex min-h-screen items-center justify-center bg-[var(--bg)] px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-[#1e1218] font-[Bodoni_Moda]">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-[#1e1218]">Page not found</h2>
-        <p className="mt-2 text-sm text-[#8a6e7a]">
+        <h1 className="text-7xl font-bold text-[var(--text)] font-[Bodoni_Moda]">404</h1>
+        <h2 className="mt-4 text-xl font-semibold text-[var(--text)]">Page not found</h2>
+        <p className="mt-2 text-sm text-[var(--muted)]">
           The page you're looking for doesn't exist or has been moved.
         </p>
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center bg-gradient-to-br from-[#6b3a5e] to-[#a87cad] text-white px-6 py-3 text-sm font-medium transition-all duration-300 hover:translate-y-[-2px]"
+            className="inline-flex items-center justify-center bg-gradient-to-br from-[var(--accent)] to-[var(--accent-2)] text-white px-6 py-3 text-sm font-medium transition-all duration-300 hover:translate-y-[-2px]"
           >
             Go home
           </Link>
@@ -42,12 +42,12 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   const router = useRouter();
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#faf7f4] px-4">
+    <div className="flex min-h-screen items-center justify-center bg-[var(--bg)] px-4">
       <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-[#1e1218]">
+        <h1 className="text-xl font-semibold tracking-tight text-[var(--text)]">
           This page didn't load
         </h1>
-        <p className="mt-2 text-sm text-[#8a6e7a]">
+        <p className="mt-2 text-sm text-[var(--muted)]">
           Something went wrong on our end. You can try refreshing or head back home.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-2">
@@ -56,13 +56,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center bg-gradient-to-br from-[#6b3a5e] to-[#a87cad] text-white px-4 py-2 text-sm font-medium transition-all duration-300 hover:translate-y-[-2px]"
+            className="inline-flex items-center justify-center bg-gradient-to-br from-[var(--accent)] to-[var(--accent-2)] text-white px-4 py-2 text-sm font-medium transition-all duration-300 hover:translate-y-[-2px]"
           >
             Try again
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center border border-[rgba(180,140,160,0.35)] bg-white px-4 py-2 text-sm font-medium text-[#1e1218] transition-colors hover:border-[#6b3a5e]"
+            className="inline-flex items-center justify-center border border-[rgba(var(--border-rgb),0.35)] bg-white px-4 py-2 text-sm font-medium text-[var(--text)] transition-colors hover:border-[var(--accent)]"
           >
             Go home
           </a>

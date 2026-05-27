@@ -6,7 +6,7 @@ export default function Marquee() {
   const items = marquee?.items?.length ? marquee.items : DEFAULT_MARQUEE.items;
 
   return (
-    <div className="py-4 overflow-hidden bg-[#FF2D6B]">
+    <div className="py-4 overflow-hidden bg-[var(--accent)]">
       <div className="inline-flex gap-12 animate-marquee whitespace-nowrap">
         {[...items, ...items].map((item, i) => (
           <span

@@ -27,7 +27,7 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative min-h-[100dvh] pt-20 overflow-hidden bg-[#0D0D0D]"
+      className="relative min-h-[100dvh] pt-20 overflow-hidden bg-[var(--bg)]"
     >
       <motion.div className="absolute inset-0" style={{ y: imageY }}>
         <img
@@ -54,7 +54,7 @@ export default function Hero() {
             className="font-[Cormorant_Garamond] text-[clamp(3.2rem,5.5vw,6rem)] font-bold leading-[1] tracking-[-0.01em] mb-8"
           >
             <span className="block text-white drop-shadow-lg">{content.line1}</span>
-            <span className="block italic font-light text-[#FF2D6B] ml-4 lg:ml-6 drop-shadow-lg">
+            <span className="block italic font-light text-[var(--accent)] ml-4 lg:ml-6 drop-shadow-lg">
               {content.line2}
             </span>
             <span className="block text-white drop-shadow-lg">{content.line3}</span>
@@ -65,7 +65,7 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             variants={stagger}
-            className="text-[1rem] leading-[1.9] text-[#F5F0EB] max-w-[420px] mb-12 font-light drop-shadow font-[Jost]"
+            className="text-[1rem] leading-[1.9] text-[var(--text)] max-w-[420px] mb-12 font-light drop-shadow font-[Jost]"
           >
             {content.subtitle}
           </motion.p>
@@ -79,13 +79,13 @@ export default function Hero() {
           >
             <Link
               to="/shop"
-              className="text-white px-10 py-4 rounded-[4px] text-[0.8rem] tracking-[0.18em] uppercase font-medium transition-all duration-[350ms] hover:translate-y-[-2px] bg-[#FF2D6B] hover:bg-[#e02560] shadow-[0_8px_24px_rgba(255,45,107,0.35)] hover:shadow-[0_12px_40px_rgba(255,45,107,0.5)] font-[Jost]"
+              className="text-white px-10 py-4 rounded-[4px] text-[0.8rem] tracking-[0.18em] uppercase font-medium transition-all duration-[350ms] hover:translate-y-[-2px] bg-[var(--accent)] hover:bg-[var(--accent-hover)] shadow-[0_8px_24px_rgba(var(--accent-rgb),0.35)] hover:shadow-[0_12px_40px_rgba(var(--accent-rgb),0.5)] font-[Jost]"
             >
               {content.primary_cta}
             </Link>
             <Link
               to="/shop"
-              className="text-white text-[0.78rem] tracking-[0.12em] uppercase flex items-center gap-2 transition-colors duration-300 hover:text-[#FF2D6B] bg-transparent border-none group drop-shadow font-[Jost]"
+              className="text-white text-[0.78rem] tracking-[0.12em] uppercase flex items-center gap-2 transition-colors duration-300 hover:text-[var(--accent)] bg-transparent border-none group drop-shadow font-[Jost]"
             >
               {content.secondary_cta}
               <span className="transition-transform duration-300 group-hover:translate-x-1">
@@ -99,13 +99,13 @@ export default function Hero() {
             initial="hidden"
             animate="show"
             variants={stagger}
-            className="flex items-center gap-5 mt-14 pt-10 border-t border-[rgba(255,45,107,0.25)]"
+            className="flex items-center gap-5 mt-14 pt-10 border-t border-[rgba(var(--accent-rgb),0.25)]"
           >
-            <div className="w-2 h-2 rounded-full bg-[#FF2D6B] animate-pulse" />
+            <div className="w-2 h-2 rounded-full bg-[var(--accent)] animate-pulse" />
             <div className="text-[0.78rem] text-white leading-[1.5] drop-shadow font-[Jost]">
               <strong className="text-white font-medium">{content.proof_strong}</strong>
               <br />
-              <span className="text-[#B8AEA8]">{content.proof_sub}</span>
+              <span className="text-[var(--muted)]">{content.proof_sub}</span>
             </div>
           </motion.div>
         </div>
@@ -114,21 +114,21 @@ export default function Hero() {
           <motion.div
             animate={{ y: [0, -8, 0] }}
             transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-            className="absolute bottom-16 left-0 border border-[rgba(255,45,107,0.25)] p-6 min-w-[200px] shadow-[0_20px_60px_rgba(0,0,0,0.5)] rounded-[4px] z-[3] bg-[#1F1F1F]"
+            className="absolute bottom-16 left-0 border border-[rgba(var(--accent-rgb),0.25)] p-6 min-w-[200px] shadow-[0_20px_60px_rgba(0,0,0,0.5)] rounded-[4px] z-[3] bg-[var(--surface-2)]"
           >
-            <div className="font-[DM_Mono] text-[0.58rem] tracking-[0.25em] uppercase text-[#FF2D6B] mb-2">
+            <div className="font-[DM_Mono] text-[0.58rem] tracking-[0.25em] uppercase text-[var(--accent)] mb-2">
               {content.card1_label}
             </div>
-            <div className="font-[Cormorant_Garamond] text-[1.8rem] font-bold text-[#F5F0EB] leading-none">
+            <div className="font-[Cormorant_Garamond] text-[1.8rem] font-bold text-[var(--text)] leading-none">
               {content.card1_value}
             </div>
-            <div className="text-[0.7rem] text-[#B8AEA8] mt-1 font-[Jost]">{content.card1_sub}</div>
+            <div className="text-[0.7rem] text-[var(--muted)] mt-1 font-[Jost]">{content.card1_sub}</div>
           </motion.div>
 
           <motion.div
             animate={{ y: [0, 6, 0] }}
             transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-            className="absolute top-16 right-8 p-5 shadow-[0_12px_30px_rgba(255,45,107,0.4)] z-[3] text-white rounded-[4px] bg-[#FF2D6B]"
+            className="absolute top-16 right-8 p-5 shadow-[0_12px_30px_rgba(var(--accent-rgb),0.4)] z-[3] text-white rounded-[4px] bg-[var(--accent)]"
           >
             <div className="font-[DM_Mono] text-[0.58rem] tracking-[0.25em] uppercase text-[rgba(255,255,255,0.5)] mb-1">
               {content.card2_label}

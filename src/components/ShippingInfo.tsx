@@ -23,17 +23,17 @@ export default function ShippingInfo() {
   return (
     <section
       id="shipping"
-      className="luxury-section bg-[#1A1A1A] border-t border-[rgba(255,45,107,0.15)]"
+      className="luxury-section bg-[var(--bg2)] border-t border-[rgba(var(--accent-rgb),0.15)]"
     >
       <div className="max-w-[1200px] mx-auto">
         <div className="text-center mb-14">
-          <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[#FF2D6B] mb-3">
+          <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[var(--accent)] mb-3">
             How It Works
           </div>
-          <h2 className="font-[Cormorant_Garamond] text-[clamp(2rem,4vw,3.2rem)] font-bold leading-[1.1] mb-4 text-[#F5F0EB]">
+          <h2 className="font-[Cormorant_Garamond] text-[clamp(2rem,4vw,3.2rem)] font-bold leading-[1.1] mb-4 text-[var(--text)]">
             Simple. Discreet. Direct.
           </h2>
-          <p className="text-[0.88rem] text-[#B8AEA8] max-w-[480px] mx-auto leading-[1.8] font-[Jost]">
+          <p className="text-[0.88rem] text-[var(--muted)] max-w-[480px] mx-auto leading-[1.8] font-[Jost]">
             All prices in South African Rand. Order via WhatsApp and receive discreet,
             tracked delivery straight to your door.
           </p>
@@ -47,13 +47,13 @@ export default function ShippingInfo() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="bg-[#1F1F1F] border border-[rgba(255,45,107,0.2)] p-8 text-center rounded-[2px] transition-all duration-300 hover:border-[#FF2D6B] hover:translate-y-[-4px] hover:shadow-[0_20px_50px_rgba(255,45,107,0.15)]"
+              className="bg-[var(--surface-2)] border border-[rgba(var(--accent-rgb),0.2)] p-8 text-center rounded-[2px] transition-all duration-300 hover:border-[var(--accent)] hover:translate-y-[-4px] hover:shadow-[0_20px_50px_rgba(var(--accent-rgb),0.15)]"
             >
-              <div className="w-12 h-12 mx-auto rounded-[10px] bg-[rgba(255,45,107,0.1)] border border-[rgba(255,45,107,0.25)] flex items-center justify-center mb-5">
-                <item.icon className="w-[20px] h-[20px] text-[#FF2D6B]" strokeWidth={1.5} />
+              <div className="w-12 h-12 mx-auto rounded-[10px] bg-[rgba(var(--accent-rgb),0.1)] border border-[rgba(var(--accent-rgb),0.25)] flex items-center justify-center mb-5">
+                <item.icon className="w-[20px] h-[20px] text-[var(--accent)]" strokeWidth={1.5} />
               </div>
-              <h3 className="font-[Cormorant_Garamond] text-[1.25rem] font-bold mb-3 text-[#F5F0EB]">{item.title}</h3>
-              <p className="text-[0.82rem] leading-[1.75] text-[#B8AEA8] font-[Jost]">{item.desc}</p>
+              <h3 className="font-[Cormorant_Garamond] text-[1.25rem] font-bold mb-3 text-[var(--text)]">{item.title}</h3>
+              <p className="text-[0.82rem] leading-[1.75] text-[var(--muted)] font-[Jost]">{item.desc}</p>
             </motion.div>
           ))}
         </div>

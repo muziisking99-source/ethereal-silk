@@ -156,7 +156,7 @@ export default function AdminAvailabilityEditor() {
           <button
             type="submit"
             disabled={saving}
-            className="flex items-center gap-2 bg-gradient-to-br from-[var(--plum)] to-[#a87cad] text-white px-6 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase disabled:opacity-60 transition-all duration-300 hover:shadow-lg"
+            className="flex items-center gap-2 bg-gradient-to-br from-[var(--plum)] to-[var(--accent-2)] text-white px-6 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase disabled:opacity-60 transition-all duration-300 hover:shadow-lg"
           >
             {saving ? (
               <Loader2 className="w-4 h-4 animate-spin" />
