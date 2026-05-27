@@ -44,6 +44,10 @@ export type CtaContent = {
   button_text: string;
 };
 
+export type BentoContent = {
+  card1_image_url: string;
+};
+
 export const DEFAULT_HERO: HeroContent = {
   background_image_url:
     "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600&h=1000&fit=crop",
@@ -81,6 +85,11 @@ export const DEFAULT_CTA: CtaContent = {
   heading_accent: "Before It's Gone",
   body: "Stock is limited and sells fast. Send a WhatsApp message with the item you want and we'll confirm availability, take payment, and get it shipped — all in one conversation.",
   button_text: "Order on WhatsApp",
+};
+
+export const DEFAULT_BENTO: BentoContent = {
+  card1_image_url:
+    "https://images.unsplash.com/photo-1617331721458-bd3bd3f9c7f8?w=600&h=500&fit=crop",
 };
 
 export const DEFAULT_ABOUT: AboutContent = {
