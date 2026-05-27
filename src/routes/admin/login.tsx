@@ -52,7 +52,7 @@ function AdminLogin() {
     if (!hasAdmin) {
       await supabase.auth.signOut();
       setError(
-        "You do not have admin access. Add your user to user_roles in Supabase (role: admin)."
+        "You do not have admin access. Add your user to user_roles in Supabase (role: admin).",
       );
       setLoading(false);
       return;
@@ -76,20 +76,20 @@ function AdminLogin() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="max-w-sm w-full bg-white border border-[rgba(var(--border-rgb),0.18)] p-8"
+        className="max-w-sm w-full bg-[var(--surface)] border border-[var(--border-color)] p-8 text-[var(--text)]"
       >
         <div className="text-center mb-8">
           <div className="font-[Bodoni_Moda] text-[1.5rem] font-bold text-[var(--accent)] mb-1">
             Only <span className="italic text-[var(--accent)]">Liyah</span>
           </div>
-          <div className="font-[DM_Mono] text-[0.6rem] tracking-[0.3em] uppercase text-[var(--muted)]">
+          <div className="font-[DM_Mono] text-[0.6rem] tracking-[0.3em] uppercase text-[var(--muted-text)]">
             Admin Login
           </div>
         </div>
 
         <form onSubmit={handleLogin} className="flex flex-col gap-4">
           <div>
-            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted)] mb-2">
+            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
               Email
             </label>
             <input
@@ -97,12 +97,12 @@ function AdminLogin() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 bg-[var(--bg)] border border-[rgba(var(--border-rgb),0.18)] text-[0.9rem] text-[var(--text)] focus:border-[var(--accent)] focus:outline-none transition-colors"
+              className="w-full px-4 py-3 bg-[var(--surface-2)] border border-[var(--border-color)] text-[0.9rem] text-[var(--text)] focus:border-[var(--accent)] focus:outline-none transition-colors"
               placeholder="admin@example.com"
             />
           </div>
           <div>
-            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted)] mb-2">
+            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
               Password
             </label>
             <div className="relative">
@@ -111,7 +111,7 @@ function AdminLogin() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 pr-12 bg-[var(--bg)] border border-[rgba(var(--border-rgb),0.18)] text-[0.9rem] text-[var(--text)] focus:border-[var(--accent)] focus:outline-none transition-colors"
+                className="w-full px-4 py-3 pr-12 bg-[var(--surface-2)] border border-[var(--border-color)] text-[0.9rem] text-[var(--text)] focus:border-[var(--accent)] focus:outline-none transition-colors"
                 placeholder="••••••••"
               />
               <button

@@ -1,12 +1,16 @@
 import { motion } from "framer-motion";
+import { useProducts } from "@/hooks/useProducts";
+import { useAvailabilityContent } from "@/hooks/useSiteContent";
 import { buildWhatsAppUrl } from "@/lib/whatsapp";
 import { DEFAULT_SETTINGS } from "@/lib/siteContentDefaults";
 
 type PriceCard = {
+  id?: string;
   name: string;
   condition: string;
   price: number;
   badge?: string;
+  image_url?: string;
 };
 
 const priceCards: PriceCard[] = [
@@ -16,21 +20,51 @@ const priceCards: PriceCard[] = [
 ];
 
 export default function Testimonials() {
+  const { data: products } = useProducts();
+  const { data: availability } = useAvailabilityContent();
+
+  const configuredProducts =
+    availability?.product_ids
+      ?.map((id) => products?.find((product) => product.id === id))
+      .filter((product): product is NonNullable<typeof product> => Boolean(product)) ?? [];
+
+  const productCards: PriceCard[] =
+    configuredProducts.length > 0
+      ? configuredProducts.map((product) => ({
+          id: product.id,
+          name: product.name,
+          condition: product.description || "Available now",
+          price: product.price,
+          image_url: product.images?.[0],
+          badge: product.featured ? "Featured" : undefined,
+        }))
+      : (products ?? []).slice(0, 3).map((product) => ({
+          id: product.id,
+          name: product.name,
+          condition: product.description || "Available now",
+          price: product.price,
+          image_url: product.images?.[0],
+          badge: product.featured ? "Featured" : undefined,
+        }));
+
+  const cards = productCards.length > 0 ? productCards : priceCards;
+
   return (
     <section className="luxury-section border-t border-[rgba(var(--accent-rgb),0.15)] bg-[var(--bg2)]">
       <div className="max-w-[1100px] mx-auto">
         <div className="text-center mb-14">
           <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[var(--accent)] mb-3">
-            Current Inventory
+            {availability?.eyebrow || "Current Inventory"}
           </div>
           <h2 className="font-[Cormorant_Garamond] text-[clamp(2rem,4vw,3.2rem)] font-bold leading-[1.1] text-[var(--text)]">
-            What's <span className="italic text-[var(--accent)]">Available Now</span>
+            {availability?.heading || "What's Available Now"}
           </h2>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {priceCards.map((card, i) => {
-            const msg = `Hi Liyah, I'd like to claim the ${card.name} (R${card.price}). Is it still available?`;
+          {cards.map((card, i) => {
+            const priceCopy = ` (R${card.price})`;
+            const msg = `Hi Liyah, I'd like to claim the ${card.name}${priceCopy}. Is it still available?`;
             const href = buildWhatsAppUrl(DEFAULT_SETTINGS.whatsapp_number, msg);
             const featured = !!card.badge;
             return (
@@ -41,7 +75,9 @@ export default function Testimonials() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: i * 0.1 }}
                 className={`relative bg-[var(--surface-2)] border p-8 rounded-[4px] transition-all duration-300 hover:translate-y-[-4px] hover:shadow-[0_20px_50px_rgba(var(--accent-rgb),0.2)] ${
-                  featured ? "border-[var(--accent)]" : "border-[rgba(var(--accent-rgb),0.2)] hover:border-[var(--accent)]"
+                  featured
+                    ? "border-[var(--accent)]"
+                    : "border-[rgba(var(--accent-rgb),0.2)] hover:border-[var(--accent)]"
                 }`}
               >
                 {card.badge && (
@@ -52,12 +88,21 @@ export default function Testimonials() {
                 <h3 className="font-[Cormorant_Garamond] text-[1.6rem] font-bold text-[var(--text)] mb-2">
                   {card.name}
                 </h3>
+                {card.image_url && (
+                  <img
+                    src={card.image_url}
+                    alt={card.name}
+                    className="w-full aspect-[4/3] object-cover rounded-[3px] mb-4 border border-[rgba(var(--accent-rgb),0.2)]"
+                  />
+                )}
                 <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.2em] uppercase text-[var(--muted)] mb-6">
                   {card.condition}
                 </div>
-                <div className="font-[Cormorant_Garamond] text-[3rem] font-bold text-[var(--accent)] leading-none mb-6">
-                  R{card.price}
-                </div>
+                {card.price > 0 && (
+                  <div className="font-[Cormorant_Garamond] text-[3rem] font-bold text-[var(--accent)] leading-none mb-6">
+                    R{card.price}
+                  </div>
+                )}
                 <a
                   href={href}
                   target="_blank"
@@ -72,7 +117,8 @@ export default function Testimonials() {
         </div>
 
         <p className="text-center text-[0.78rem] text-[var(--muted)] mt-10 max-w-[640px] mx-auto leading-[1.8] font-[Jost]">
-          Prices in ZAR. Items ship once payment confirmed via WhatsApp. Stock is not reserved until payment is received.
+          This section is linked to your store catalog. Stock is not reserved until payment is
+          received.
         </p>
       </div>
     </section>

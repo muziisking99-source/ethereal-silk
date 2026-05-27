@@ -26,6 +26,8 @@ import AdminAboutEditor from "@/components/admin/AdminAboutEditor";
 import AdminHomeEditor from "@/components/admin/AdminHomeEditor";
 import AdminBentoEditor from "@/components/admin/AdminBentoEditor";
 import AdminAvailabilityEditor from "@/components/admin/AdminAvailabilityEditor";
+import ImageCropModal from "@/components/admin/ImageCropModal";
+import { fileToDataUrl, type CropPreset } from "@/lib/imageCrop";
 
 export const Route = createFileRoute("/admin/dashboard")({
   component: AdminDashboard,
@@ -33,19 +35,34 @@ export const Route = createFileRoute("/admin/dashboard")({
 
 const STATUS_OPTIONS = ["Pending", "Packed", "Shipped", "Completed"];
 
+type OrderRow = {
+  id: string;
+  created_at: string;
+  customer_name: string;
+  customer_phone: string;
+  shipping_address: string;
+  total_price: number;
+  order_items: unknown[] | null;
+  order_status: string;
+};
+
 function AdminDashboard() {
   const { user, isAdmin, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
   const { data: products, refetch } = useAllProducts();
 
-  const [tab, setTab] = React.useState<"products" | "orders" | "homepage" | "about" | "bento" | "availability">(
-    "products"
-  );
+  const [tab, setTab] = React.useState<
+    "products" | "orders" | "homepage" | "about" | "bento" | "availability"
+  >("products");
   const [showForm, setShowForm] = React.useState(false);
   const [editing, setEditing] = React.useState<Product | null>(null);
-  const [orders, setOrders] = React.useState<any[]>([]);
+  const [orders, setOrders] = React.useState<OrderRow[]>([]);
   const [ordersLoading, setOrdersLoading] = React.useState(false);
   const [uploading, setUploading] = React.useState(false);
+  const [cropOpen, setCropOpen] = React.useState(false);
+  const [cropSrc, setCropSrc] = React.useState<string | null>(null);
+  const [cropQueue, setCropQueue] = React.useState<File[]>([]);
+  const shopPreset: CropPreset = { ratio: 3 / 4, width: 900, height: 1200 };
   const [form, setForm] = React.useState({
     name: "",
     sku: "",
@@ -81,23 +98,11 @@ function AdminDashboard() {
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
-    setUploading(true);
-
-    const newImages: string[] = [];
-    for (const file of Array.from(files)) {
-      const fileName = `${Date.now()}-${file.name}`;
-      const { data, error } = await supabase.storage
-        .from("product-images")
-        .upload(fileName, file, { upsert: true });
-      if (!error && data) {
-        const { data: urlData } = supabase.storage
-          .from("product-images")
-          .getPublicUrl(fileName);
-        newImages.push(urlData.publicUrl);
-      }
-    }
-    setForm((f) => ({ ...f, images: [...f.images, ...newImages] }));
-    setUploading(false);
+    const queue = Array.from(files);
+    setCropQueue(queue);
+    setCropSrc(await fileToDataUrl(queue[0]));
+    setCropOpen(true);
+    e.currentTarget.value = "";
   };
 
   const handleSave = async (e: React.FormEvent) => {
@@ -303,34 +308,78 @@ function AdminDashboard() {
                     </div>
                     <form onSubmit={handleSave} className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">Name *</label>
-                        <input required value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:outline-none focus:border-[var(--plum)]" />
+                        <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
+                          Name *
+                        </label>
+                        <input
+                          required
+                          value={form.name}
+                          onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                          className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:outline-none focus:border-[var(--plum)]"
+                        />
                       </div>
                       <div>
-                        <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">SKU *</label>
-                        <input required value={form.sku} onChange={(e) => setForm((f) => ({ ...f, sku: e.target.value }))} className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:outline-none focus:border-[var(--plum)]" />
+                        <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
+                          SKU *
+                        </label>
+                        <input
+                          required
+                          value={form.sku}
+                          onChange={(e) => setForm((f) => ({ ...f, sku: e.target.value }))}
+                          className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:outline-none focus:border-[var(--plum)]"
+                        />
                       </div>
                       <div>
-                        <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">Price (ZAR) *</label>
-                        <input required type="number" min="0" step="0.01" value={form.price} onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))} className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:outline-none focus:border-[var(--plum)]" />
+                        <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
+                          Price (ZAR) *
+                        </label>
+                        <input
+                          required
+                          type="number"
+                          min="0"
+                          step="0.01"
+                          value={form.price}
+                          onChange={(e) => setForm((f) => ({ ...f, price: e.target.value }))}
+                          className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:outline-none focus:border-[var(--plum)]"
+                        />
                       </div>
                       <div>
-                        <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">Category</label>
-                        <input value={form.category} onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))} className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:outline-none focus:border-[var(--plum)]" />
+                        <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
+                          Category
+                        </label>
+                        <input
+                          value={form.category}
+                          onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+                          className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:outline-none focus:border-[var(--plum)]"
+                        />
                       </div>
                       <div className="md:col-span-2">
-                        <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">Description</label>
-                        <textarea rows={3} value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] resize-none focus:outline-none focus:border-[var(--plum)]" />
+                        <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
+                          Description
+                        </label>
+                        <textarea
+                          rows={3}
+                          value={form.description}
+                          onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
+                          className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] resize-none focus:outline-none focus:border-[var(--plum)]"
+                        />
                       </div>
                       <div className="md:col-span-2">
-                        <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">Images</label>
+                        <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
+                          Images
+                        </label>
                         <div className="flex gap-2 flex-wrap mb-3">
                           {form.images.map((img, i) => (
                             <div key={i} className="relative w-20 h-20">
                               <img src={img} alt="" className="w-full h-full object-cover" />
                               <button
                                 type="button"
-                                onClick={() => setForm((f) => ({ ...f, images: f.images.filter((_, idx) => idx !== i) }))}
+                                onClick={() =>
+                                  setForm((f) => ({
+                                    ...f,
+                                    images: f.images.filter((_, idx) => idx !== i),
+                                  }))
+                                }
                                 className="absolute -top-1 -right-1 w-5 h-5 bg-[var(--blush)] text-white rounded-full flex items-center justify-center text-[0.6rem]"
                               >
                                 <X className="w-3 h-3" />
@@ -340,17 +389,33 @@ function AdminDashboard() {
                         </div>
                         <label className="inline-flex items-center gap-2 px-4 py-2 border border-[var(--border-color)] text-[0.78rem] text-[var(--muted-text)] cursor-pointer hover:border-[var(--plum)] transition-colors">
                           <Image className="w-4 h-4" strokeWidth={1.5} />
-                          {uploading ? "Uploading..." : "Upload Images"}
-                          <input type="file" multiple accept="image/*" className="hidden" onChange={handleImageUpload} />
+                          {uploading ? "Uploading..." : "Upload + Crop Images"}
+                          <input
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            className="hidden"
+                            onChange={handleImageUpload}
+                          />
                         </label>
                       </div>
                       <div className="flex gap-4 md:col-span-2">
                         <label className="flex items-center gap-2 text-[0.85rem] text-[var(--muted-text)] cursor-pointer">
-                          <input type="checkbox" checked={form.featured} onChange={(e) => setForm((f) => ({ ...f, featured: e.target.checked }))} className="accent-[var(--plum)]" />
+                          <input
+                            type="checkbox"
+                            checked={form.featured}
+                            onChange={(e) => setForm((f) => ({ ...f, featured: e.target.checked }))}
+                            className="accent-[var(--plum)]"
+                          />
                           Featured
                         </label>
                         <label className="flex items-center gap-2 text-[0.85rem] text-[var(--muted-text)] cursor-pointer">
-                          <input type="checkbox" checked={form.active} onChange={(e) => setForm((f) => ({ ...f, active: e.target.checked }))} className="accent-[var(--plum)]" />
+                          <input
+                            type="checkbox"
+                            checked={form.active}
+                            onChange={(e) => setForm((f) => ({ ...f, active: e.target.checked }))}
+                            className="accent-[var(--plum)]"
+                          />
                           Active
                         </label>
                       </div>
@@ -371,28 +436,58 @@ function AdminDashboard() {
                 <table className="w-full text-left">
                   <thead>
                     <tr className="border-b border-[var(--border-color)]">
-                      <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">Image</th>
-                      <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">Name / SKU</th>
-                      <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">Price</th>
-                      <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">Category</th>
-                      <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">Status</th>
-                      <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">Actions</th>
+                      <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">
+                        Image
+                      </th>
+                      <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">
+                        Name / SKU
+                      </th>
+                      <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">
+                        Price
+                      </th>
+                      <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">
+                        Category
+                      </th>
+                      <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">
+                        Status
+                      </th>
+                      <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">
+                        Actions
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
                     {products?.map((p) => (
-                      <tr key={p.id} className="border-b border-[var(--border-color)] hover:bg-[var(--bg)]">
+                      <tr
+                        key={p.id}
+                        className="border-b border-[var(--border-color)] hover:bg-[var(--bg)]"
+                      >
                         <td className="p-4">
-                          <img src={p.images?.[0] ?? "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=80&h=80&fit=crop"} alt="" className="w-12 h-12 object-cover" />
+                          <img
+                            src={
+                              p.images?.[0] ??
+                              "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=80&h=80&fit=crop"
+                            }
+                            alt=""
+                            className="w-12 h-12 object-cover"
+                          />
                         </td>
                         <td className="p-4">
-                          <div className="font-medium text-[0.9rem] text-[var(--text)]">{p.name}</div>
+                          <div className="font-medium text-[0.9rem] text-[var(--text)]">
+                            {p.name}
+                          </div>
                           <div className="text-[0.72rem] text-[var(--dim)]">{p.sku}</div>
                         </td>
-                        <td className="p-4 font-[DM_Mono] text-[0.85rem] text-[var(--plum)]">R{p.price.toLocaleString()}</td>
-                        <td className="p-4 text-[0.82rem] text-[var(--muted-text)] capitalize">{p.category}</td>
+                        <td className="p-4 font-[DM_Mono] text-[0.85rem] text-[var(--plum)]">
+                          R{p.price.toLocaleString()}
+                        </td>
+                        <td className="p-4 text-[0.82rem] text-[var(--muted-text)] capitalize">
+                          {p.category}
+                        </td>
                         <td className="p-4">
-                          <span className={`text-[0.6rem] tracking-[0.15em] uppercase px-2 py-1 ${p.active ? "bg-[var(--plum-dim)] text-[var(--plum)]" : "bg-[var(--border-color)] text-[var(--muted-text)]"}`}>
+                          <span
+                            className={`text-[0.6rem] tracking-[0.15em] uppercase px-2 py-1 ${p.active ? "bg-[var(--plum-dim)] text-[var(--plum)]" : "bg-[var(--border-color)] text-[var(--muted-text)]"}`}
+                          >
                             {p.active ? "Active" : "Inactive"}
                           </span>
                           {p.featured && (
@@ -403,10 +498,16 @@ function AdminDashboard() {
                         </td>
                         <td className="p-4">
                           <div className="flex gap-2">
-                            <button onClick={() => startEdit(p)} className="p-2 text-[var(--muted-text)] hover:text-[var(--plum)] transition-colors">
+                            <button
+                              onClick={() => startEdit(p)}
+                              className="p-2 text-[var(--muted-text)] hover:text-[var(--plum)] transition-colors"
+                            >
                               <Edit2 className="w-4 h-4" strokeWidth={1.5} />
                             </button>
-                            <button onClick={() => handleDelete(p.id)} className="p-2 text-[var(--muted-text)] hover:text-[var(--blush)] transition-colors">
+                            <button
+                              onClick={() => handleDelete(p.id)}
+                              className="p-2 text-[var(--muted-text)] hover:text-[var(--blush)] transition-colors"
+                            >
                               <Trash2 className="w-4 h-4" strokeWidth={1.5} />
                             </button>
                           </div>
@@ -432,7 +533,9 @@ function AdminDashboard() {
           {/* Orders Tab */}
           {tab === "orders" && (
             <>
-              <h2 className="font-[Bodoni_Moda] text-[1.5rem] font-bold text-[var(--text)] mb-6">Orders</h2>
+              <h2 className="font-[Bodoni_Moda] text-[1.5rem] font-bold text-[var(--text)] mb-6">
+                Orders
+              </h2>
               {ordersLoading ? (
                 <div className="flex items-center justify-center py-20">
                   <Loader2 className="w-8 h-8 text-[var(--plum)] animate-spin" strokeWidth={1.5} />
@@ -442,30 +545,51 @@ function AdminDashboard() {
                   <table className="w-full text-left">
                     <thead>
                       <tr className="border-b border-[var(--border-color)]">
-                        <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">Date</th>
-                        <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">Customer</th>
-                        <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">Phone</th>
-                        <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">Total</th>
-                        <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">Items</th>
-                        <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">Status</th>
+                        <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">
+                          Date
+                        </th>
+                        <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">
+                          Customer
+                        </th>
+                        <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">
+                          Phone
+                        </th>
+                        <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">
+                          Total
+                        </th>
+                        <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">
+                          Items
+                        </th>
+                        <th className="p-4 text-[0.6rem] tracking-[0.2em] uppercase text-[var(--muted-text)] font-normal">
+                          Status
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
                       {orders.map((o) => (
-                        <tr key={o.id} className="border-b border-[var(--border-color)] hover:bg-[var(--bg)]">
+                        <tr
+                          key={o.id}
+                          className="border-b border-[var(--border-color)] hover:bg-[var(--bg)]"
+                        >
                           <td className="p-4 text-[0.82rem] text-[var(--muted-text)]">
                             {new Date(o.created_at).toLocaleDateString("en-ZA")}
                           </td>
                           <td className="p-4">
-                            <div className="font-medium text-[0.85rem] text-[var(--text)]">{o.customer_name}</div>
-                            <div className="text-[0.72rem] text-[var(--dim)] truncate max-w-[200px]">{o.shipping_address}</div>
+                            <div className="font-medium text-[0.85rem] text-[var(--text)]">
+                              {o.customer_name}
+                            </div>
+                            <div className="text-[0.72rem] text-[var(--dim)] truncate max-w-[200px]">
+                              {o.shipping_address}
+                            </div>
                           </td>
-                          <td className="p-4 text-[0.82rem] text-[var(--muted-text)]">{o.customer_phone}</td>
+                          <td className="p-4 text-[0.82rem] text-[var(--muted-text)]">
+                            {o.customer_phone}
+                          </td>
                           <td className="p-4 font-[DM_Mono] text-[0.85rem] text-[var(--plum)] font-medium">
                             R{o.total_price.toLocaleString()}
                           </td>
                           <td className="p-4 text-[0.78rem] text-[var(--muted-text)]">
-                            {(o.order_items as any[])?.length ?? 0} items
+                            {o.order_items?.length ?? 0} items
                           </td>
                           <td className="p-4">
                             <select
@@ -474,7 +598,9 @@ function AdminDashboard() {
                               className="text-[0.72rem] tracking-[0.1em] uppercase px-2 py-1 bg-[var(--bg)] border border-[var(--border-color)] text-[var(--plum)] focus:outline-none focus:border-[var(--plum)]"
                             >
                               {STATUS_OPTIONS.map((s) => (
-                                <option key={s} value={s}>{s}</option>
+                                <option key={s} value={s}>
+                                  {s}
+                                </option>
                               ))}
                             </select>
                           </td>
@@ -493,6 +619,39 @@ function AdminDashboard() {
           )}
         </div>
       </div>
+      <ImageCropModal
+        open={cropOpen}
+        imageSrc={cropSrc}
+        preset={shopPreset}
+        title="Crop product image (3:4)"
+        confirmLabel="Apply and upload"
+        onClose={() => {
+          setCropOpen(false);
+          setCropQueue([]);
+        }}
+        onConfirm={async (blob) => {
+          setUploading(true);
+          const fileName = `${Date.now()}-product-cropped.jpg`;
+          const file = new File([blob], fileName, { type: "image/jpeg" });
+          const { data, error } = await supabase.storage
+            .from("product-images")
+            .upload(fileName, file, { upsert: true });
+          if (!error && data) {
+            const { data: urlData } = supabase.storage
+              .from("product-images")
+              .getPublicUrl(fileName);
+            setForm((f) => ({ ...f, images: [...f.images, urlData.publicUrl] }));
+          }
+          const rest = cropQueue.slice(1);
+          setCropQueue(rest);
+          if (rest.length > 0) {
+            setCropSrc(await fileToDataUrl(rest[0]));
+          } else {
+            setCropOpen(false);
+          }
+          setUploading(false);
+        }}
+      />
     </div>
   );
 }

@@ -30,7 +30,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
           className="w-full h-full object-cover saturate-[0.75] contrast-110 transition-all duration-700 group-hover:scale-[1.06] group-hover:saturate-[0.9]"
           loading="lazy"
         />
-        <div className="absolute inset-0 backdrop-blur-[12px] bg-[var(--bg)] opacity-0 group-hover:opacity-90 group-hover:bg-[rgba(var(--bg),0.8)] transition-all duration-300 flex flex-col items-center justify-center gap-4">
+        <div className="absolute inset-0 backdrop-blur-[12px] bg-[var(--bg)] opacity-0 group-hover:opacity-90 group-hover:bg-[rgba(var(--bg-rgb),0.82)] transition-all duration-300 flex flex-col items-center justify-center gap-4">
           <button
             type="button"
             onClick={() =>
@@ -42,32 +42,32 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
                 image,
               })
             }
-            className="w-[52px] h-[52px] rounded-full border border-[var(--plum)] flex items-center justify-center bg-[var(--surface)] hover:bg-[var(--blush)] hover:border-[var(--blush)] hover:text-white transition-all duration-300"
+            className="w-[52px] h-[52px] rounded-full border border-[var(--plum)] flex items-center justify-center bg-[var(--surface)] hover:bg-[var(--blush)] hover:border-[var(--blush)] hover:text-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             aria-label={`Add ${product.name} to basket`}
           >
             <ShoppingBag className="w-5 h-5 text-[var(--plum)]" strokeWidth={1.5} />
           </button>
-          <span className="font-[DM_Mono] text-[0.6rem] tracking-[0.25em] uppercase text-[var(--plum)]">
+          <span className="font-[DM_Mono] text-[0.66rem] tracking-[0.25em] uppercase text-[var(--plum)]">
             Add to Order
           </span>
         </div>
       </div>
       <div className="p-4">
-        <div className="font-[DM_Mono] text-[0.55rem] tracking-[0.25em] uppercase text-[var(--blush)] mb-1">
+        <div className="font-[DM_Mono] text-[0.68rem] tracking-[0.2em] uppercase text-[var(--blush)] mb-1">
           {product.sku}
         </div>
-        <h3 className="font-[Bodoni_Moda] text-[1rem] font-bold text-[var(--text)] mb-1 truncate">
+        <h3 className="font-[Bodoni_Moda] text-[1.06rem] font-bold text-[var(--text)] mb-1 truncate">
           {product.name}
         </h3>
-        <p className="text-[0.78rem] text-[var(--muted-text)] leading-[1.6] line-clamp-2 mb-3">
+        <p className="text-[0.86rem] text-[var(--muted-text)] leading-[1.6] line-clamp-2 mb-3">
           {product.description}
         </p>
         <div className="flex items-center justify-between">
-          <div className="font-[DM_Mono] text-[0.85rem] text-[var(--plum)] font-medium">
+          <div className="font-[DM_Mono] text-[0.95rem] text-[var(--plum)] font-medium">
             R{product.price.toLocaleString()}
           </div>
           {product.featured && (
-            <span className="text-[0.55rem] tracking-[0.2em] uppercase text-[var(--blush)] bg-[var(--blush-dim)] px-2 py-1">
+            <span className="text-[0.62rem] tracking-[0.16em] uppercase text-[var(--blush)] bg-[var(--blush-dim)] px-2 py-1">
               Featured
             </span>
           )}
@@ -83,7 +83,7 @@ function ProductCard({ product, index }: { product: Product; index: number }) {
               image,
             })
           }
-          className="mt-4 w-full py-3 border border-[var(--border-color)] text-[var(--plum)] text-[0.72rem] tracking-[0.15em] uppercase transition-all duration-300 hover:bg-[var(--plum)] hover:border-[var(--plum)] hover:text-white"
+          className="mt-4 w-full py-3 border border-[var(--border-color)] text-[var(--plum)] text-[0.74rem] tracking-[0.15em] uppercase transition-all duration-300 hover:bg-[var(--plum)] hover:border-[var(--plum)] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
         >
           Add to Basket
         </button>
@@ -116,7 +116,7 @@ function ShopPage() {
 
       <div className="pt-32 pb-8 px-6 lg:px-12 border-b border-[var(--border-color)]">
         <div className="max-w-[1200px] mx-auto">
-          <div className="font-[DM_Mono] text-[0.62rem] tracking-[0.35em] uppercase text-[var(--blush)] mb-3">
+          <div className="font-[DM_Mono] text-[0.72rem] tracking-[0.28em] uppercase text-[var(--blush)] mb-3">
             Browse Collection
           </div>
           <h1 className="font-[Bodoni_Moda] text-[clamp(2rem,4vw,3.2rem)] font-bold leading-[1.1] mb-8 text-[var(--text)]">
@@ -125,23 +125,28 @@ function ShopPage() {
 
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="relative flex-1 max-w-md">
+              <label htmlFor="shop-search" className="sr-only">
+                Search products
+              </label>
               <Search
                 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--dim)]"
                 strokeWidth={1.5}
               />
               <input
+                id="shop-search"
                 type="text"
                 placeholder="Search sets..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-10 pr-4 py-3 bg-[var(--surface)] border border-[var(--border-color)] text-[0.85rem] text-[var(--text)] placeholder:text-[var(--dim)] focus:border-[var(--plum)] focus:outline-none transition-colors"
+                className="w-full pl-10 pr-4 py-3 bg-[var(--surface)] border border-[var(--border-color)] text-[0.92rem] text-[var(--text)] placeholder:text-[var(--dim)] focus:border-[var(--plum)] focus:outline-none transition-colors"
               />
             </div>
             <div className="flex items-center gap-2 overflow-x-auto pb-1">
               <button
                 type="button"
                 onClick={() => setCategory("")}
-                className={`px-4 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase border transition-all duration-300 whitespace-nowrap rounded-[2px] ${
+                aria-pressed={category === ""}
+                className={`px-4 py-2.5 text-[0.74rem] tracking-[0.13em] uppercase border transition-all duration-300 whitespace-nowrap rounded-[2px] ${
                   category === ""
                     ? "bg-[var(--plum)] text-white border-[var(--plum)]"
                     : "bg-[var(--surface)] text-[var(--muted-text)] border-[var(--border-color)] hover:border-[var(--plum)]"
@@ -154,7 +159,8 @@ function ShopPage() {
                   key={c}
                   type="button"
                   onClick={() => setCategory(c === category ? "" : c)}
-                  className={`px-4 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase border transition-all duration-300 whitespace-nowrap rounded-[2px] ${
+                  aria-pressed={category === c}
+                  className={`px-4 py-2.5 text-[0.74rem] tracking-[0.13em] uppercase border transition-all duration-300 whitespace-nowrap rounded-[2px] ${
                     category === c
                       ? "bg-[var(--plum)] text-white border-[var(--plum)]"
                       : "bg-[var(--surface)] text-[var(--muted-text)] border-[var(--border-color)] hover:border-[var(--plum)]"
@@ -163,8 +169,24 @@ function ShopPage() {
                   {c}
                 </button>
               ))}
+              {(search || category) && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearch("");
+                    setDebouncedSearch("");
+                    setCategory("");
+                  }}
+                  className="px-4 py-2.5 text-[0.74rem] tracking-[0.13em] uppercase border border-[var(--border-color)] text-[var(--muted-text)] hover:border-[var(--accent)]"
+                >
+                  Clear
+                </button>
+              )}
             </div>
           </div>
+          <p className="mt-4 text-[0.84rem] text-[var(--muted-text)]">
+            {isLoading ? "Loading collection..." : `${products?.length ?? 0} items shown`}
+          </p>
         </div>
       </div>
 

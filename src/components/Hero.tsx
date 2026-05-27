@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "@tanstack/react-router";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { useHeroContent } from "@/hooks/useSiteContent";
 import { DEFAULT_HERO } from "@/lib/siteContentDefaults";
 
@@ -8,11 +8,12 @@ export default function Hero() {
   const { data: hero } = useHeroContent();
   const content = hero ?? DEFAULT_HERO;
   const sectionRef = React.useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
-  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
+  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", reduceMotion ? "0%" : "15%"]);
 
   const stagger = {
     hidden: { opacity: 0, y: 35 },
@@ -34,6 +35,7 @@ export default function Hero() {
           src={content.background_image_url}
           alt=""
           className="w-full h-full object-cover object-top brightness-75 saturate-[0.85] contrast-110"
+          style={{ objectPosition: content.image_position ?? "50% 35%" }}
         />
         <div
           className="absolute inset-0"
@@ -84,13 +86,12 @@ export default function Hero() {
               {content.primary_cta}
             </Link>
             <Link
-              to="/shop"
+              to="/"
+              hash="gallery"
               className="text-white text-[0.78rem] tracking-[0.12em] uppercase flex items-center gap-2 transition-colors duration-300 hover:text-[var(--accent)] bg-transparent border-none group drop-shadow font-[Jost]"
             >
               {content.secondary_cta}
-              <span className="transition-transform duration-300 group-hover:translate-x-1">
-                →
-              </span>
+              <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </Link>
           </motion.div>
 
@@ -112,8 +113,10 @@ export default function Hero() {
 
         <div className="hidden lg:block relative">
           <motion.div
-            animate={{ y: [0, -8, 0] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            animate={reduceMotion ? undefined : { y: [0, -8, 0] }}
+            transition={
+              reduceMotion ? undefined : { duration: 2.5, repeat: Infinity, ease: "easeInOut" }
+            }
             className="absolute bottom-16 left-0 border border-[rgba(var(--accent-rgb),0.25)] p-6 min-w-[200px] shadow-[0_20px_60px_rgba(0,0,0,0.5)] rounded-[4px] z-[3] bg-[var(--surface-2)]"
           >
             <div className="font-[DM_Mono] text-[0.58rem] tracking-[0.25em] uppercase text-[var(--accent)] mb-2">
@@ -122,21 +125,11 @@ export default function Hero() {
             <div className="font-[Cormorant_Garamond] text-[1.8rem] font-bold text-[var(--text)] leading-none">
               {content.card1_value}
             </div>
-            <div className="text-[0.7rem] text-[var(--muted)] mt-1 font-[Jost]">{content.card1_sub}</div>
+            <div className="text-[0.7rem] text-[var(--muted)] mt-1 font-[Jost]">
+              {content.card1_sub}
+            </div>
           </motion.div>
 
-          <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-            className="absolute top-16 right-8 p-5 shadow-[0_12px_30px_rgba(var(--accent-rgb),0.4)] z-[3] text-white rounded-[4px] bg-[var(--accent)]"
-          >
-            <div className="font-[DM_Mono] text-[0.58rem] tracking-[0.25em] uppercase text-[rgba(255,255,255,0.5)] mb-1">
-              {content.card2_label}
-            </div>
-            <div className="font-[Cormorant_Garamond] text-[1.4rem] font-bold leading-none">
-              {content.card2_value}
-            </div>
-          </motion.div>
         </div>
       </div>
     </section>

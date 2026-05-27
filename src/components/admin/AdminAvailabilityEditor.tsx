@@ -1,138 +1,66 @@
 import React from "react";
-import { Image, Loader2, Plus, Save, Trash2, Eye, EyeOff } from "lucide-react";
-import { supabase } from "@/integrations/supabase/client";
-
-interface AvailabilityItem {
-  id: string;
-  title: string;
-  description: string;
-  image_url: string;
-  visible: boolean;
-  order: number;
-}
-
-const DEFAULT_ITEMS: AvailabilityItem[] = [
-  {
-    id: "1",
-    title: "New Arrivals",
-    description: "Fresh items just added to the collection",
-    image_url: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=400&h=300&fit=crop",
-    visible: true,
-    order: 1,
-  },
-];
-
-async function uploadImage(file: File, folder: string) {
-  const fileName = `${folder}/${Date.now()}-${file.name}`;
-  const { data, error } = await supabase.storage
-    .from("product-images")
-    .upload(fileName, file, { upsert: true });
-  if (error || !data) return null;
-  const { data: urlData } = supabase.storage.from("product-images").getPublicUrl(fileName);
-  return urlData.publicUrl;
-}
+import { ArrowDown, ArrowUp, Loader2, Save } from "lucide-react";
+import { useAllProducts } from "@/hooks/useProducts";
+import {
+  DEFAULT_AVAILABILITY,
+  useAvailabilityContent,
+  useUpdateSiteContent,
+} from "@/hooks/useSiteContent";
 
 export default function AdminAvailabilityEditor() {
-  const [items, setItems] = React.useState<AvailabilityItem[]>(DEFAULT_ITEMS);
-  const [loading, setLoading] = React.useState(false);
-  const [saving, setSaving] = React.useState(false);
+  const { data: products, isLoading: productsLoading } = useAllProducts();
+  const { data: availabilityData, isLoading: availabilityLoading } = useAvailabilityContent();
+  const updateContent = useUpdateSiteContent();
+
+  const [eyebrow, setEyebrow] = React.useState(DEFAULT_AVAILABILITY.eyebrow);
+  const [heading, setHeading] = React.useState(DEFAULT_AVAILABILITY.heading);
+  const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [saved, setSaved] = React.useState(false);
-  const [editingId, setEditingId] = React.useState<string | null>(null);
-  const [uploading, setUploading] = React.useState(false);
 
   React.useEffect(() => {
-    loadItems();
-  }, []);
+    if (!availabilityData) return;
+    setEyebrow(availabilityData.eyebrow || DEFAULT_AVAILABILITY.eyebrow);
+    setHeading(availabilityData.heading || DEFAULT_AVAILABILITY.heading);
+    setSelectedIds(availabilityData.product_ids || []);
+  }, [availabilityData]);
 
-  const loadItems = async () => {
-    setLoading(true);
-    try {
-      const { data, error } = await (supabase as any)
-        .from("availability_items")
-        .select("*")
-        .order("order", { ascending: true });
-      
-      if (!error && data && data.length > 0) {
-        setItems(data as AvailabilityItem[]);
-      }
-    } catch (err) {
-      console.error("Error loading availability items:", err);
-    }
-    setLoading(false);
+  const toggleProduct = (productId: string) => {
+    setSelectedIds((prev) =>
+      prev.includes(productId) ? prev.filter((id) => id !== productId) : [...prev, productId],
+    );
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>, itemId: string) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    
-    setUploading(true);
-    const url = await uploadImage(file, "availability");
-    if (url) {
-      setItems((prevItems) =>
-        prevItems.map((item) =>
-          item.id === itemId ? { ...item, image_url: url } : item
-        )
-      );
-    }
-    setUploading(false);
-  };
-
-  const addItem = () => {
-    const newItem: AvailabilityItem = {
-      id: Date.now().toString(),
-      title: "New Item",
-      description: "",
-      image_url: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=400&h=300&fit=crop",
-      visible: true,
-      order: items.length + 1,
-    };
-    setItems([...items, newItem]);
-    setEditingId(newItem.id);
-  };
-
-  const removeItem = (id: string) => {
-    if (confirm("Are you sure you want to remove this item?")) {
-      setItems(items.filter((item) => item.id !== id));
-    }
-  };
-
-  const updateItem = (id: string, updates: Partial<AvailabilityItem>) => {
-    setItems(items.map((item) =>
-      item.id === id ? { ...item, ...updates } : item
-    ));
-  };
-
-  const toggleVisibility = (id: string) => {
-    updateItem(id, { visible: !items.find((i) => i.id === id)?.visible });
+  const moveSelected = (productId: string, direction: "up" | "down") => {
+    setSelectedIds((prev) => {
+      const currentIndex = prev.indexOf(productId);
+      if (currentIndex === -1) return prev;
+      const nextIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+      if (nextIndex < 0 || nextIndex >= prev.length) return prev;
+      const next = [...prev];
+      [next[currentIndex], next[nextIndex]] = [next[nextIndex], next[currentIndex]];
+      return next;
+    });
   };
 
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSaving(true);
-
-    try {
-      // Delete existing items
-      await (supabase as any).from("availability_items").delete().gt("id", "0");
-
-      // Insert new items
-      for (const item of items) {
-        const { id, ...data } = item;
-        await (supabase as any).from("availability_items").insert({
-          id: id,
-          ...data,
-        });
-      }
-
-      setSaved(true);
-      setTimeout(() => setSaved(false), 2500);
-    } catch (err) {
-      console.error("Error saving availability items:", err);
-    }
-
-    setSaving(false);
+    await updateContent.mutateAsync({
+      key: "availability",
+      value: {
+        eyebrow: eyebrow.trim() || DEFAULT_AVAILABILITY.eyebrow,
+        heading: heading.trim() || DEFAULT_AVAILABILITY.heading,
+        product_ids: selectedIds,
+      },
+    });
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
   };
 
-  if (loading) {
+  const selectedProducts = selectedIds
+    .map((id) => products?.find((p) => p.id === id))
+    .filter((p): p is NonNullable<typeof p> => Boolean(p));
+
+  if (productsLoading || availabilityLoading) {
     return (
       <div className="flex justify-center py-20">
         <Loader2 className="w-8 h-8 text-[var(--plum)] animate-spin" strokeWidth={1.5} />
@@ -143,157 +71,139 @@ export default function AdminAvailabilityEditor() {
   return (
     <form onSubmit={handleSave} className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="font-[Bodoni_Moda] text-[1.5rem] font-bold text-[var(--text)]">What's Available Now</h2>
-        <div className="flex gap-3">
-          <button
-            type="button"
-            onClick={addItem}
-            className="flex items-center gap-2 bg-[var(--plum)] text-white px-5 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase transition-all duration-300 hover:shadow-lg"
-          >
-            <Plus className="w-4 h-4" strokeWidth={1.5} />
-            Add Item
-          </button>
-          <button
-            type="submit"
-            disabled={saving}
-            className="flex items-center gap-2 bg-gradient-to-br from-[var(--plum)] to-[var(--accent-2)] text-white px-6 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase disabled:opacity-60 transition-all duration-300 hover:shadow-lg"
-          >
-            {saving ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
-            ) : (
-              <Save className="w-4 h-4" strokeWidth={1.5} />
-            )}
-            {saved ? "Saved!" : "Save Changes"}
-          </button>
-        </div>
+        <h2 className="font-[Bodoni_Moda] text-[1.5rem] font-bold text-[var(--text)]">
+          What's Available Now
+        </h2>
+        <button
+          type="submit"
+          disabled={updateContent.isPending}
+          className="flex items-center gap-2 bg-gradient-to-br from-[var(--plum)] to-[var(--accent-2)] text-white px-6 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase disabled:opacity-60 transition-all duration-300 hover:shadow-lg"
+        >
+          {updateContent.isPending ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <Save className="w-4 h-4" strokeWidth={1.5} />
+          )}
+          {saved ? "Saved!" : "Save Section"}
+        </button>
       </div>
 
       <div className="bg-[var(--surface)] border border-[var(--border-color)] p-6 space-y-6">
         <p className="text-[0.82rem] text-[var(--muted-text)]">
-          Manage the items that appear in the "What's Available Now" section on your homepage.
+          This section now pulls directly from your store products. No separate image upload is
+          needed.
         </p>
 
-        {items.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-[var(--muted-text)] text-[0.85rem] mb-4">No items yet</p>
-            <button
-              type="button"
-              onClick={addItem}
-              className="flex items-center gap-2 bg-[var(--plum)] text-white px-5 py-2.5 text-[0.72rem] tracking-[0.15em] uppercase transition-all duration-300 hover:shadow-lg mx-auto"
-            >
-              <Plus className="w-4 h-4" strokeWidth={1.5} />
-              Add First Item
-            </button>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
+              Eyebrow
+            </label>
+            <input
+              value={eyebrow}
+              onChange={(e) => setEyebrow(e.target.value)}
+              className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.88rem] focus:outline-none focus:border-[var(--plum)]"
+            />
           </div>
-        ) : (
-          <div className="space-y-6">
-            {items.map((item) => (
-              <div
-                key={item.id}
-                className="border border-[var(--border-color)] rounded-lg p-5 bg-[var(--bg)]"
+          <div>
+            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
+              Heading
+            </label>
+            <input
+              value={heading}
+              onChange={(e) => setHeading(e.target.value)}
+              className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.88rem] focus:outline-none focus:border-[var(--plum)]"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-[var(--surface)] border border-[var(--border-color)] p-6 space-y-5">
+        <div className="flex items-center justify-between">
+          <h3 className="font-[Bodoni_Moda] text-[1.1rem] font-bold text-[var(--text)]">
+            Pick products from store
+          </h3>
+          <span className="text-[0.72rem] tracking-[0.12em] uppercase text-[var(--muted-text)]">
+            {selectedIds.length} selected
+          </span>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {products?.map((product) => {
+            const isSelected = selectedIds.includes(product.id);
+            return (
+              <label
+                key={product.id}
+                className={`flex items-center gap-3 border p-3 cursor-pointer transition-colors ${
+                  isSelected
+                    ? "bg-[var(--plum-dim)] border-[var(--plum)]"
+                    : "bg-[var(--bg)] border-[var(--border-color)] hover:border-[var(--plum)]"
+                } ${!product.active ? "opacity-60" : ""}`}
               >
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* Image Section */}
-                  <div>
-                    <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-3">
-                      Image
-                    </label>
-                    <img
-                      src={item.image_url}
-                      alt={item.title}
-                      className="w-full aspect-[4/3] object-cover rounded-lg mb-3"
-                    />
-                    <label className="inline-flex items-center gap-2 px-4 py-2 border border-[var(--border-color)] text-[0.78rem] text-[var(--muted-text)] cursor-pointer hover:border-[var(--plum)] transition-colors rounded">
-                      <Image className="w-4 h-4" />
-                      {uploading ? "Uploading..." : "Upload Image"}
-                      <input
-                        type="file"
-                        accept="image/*"
-                        className="hidden"
-                        onChange={(e) => handleImageUpload(e, item.id)}
-                      />
-                    </label>
+                <input
+                  type="checkbox"
+                  checked={isSelected}
+                  onChange={() => toggleProduct(product.id)}
+                  className="accent-[var(--plum)]"
+                />
+                <img
+                  src={product.images?.[0] ?? "https://picsum.photos/seed/storeitem/120/120"}
+                  alt={product.name}
+                  className="w-12 h-12 object-cover border border-[var(--border-color)]"
+                />
+                <div className="min-w-0">
+                  <div className="text-[0.85rem] font-medium text-[var(--text)] truncate">
+                    {product.name}
                   </div>
-
-                  {/* Content Section */}
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
-                        Title *
-                      </label>
-                      <input
-                        type="text"
-                        required
-                        value={item.title}
-                        onChange={(e) => updateItem(item.id, { title: e.target.value })}
-                        className="w-full px-4 py-2 bg-[var(--surface)] border border-[var(--border-color)] text-[var(--text)] text-[0.85rem] focus:border-[var(--plum)] focus:outline-none transition-colors rounded"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
-                        Description
-                      </label>
-                      <textarea
-                        value={item.description}
-                        onChange={(e) => updateItem(item.id, { description: e.target.value })}
-                        rows={3}
-                        className="w-full px-4 py-2 bg-[var(--surface)] border border-[var(--border-color)] text-[var(--text)] text-[0.85rem] focus:border-[var(--plum)] focus:outline-none transition-colors rounded resize-none"
-                      />
-                    </div>
-
-                    <div className="flex gap-3 items-center pt-4 border-t border-[var(--border-color)]">
-                      <button
-                        type="button"
-                        onClick={() => toggleVisibility(item.id)}
-                        className={`flex items-center gap-2 px-3 py-2 text-[0.72rem] tracking-[0.1em] uppercase border rounded transition-colors ${
-                          item.visible
-                            ? "bg-[var(--plum-dim)] text-[var(--plum)] border-[var(--plum)]"
-                            : "bg-[var(--border-color)] text-[var(--muted-text)] border-[var(--border-color)]"
-                        }`}
-                      >
-                        {item.visible ? (
-                          <>
-                            <Eye className="w-4 h-4" strokeWidth={1.5} />
-                            Visible
-                          </>
-                        ) : (
-                          <>
-                            <EyeOff className="w-4 h-4" strokeWidth={1.5} />
-                            Hidden
-                          </>
-                        )}
-                      </button>
-
-                      <button
-                        type="button"
-                        onClick={() => removeItem(item.id)}
-                        className="flex items-center gap-2 px-3 py-2 text-[0.72rem] tracking-[0.1em] uppercase border border-[var(--border-color)] text-[var(--blush)] hover:bg-[var(--blush-dim)] transition-colors rounded"
-                      >
-                        <Trash2 className="w-4 h-4" strokeWidth={1.5} />
-                        Remove
-                      </button>
-                    </div>
+                  <div className="text-[0.72rem] text-[var(--muted-text)] truncate">
+                    {product.sku} · R{product.price.toLocaleString()}{" "}
+                    {!product.active ? "· inactive" : ""}
                   </div>
+                </div>
+              </label>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="bg-[var(--surface)] border border-[var(--border-color)] p-6 space-y-4">
+        <h3 className="font-[Bodoni_Moda] text-[1.1rem] font-bold text-[var(--text)]">
+          Display order on homepage
+        </h3>
+        {!selectedProducts.length ? (
+          <p className="text-[0.82rem] text-[var(--muted-text)]">
+            Select products above. If left empty, homepage shows latest active products
+            automatically.
+          </p>
+        ) : (
+          <div className="space-y-2">
+            {selectedProducts.map((product) => (
+              <div
+                key={product.id}
+                className="flex items-center justify-between gap-3 border border-[var(--border-color)] bg-[var(--bg)] p-3"
+              >
+                <div className="text-[0.84rem] text-[var(--text)]">{product.name}</div>
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => moveSelected(product.id, "up")}
+                    className="p-1.5 border border-[var(--border-color)] text-[var(--muted-text)] hover:text-[var(--plum)]"
+                    aria-label={`Move ${product.name} up`}
+                  >
+                    <ArrowUp className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => moveSelected(product.id, "down")}
+                    className="p-1.5 border border-[var(--border-color)] text-[var(--muted-text)] hover:text-[var(--plum)]"
+                    aria-label={`Move ${product.name} down`}
+                  >
+                    <ArrowDown className="w-4 h-4" />
+                  </button>
                 </div>
               </div>
             ))}
           </div>
         )}
-      </div>
-
-      <div className="bg-[var(--surface)] border border-[var(--border-color)] p-6 rounded-lg">
-        <h3 className="font-[Bodoni_Moda] text-[1.1rem] font-bold text-[var(--text)] mb-3">
-          How to Use
-        </h3>
-        <ul className="space-y-2 text-[0.85rem] text-[var(--muted-text)]">
-          <li>• <strong>Add Item:</strong> Click "Add Item" to create a new availability item</li>
-          <li>• <strong>Upload Image:</strong> Click "Upload Image" to add or change the item's photo</li>
-          <li>• <strong>Edit Details:</strong> Update the title and description directly</li>
-          <li>• <strong>Visibility:</strong> Toggle the eye icon to show or hide the item</li>
-          <li>• <strong>Remove:</strong> Click "Remove" to delete an item</li>
-          <li>• <strong>Save:</strong> Click "Save Changes" when done to update the live site</li>
-        </ul>
       </div>
     </form>
   );

@@ -9,14 +9,22 @@ export type AboutContent = {
   badge_label: string;
   badge_year: string;
   stats: AboutStat[];
+  image_position?: string;
 };
 
 export type SiteSettings = {
   whatsapp_number: string;
 };
 
+export type AvailabilityContent = {
+  eyebrow: string;
+  heading: string;
+  product_ids: string[];
+};
+
 export type HeroContent = {
   background_image_url: string;
+  image_position?: string;
   line1: string;
   line2: string;
   line3: string;
@@ -46,16 +54,17 @@ export type CtaContent = {
 
 export type BentoContent = {
   card1_image_url: string;
+  card1_image_position?: string;
 };
 
 export const DEFAULT_HERO: HeroContent = {
   background_image_url:
     "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=1600&h=1000&fit=crop",
+  image_position: "50% 35%",
   line1: "Worn.",
   line2: "Intimate.",
   line3: "Yours.",
-  subtitle:
-    "Freshly worn pieces direct from me — limited stock, real and authentic.",
+  subtitle: "Freshly worn pieces direct from me — limited stock, real and authentic.",
   primary_cta: "Shop This Week's Drops",
   secondary_cta: "View Full Catalogue",
   proof_strong: "Limited weekly inventory",
@@ -90,6 +99,7 @@ export const DEFAULT_CTA: CtaContent = {
 export const DEFAULT_BENTO: BentoContent = {
   card1_image_url:
     "https://images.unsplash.com/photo-1617331721458-bd3bd3f9c7f8?w=600&h=500&fit=crop",
+  card1_image_position: "50% 50%",
 };
 
 export const DEFAULT_ABOUT: AboutContent = {
@@ -99,8 +109,8 @@ export const DEFAULT_ABOUT: AboutContent = {
     "This started as something personal — a way to connect and share something intimate with people who appreciate authenticity.",
   paragraph2:
     "Every piece in this collection has been worn by me personally. No gimmicks, no fakes. Just real, limited items direct from my hands to yours.",
-  image_url:
-    "https://images.unsplash.com/photo-1617331721458-bd3bd3f9c7f8?w=600&h=750&fit=crop",
+  image_url: "https://images.unsplash.com/photo-1617331721458-bd3bd3f9c7f8?w=600&h=750&fit=crop",
+  image_position: "50% 42%",
   badge_label: "Est.",
   badge_year: "2023",
   stats: [
@@ -112,4 +122,10 @@ export const DEFAULT_ABOUT: AboutContent = {
 
 export const DEFAULT_SETTINGS: SiteSettings = {
   whatsapp_number: "27722865579",
+};
+
+export const DEFAULT_AVAILABILITY: AvailabilityContent = {
+  eyebrow: "Current Inventory",
+  heading: "What's Available Now",
+  product_ids: [],
 };

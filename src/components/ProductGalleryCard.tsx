@@ -55,10 +55,13 @@ export default function ProductGalleryCard({
               image,
             })
           }
-          className="w-[52px] h-[52px] rounded-full border border-[var(--accent)] flex items-center justify-center bg-[var(--accent)] hover:bg-white hover:border-white transition-all duration-300"
+          className="w-[52px] h-[52px] rounded-full border border-[var(--accent)] flex items-center justify-center bg-[var(--accent)] hover:bg-white hover:border-white transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           aria-label={`Add ${product.name} to basket`}
         >
-          <ShoppingBag className="w-5 h-5 text-white group-hover:text-[var(--accent)]" strokeWidth={1.5} />
+          <ShoppingBag
+            className="w-5 h-5 text-white group-hover:text-[var(--accent)]"
+            strokeWidth={1.5}
+          />
         </button>
         <span className="font-[DM_Mono] text-[0.6rem] tracking-[0.25em] uppercase text-white">
           Add to Order · R{product.price.toLocaleString()}
@@ -72,6 +75,21 @@ export default function ProductGalleryCard({
           {product.sku}
         </div>
       </div>
+      <button
+        type="button"
+        onClick={() =>
+          addItem({
+            productId: product.id,
+            name: product.name,
+            sku: product.sku,
+            price: product.price,
+            image,
+          })
+        }
+        className="md:hidden absolute top-3 right-3 z-[3] bg-[rgba(var(--accent-rgb),0.92)] text-white px-3 py-1.5 text-[0.62rem] tracking-[0.14em] uppercase"
+      >
+        Add
+      </button>
     </motion.div>
   );
 }

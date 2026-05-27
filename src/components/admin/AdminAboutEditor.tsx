@@ -1,6 +1,8 @@
 import React from "react";
 import { Image, Loader2, Save } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import ImageCropModal from "@/components/admin/ImageCropModal";
+import { fileToDataUrl, toObjectPosition, type CropPreset } from "@/lib/imageCrop";
 import {
   useAboutContent,
   useSiteSettings,
@@ -17,6 +19,9 @@ export default function AdminAboutEditor() {
   const [form, setForm] = React.useState<AboutContent>(DEFAULT_ABOUT);
   const [whatsapp, setWhatsapp] = React.useState("27722865579");
   const [saved, setSaved] = React.useState(false);
+  const [cropOpen, setCropOpen] = React.useState(false);
+  const [cropSrc, setCropSrc] = React.useState<string | null>(null);
+  const aboutPreset: CropPreset = { ratio: 4 / 5, width: 1000, height: 1250 };
 
   React.useEffect(() => {
     if (about) setForm(about);
@@ -29,16 +34,10 @@ export default function AdminAboutEditor() {
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setUploading(true);
-    const fileName = `about/${Date.now()}-${file.name}`;
-    const { data, error } = await supabase.storage
-      .from("product-images")
-      .upload(fileName, file, { upsert: true });
-    if (!error && data) {
-      const { data: urlData } = supabase.storage.from("product-images").getPublicUrl(fileName);
-      setForm((f) => ({ ...f, image_url: urlData.publicUrl }));
-    }
-    setUploading(false);
+    const src = await fileToDataUrl(file);
+    setCropSrc(src);
+    setCropOpen(true);
+    e.currentTarget.value = "";
   };
 
   const updateStat = (index: number, field: "num" | "label", value: string) => {
@@ -85,127 +84,131 @@ export default function AdminAboutEditor() {
         </button>
       </div>
 
-      <div className="bg-white border border-[rgba(var(--border-rgb),0.18)] p-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="bg-[var(--surface)] border border-[var(--border-color)] p-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div>
-          <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted)] mb-3">
+          <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-3">
             Main Image
           </label>
           <img
             src={form.image_url}
             alt="About preview"
-            className="w-full aspect-[4/5] object-cover mb-4 saturate-[0.7]"
+            className="w-full aspect-[4/5] object-cover mb-4 saturate-[0.7] border border-[var(--border-color)]"
+            style={{ objectPosition: form.image_position ?? "50% 42%" }}
           />
-          <label className="inline-flex items-center gap-2 px-4 py-2 border border-[rgba(var(--border-rgb),0.35)] text-[0.78rem] text-[var(--muted)] cursor-pointer hover:border-[var(--accent)] transition-colors">
+          <label className="inline-flex items-center gap-2 px-4 py-2 border border-[var(--border-color)] text-[0.78rem] text-[var(--muted-text)] cursor-pointer hover:border-[var(--accent)] transition-colors">
             <Image className="w-4 h-4" strokeWidth={1.5} />
-            {uploading ? "Uploading..." : "Upload New Image"}
+            {uploading ? "Uploading..." : "Upload + Crop Image"}
             <input type="file" accept="image/*" className="hidden" onChange={handleImageUpload} />
           </label>
           <div className="mt-4">
-            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted)] mb-2">
+            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
               Or paste image URL
             </label>
             <input
               type="url"
               value={form.image_url}
               onChange={(e) => setForm((f) => ({ ...f, image_url: e.target.value }))}
-              className="w-full px-4 py-3 bg-[var(--bg)] border border-[rgba(var(--border-rgb),0.18)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none"
+              className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none"
             />
           </div>
         </div>
 
         <div className="space-y-4">
           <div>
-            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted)] mb-2">
+            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
               Section Label
             </label>
             <input
               value={form.eyebrow}
               onChange={(e) => setForm((f) => ({ ...f, eyebrow: e.target.value }))}
-              className="w-full px-4 py-3 bg-[var(--bg)] border border-[rgba(var(--border-rgb),0.18)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none"
+              className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none"
             />
           </div>
           <div>
-            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted)] mb-2">
+            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
               Heading
             </label>
             <input
               value={form.heading}
               onChange={(e) => setForm((f) => ({ ...f, heading: e.target.value }))}
-              className="w-full px-4 py-3 bg-[var(--bg)] border border-[rgba(var(--border-rgb),0.18)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none"
+              className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none"
             />
           </div>
           <div>
-            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted)] mb-2">
+            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
               Paragraph 1
             </label>
             <textarea
               rows={4}
               value={form.paragraph1}
               onChange={(e) => setForm((f) => ({ ...f, paragraph1: e.target.value }))}
-              className="w-full px-4 py-3 bg-[var(--bg)] border border-[rgba(var(--border-rgb),0.18)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none resize-none"
+              className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none resize-none"
             />
           </div>
           <div>
-            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted)] mb-2">
+            <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
               Paragraph 2
             </label>
             <textarea
               rows={4}
               value={form.paragraph2}
               onChange={(e) => setForm((f) => ({ ...f, paragraph2: e.target.value }))}
-              className="w-full px-4 py-3 bg-[var(--bg)] border border-[rgba(var(--border-rgb),0.18)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none resize-none"
+              className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none resize-none"
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted)] mb-2">
+              <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
                 Badge Label
               </label>
               <input
                 value={form.badge_label}
                 onChange={(e) => setForm((f) => ({ ...f, badge_label: e.target.value }))}
-                className="w-full px-4 py-3 bg-[var(--bg)] border border-[rgba(var(--border-rgb),0.18)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none"
+                className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted)] mb-2">
+              <label className="block text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
                 Badge Year
               </label>
               <input
                 value={form.badge_year}
                 onChange={(e) => setForm((f) => ({ ...f, badge_year: e.target.value }))}
-                className="w-full px-4 py-3 bg-[var(--bg)] border border-[rgba(var(--border-rgb),0.18)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none"
+                className="w-full px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none"
               />
             </div>
           </div>
         </div>
       </div>
 
-      <div className="bg-white border border-[rgba(var(--border-rgb),0.18)] p-6">
+      <div className="bg-[var(--surface)] border border-[var(--border-color)] p-6">
         <h3 className="font-[Bodoni_Moda] text-[1.1rem] font-bold mb-4">Stats</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {form.stats.map((stat, i) => (
-            <div key={i} className="space-y-2 p-4 bg-[var(--bg)] border border-[rgba(var(--border-rgb),0.18)]">
+            <div
+              key={i}
+              className="space-y-2 p-4 bg-[var(--bg)] border border-[var(--border-color)]"
+            >
               <input
                 value={stat.num}
                 onChange={(e) => updateStat(i, "num", e.target.value)}
                 placeholder="500+"
-                className="w-full px-3 py-2 bg-white border border-[rgba(var(--border-rgb),0.18)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none"
+                className="w-full px-3 py-2 bg-[var(--surface)] border border-[var(--border-color)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none"
               />
               <input
                 value={stat.label}
                 onChange={(e) => updateStat(i, "label", e.target.value)}
                 placeholder="Happy Clients"
-                className="w-full px-3 py-2 bg-white border border-[rgba(var(--border-rgb),0.18)] text-[0.85rem] focus:border-[var(--accent)] focus:outline-none"
+                className="w-full px-3 py-2 bg-[var(--surface)] border border-[var(--border-color)] text-[0.85rem] focus:border-[var(--accent)] focus:outline-none"
               />
             </div>
           ))}
         </div>
       </div>
 
-      <div className="bg-white border border-[rgba(var(--border-rgb),0.18)] p-6">
+      <div className="bg-[var(--surface)] border border-[var(--border-color)] p-6">
         <h3 className="font-[Bodoni_Moda] text-[1.1rem] font-bold mb-2">WhatsApp Orders</h3>
-        <p className="text-[0.82rem] text-[var(--muted)] mb-4">
+        <p className="text-[0.82rem] text-[var(--muted-text)] mb-4">
           Number used when customers place orders (country code, no + or spaces). Example:
           27722865579
         </p>
@@ -213,9 +216,36 @@ export default function AdminAboutEditor() {
           type="tel"
           value={whatsapp}
           onChange={(e) => setWhatsapp(e.target.value)}
-          className="w-full max-w-sm px-4 py-3 bg-[var(--bg)] border border-[rgba(var(--border-rgb),0.18)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none"
+          className="w-full max-w-sm px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.9rem] focus:border-[var(--accent)] focus:outline-none"
         />
       </div>
+      <ImageCropModal
+        open={cropOpen}
+        imageSrc={cropSrc}
+        preset={aboutPreset}
+        title="Crop about image (4:5)"
+        confirmLabel="Apply crop and upload"
+        onClose={() => setCropOpen(false)}
+        onConfirm={async (blob, _preview, position) => {
+          setUploading(true);
+          const fileName = `about/${Date.now()}-cropped.jpg`;
+          const file = new File([blob], fileName, { type: "image/jpeg" });
+          const { data, error } = await supabase.storage
+            .from("product-images")
+            .upload(fileName, file, { upsert: true });
+          if (!error && data) {
+            const { data: urlData } = supabase.storage
+              .from("product-images")
+              .getPublicUrl(fileName);
+            setForm((f) => ({
+              ...f,
+              image_url: urlData.publicUrl,
+              image_position: toObjectPosition(position.xPercent, position.yPercent),
+            }));
+          }
+          setUploading(false);
+        }}
+      />
     </form>
   );
 }

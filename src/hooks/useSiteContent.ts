@@ -7,6 +7,7 @@ import {
   DEFAULT_MARQUEE,
   DEFAULT_BENTO,
   DEFAULT_SETTINGS,
+  DEFAULT_AVAILABILITY,
 } from "@/lib/siteContentDefaults";
 
 export type {
@@ -17,6 +18,7 @@ export type {
   MarqueeContent,
   CtaContent,
   BentoContent,
+  AvailabilityContent,
 } from "@/lib/siteContentDefaults";
 
 export {
@@ -26,6 +28,7 @@ export {
   DEFAULT_BENTO,
   DEFAULT_ABOUT,
   DEFAULT_SETTINGS,
+  DEFAULT_AVAILABILITY,
 } from "@/lib/siteContentDefaults";
 
 async function fetchContent<T>(key: string, fallback: T): Promise<T> {
@@ -85,15 +88,24 @@ export function useBentoContent() {
   });
 }
 
+export function useAvailabilityContent() {
+  return useQuery({
+    queryKey: ["site_content", "availability"],
+    queryFn: () => fetchContent("availability", DEFAULT_AVAILABILITY),
+  });
+}
+
 export function useUpdateSiteContent() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: async ({ key, value }: { key: string; value: Record<string, unknown> }) => {
-      const { error } = await supabase.from("site_content").upsert(
-        { key, value: value as never, updated_at: new Date().toISOString() },
-        { onConflict: "key" }
-      );
+      const { error } = await supabase
+        .from("site_content")
+        .upsert(
+          { key, value: value as never, updated_at: new Date().toISOString() },
+          { onConflict: "key" },
+        );
       if (error) throw error;
     },
     onSuccess: (_, { key }) => {

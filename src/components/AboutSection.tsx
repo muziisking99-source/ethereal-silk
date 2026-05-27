@@ -7,7 +7,10 @@ export default function AboutSection() {
   const content = about ?? DEFAULT_ABOUT;
 
   return (
-    <section id="about" className="luxury-section border-t border-[rgba(var(--accent-rgb),0.15)] bg-[var(--bg)]">
+    <section
+      id="about"
+      className="luxury-section border-t border-[rgba(var(--accent-rgb),0.15)] bg-[var(--bg)]"
+    >
       <div className="max-w-[1100px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
@@ -20,6 +23,7 @@ export default function AboutSection() {
             src={content.image_url}
             alt="About Only Liyah"
             className="w-full aspect-[4/5] object-cover saturate-[0.85] contrast-110 rounded-[4px] transition-transform duration-700 hover:scale-[1.02]"
+            style={{ objectPosition: content.image_position ?? "50% 42%" }}
           />
           <div className="absolute bottom-8 -right-4 lg:-right-8 bg-[var(--surface-2)] border border-[rgba(var(--accent-rgb),0.25)] p-6 shadow-[0_20px_60px_rgba(0,0,0,0.6)] rounded-[4px]">
             <div className="font-[DM_Mono] text-[0.58rem] tracking-[0.25em] uppercase text-[var(--accent)] mb-1">
@@ -59,7 +63,9 @@ export default function AboutSection() {
                     <div className="font-[Cormorant_Garamond] text-[1.8rem] font-bold text-[var(--accent)] leading-none mb-1">
                       {s.num}
                     </div>
-                    <div className="text-[0.7rem] text-[var(--muted)] tracking-[0.05em] font-[Jost]">{s.label}</div>
+                    <div className="text-[0.7rem] text-[var(--muted)] tracking-[0.05em] font-[Jost]">
+                      {s.label}
+                    </div>
                   </div>
                 ))}
               </div>

@@ -30,6 +30,7 @@ export default function BentoSection() {
                 src={bentoData.card1_image_url}
                 alt="Authentic pieces"
                 className="absolute inset-0 w-full h-full object-cover saturate-[0.6] brightness-75 transition-transform duration-700 hover:scale-[1.05]"
+                style={{ objectPosition: bentoData.card1_image_position ?? "50% 50%" }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.9)] to-transparent via-transparent via-[60%]" />
               <div className="absolute bottom-6 left-6 z-[1]">
@@ -58,7 +59,8 @@ export default function BentoSection() {
             Fully Discreet Delivery
           </h3>
           <p className="text-[0.82rem] leading-[1.75] text-[var(--muted)] font-light font-[Jost]">
-            Plain unmarked packaging, tracked courier, delivered within 3–5 business days nationwide.
+            Plain unmarked packaging, tracked courier, delivered within 3–5 business days
+            nationwide.
           </p>
         </motion.div>
 
@@ -72,7 +74,9 @@ export default function BentoSection() {
           <div className="w-10 h-10 rounded-[10px] bg-[rgba(var(--accent-rgb),0.1)] border border-[rgba(var(--accent-rgb),0.25)] flex items-center justify-center mb-5">
             <Package className="w-[18px] h-[18px] text-[var(--accent)]" strokeWidth={1.5} />
           </div>
-          <h3 className="font-[Cormorant_Garamond] text-[1.15rem] font-bold mb-2 text-[var(--text)]">Express Available</h3>
+          <h3 className="font-[Cormorant_Garamond] text-[1.15rem] font-bold mb-2 text-[var(--text)]">
+            Express Available
+          </h3>
           <p className="text-[0.82rem] leading-[1.75] text-[var(--muted)] font-light font-[Jost]">
             1–2 day delivery available for Johannesburg, Cape Town, Durban and Pretoria.
           </p>
@@ -92,7 +96,8 @@ export default function BentoSection() {
             Authentic Pieces
           </h3>
           <p className="text-[0.82rem] leading-[1.75] text-[var(--muted)] font-light font-[Jost]">
-            Every item is personally worn and carefully prepared before it reaches you — real, not staged.
+            Every item is personally worn and carefully prepared before it reaches you — real, not
+            staged.
           </p>
         </motion.div>
 

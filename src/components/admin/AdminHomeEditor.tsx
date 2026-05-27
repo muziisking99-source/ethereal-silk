@@ -1,6 +1,8 @@
 import React from "react";
 import { Image, Loader2, Plus, Save, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import ImageCropModal from "@/components/admin/ImageCropModal";
+import { fileToDataUrl, toObjectPosition, type CropPreset } from "@/lib/imageCrop";
 import {
   useHeroContent,
   useMarqueeContent,
@@ -15,7 +17,8 @@ import {
 } from "@/hooks/useSiteContent";
 
 async function uploadImage(file: File, folder: string) {
-  const fileName = `${folder}/${Date.now()}-${file.name}`;
+  const ext = file.type.includes("png") ? "png" : "jpg";
+  const fileName = `${folder}/${Date.now()}-${file.name.replace(/\.[^/.]+$/, "")}.${ext}`;
   const { data, error } = await supabase.storage
     .from("product-images")
     .upload(fileName, file, { upsert: true });
@@ -35,6 +38,10 @@ export default function AdminHomeEditor() {
   const [cta, setCta] = React.useState<CtaContent>(DEFAULT_CTA);
   const [uploading, setUploading] = React.useState(false);
   const [saved, setSaved] = React.useState(false);
+  const [cropOpen, setCropOpen] = React.useState(false);
+  const [cropSrc, setCropSrc] = React.useState<string | null>(null);
+
+  const heroPreset: CropPreset = { ratio: 16 / 10, width: 1600, height: 1000 };
 
   React.useEffect(() => {
     if (heroData) setHero(heroData);
@@ -49,10 +56,10 @@ export default function AdminHomeEditor() {
   const handleHeroImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    setUploading(true);
-    const url = await uploadImage(file, "hero");
-    if (url) setHero((h) => ({ ...h, background_image_url: url }));
-    setUploading(false);
+    const src = await fileToDataUrl(file);
+    setCropSrc(src);
+    setCropOpen(true);
+    e.currentTarget.value = "";
   };
 
   const handleSave = async (e: React.FormEvent) => {
@@ -94,28 +101,29 @@ export default function AdminHomeEditor() {
       </div>
 
       {/* Hero */}
-      <section className="bg-white border border-[rgba(var(--border-rgb),0.18)] p-6 space-y-4">
+      <section className="bg-[var(--surface)] border border-[var(--border-color)] p-6 space-y-4">
         <h3 className="font-[Bodoni_Moda] text-[1.2rem] font-bold">Hero Section</h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div>
-            <p className="text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted)] mb-2">
+            <p className="text-[0.72rem] tracking-[0.15em] uppercase text-[var(--muted-text)] mb-2">
               Background Image
             </p>
             <img
               src={hero.background_image_url}
               alt="Hero preview"
-              className="w-full aspect-[16/10] object-cover mb-3"
+              className="w-full aspect-[16/10] object-cover mb-3 border border-[var(--border-color)]"
+              style={{ objectPosition: hero.image_position ?? "50% 35%" }}
             />
-            <label className="inline-flex items-center gap-2 px-4 py-2 border cursor-pointer hover:border-[var(--accent)] text-[0.78rem] text-[var(--muted)]">
+            <label className="inline-flex items-center gap-2 px-4 py-2 border border-[var(--border-color)] cursor-pointer hover:border-[var(--accent)] text-[0.78rem] text-[var(--muted-text)]">
               <Image className="w-4 h-4" />
-              {uploading ? "Uploading..." : "Upload Image"}
+              {uploading ? "Uploading..." : "Upload + Crop Image"}
               <input type="file" accept="image/*" className="hidden" onChange={handleHeroImage} />
             </label>
             <input
               type="url"
               value={hero.background_image_url}
               onChange={(e) => setHero((h) => ({ ...h, background_image_url: e.target.value }))}
-              className="w-full mt-3 px-4 py-3 bg-[var(--bg)] border text-[0.85rem] focus:outline-none focus:border-[var(--accent)]"
+              className="w-full mt-3 px-4 py-3 bg-[var(--bg)] border border-[var(--border-color)] text-[0.85rem] focus:outline-none focus:border-[var(--accent)]"
               placeholder="Image URL"
             />
           </div>
@@ -133,7 +141,7 @@ export default function AdminHomeEditor() {
               ] as const
             ).map(([key, label]) => (
               <div key={key}>
-                <label className="block text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted)] mb-1">
+                <label className="block text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted-text)] mb-1">
                   {label}
                 </label>
                 {key === "subtitle" ? (
@@ -141,20 +149,20 @@ export default function AdminHomeEditor() {
                     rows={3}
                     value={hero[key]}
                     onChange={(e) => setHero((h) => ({ ...h, [key]: e.target.value }))}
-                    className="w-full px-3 py-2 bg-[var(--bg)] border text-[0.85rem] resize-none focus:outline-none focus:border-[var(--accent)]"
+                    className="w-full px-3 py-2 bg-[var(--bg)] border border-[var(--border-color)] text-[0.85rem] resize-none focus:outline-none focus:border-[var(--accent)]"
                   />
                 ) : (
                   <input
                     value={hero[key]}
                     onChange={(e) => setHero((h) => ({ ...h, [key]: e.target.value }))}
-                    className="w-full px-3 py-2 bg-[var(--bg)] border text-[0.85rem] focus:outline-none focus:border-[var(--accent)]"
+                    className="w-full px-3 py-2 bg-[var(--bg)] border border-[var(--border-color)] text-[0.85rem] focus:outline-none focus:border-[var(--accent)]"
                   />
                 )}
               </div>
             ))}
           </div>
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 pt-4 border-t">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 pt-4 border-t border-[var(--border-color)]">
           {(
             [
               ["card1_label", "Card 1 label"],
@@ -165,11 +173,13 @@ export default function AdminHomeEditor() {
             ] as const
           ).map(([key, label]) => (
             <div key={key}>
-              <label className="block text-[0.65rem] uppercase text-[var(--muted)] mb-1">{label}</label>
+              <label className="block text-[0.65rem] uppercase text-[var(--muted-text)] mb-1">
+                {label}
+              </label>
               <input
                 value={hero[key]}
                 onChange={(e) => setHero((h) => ({ ...h, [key]: e.target.value }))}
-                className="w-full px-3 py-2 bg-[var(--bg)] border text-[0.85rem] focus:outline-none focus:border-[var(--accent)]"
+                className="w-full px-3 py-2 bg-[var(--bg)] border border-[var(--border-color)] text-[0.85rem] focus:outline-none focus:border-[var(--accent)]"
               />
             </div>
           ))}
@@ -177,7 +187,7 @@ export default function AdminHomeEditor() {
       </section>
 
       {/* Marquee */}
-      <section className="bg-white border border-[rgba(var(--border-rgb),0.18)] p-6 space-y-4">
+      <section className="bg-[var(--surface)] border border-[var(--border-color)] p-6 space-y-4">
         <div className="flex justify-between items-center">
           <h3 className="font-[Bodoni_Moda] text-[1.2rem] font-bold">Scrolling Banner</h3>
           <button
@@ -188,7 +198,7 @@ export default function AdminHomeEditor() {
             <Plus className="w-4 h-4" /> Add phrase
           </button>
         </div>
-        <p className="text-[0.82rem] text-[var(--muted)]">
+        <p className="text-[0.82rem] text-[var(--muted-text)]">
           These phrases rotate in the plum banner below the hero.
         </p>
         <div className="space-y-2">
@@ -201,14 +211,12 @@ export default function AdminHomeEditor() {
                     items: m.items.map((t, j) => (j === i ? e.target.value : t)),
                   }))
                 }
-                className="flex-1 px-3 py-2 bg-[var(--bg)] border text-[0.85rem] focus:outline-none focus:border-[var(--accent)]"
+                className="flex-1 px-3 py-2 bg-[var(--bg)] border border-[var(--border-color)] text-[0.85rem] focus:outline-none focus:border-[var(--accent)]"
               />
               <button
                 type="button"
-                onClick={() =>
-                  setMarquee((m) => ({ items: m.items.filter((_, j) => j !== i) }))
-                }
-                className="p-2 text-[var(--muted)] hover:text-[var(--accent)]"
+                onClick={() => setMarquee((m) => ({ items: m.items.filter((_, j) => j !== i) }))}
+                className="p-2 text-[var(--muted-text)] hover:text-[var(--accent)]"
                 aria-label="Remove phrase"
               >
                 <Trash2 className="w-4 h-4" />
@@ -219,7 +227,7 @@ export default function AdminHomeEditor() {
       </section>
 
       {/* CTA */}
-      <section className="bg-white border border-[rgba(var(--border-rgb),0.18)] p-6 space-y-4">
+      <section className="bg-[var(--surface)] border border-[var(--border-color)] p-6 space-y-4">
         <h3 className="font-[Bodoni_Moda] text-[1.2rem] font-bold">Bottom CTA Strip</h3>
         {(
           [
@@ -231,7 +239,7 @@ export default function AdminHomeEditor() {
           ] as const
         ).map(([key, label]) => (
           <div key={key}>
-            <label className="block text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted)] mb-1">
+            <label className="block text-[0.65rem] uppercase tracking-[0.12em] text-[var(--muted-text)] mb-1">
               {label}
             </label>
             {key === "body" ? (
@@ -239,18 +247,41 @@ export default function AdminHomeEditor() {
                 rows={3}
                 value={cta[key]}
                 onChange={(e) => setCta((c) => ({ ...c, [key]: e.target.value }))}
-                className="w-full px-3 py-2 bg-[var(--bg)] border text-[0.85rem] resize-none focus:outline-none focus:border-[var(--accent)]"
+                className="w-full px-3 py-2 bg-[var(--bg)] border border-[var(--border-color)] text-[0.85rem] resize-none focus:outline-none focus:border-[var(--accent)]"
               />
             ) : (
               <input
                 value={cta[key]}
                 onChange={(e) => setCta((c) => ({ ...c, [key]: e.target.value }))}
-                className="w-full px-3 py-2 bg-[var(--bg)] border text-[0.85rem] focus:outline-none focus:border-[var(--accent)]"
+                className="w-full px-3 py-2 bg-[var(--bg)] border border-[var(--border-color)] text-[0.85rem] focus:outline-none focus:border-[var(--accent)]"
               />
             )}
           </div>
         ))}
       </section>
+      <ImageCropModal
+        open={cropOpen}
+        imageSrc={cropSrc}
+        preset={heroPreset}
+        title="Crop hero image (16:10)"
+        confirmLabel="Apply crop and upload"
+        onClose={() => setCropOpen(false)}
+        onConfirm={async (blob, _preview, position) => {
+          setUploading(true);
+          const croppedFile = new File([blob], `hero-cropped-${Date.now()}.jpg`, {
+            type: "image/jpeg",
+          });
+          const url = await uploadImage(croppedFile, "hero");
+          if (url) {
+            setHero((h) => ({
+              ...h,
+              background_image_url: url,
+              image_position: toObjectPosition(position.xPercent, position.yPercent),
+            }));
+          }
+          setUploading(false);
+        }}
+      />
     </form>
   );
 }
