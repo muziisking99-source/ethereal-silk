@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
 import { Package, Sparkles } from "lucide-react";
+import { useBentoContent } from "@/hooks/useSiteContent";
 
 export default function BentoSection() {
+  const { data: bentoData, isLoading } = useBentoContent();
+
   return (
     <section className="luxury-section bg-[var(--bg2)] border-t border-[rgba(var(--accent-rgb),0.15)]">
       <div className="max-w-[1200px] mx-auto">
@@ -21,20 +24,24 @@ export default function BentoSection() {
           transition={{ duration: 0.8 }}
           className="relative overflow-hidden min-h-[220px] border border-[rgba(var(--accent-rgb),0.2)] rounded-[4px] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(var(--accent-rgb),0.2)]"
         >
-          <img
-            src="https://images.unsplash.com/photo-1617331721458-bd3bd3f9c7f8?w=600&h=500&fit=crop"
-            alt="Authentic pieces"
-            className="absolute inset-0 w-full h-full object-cover saturate-[0.6] brightness-75 transition-transform duration-700 hover:scale-[1.05]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.9)] to-transparent via-transparent via-[60%]" />
-          <div className="absolute bottom-6 left-6 z-[1]">
-            <div className="font-[DM_Mono] text-[0.55rem] tracking-[0.25em] uppercase text-[var(--accent)] mb-1">
-              Limited stock
-            </div>
-            <div className="font-[Cormorant_Garamond] text-[1.2rem] italic text-white">
-              Direct from me
-            </div>
-          </div>
+          {!isLoading && bentoData && (
+            <>
+              <img
+                src={bentoData.card1_image_url}
+                alt="Authentic pieces"
+                className="absolute inset-0 w-full h-full object-cover saturate-[0.6] brightness-75 transition-transform duration-700 hover:scale-[1.05]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[rgba(0,0,0,0.9)] to-transparent via-transparent via-[60%]" />
+              <div className="absolute bottom-6 left-6 z-[1]">
+                <div className="font-[DM_Mono] text-[0.55rem] tracking-[0.25em] uppercase text-[var(--accent)] mb-1">
+                  Limited stock
+                </div>
+                <div className="font-[Cormorant_Garamond] text-[1.2rem] italic text-white">
+                  Direct from me
+                </div>
+              </div>
+            </>
+          )}
         </motion.div>
 
         <motion.div
@@ -42,7 +49,7 @@ export default function BentoSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.8, delay: 0.08 }}
-          className="sm:col-span-2 lg:col-span-2 bg-[var(--surface-2)] border border-[rgba(var(--accent-rgb),0.2)] text-white p-8 min-h-[220px] rounded-[4px] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(var(--accent-rgb),0.2)] hover:translate-y-[-2px] hover:border-[var(--accent)]"
+          className="sm:col-span-2 lg:col-span-2 bg-[var(--surface-2)] border border-[rgba(var(--accent-rgb),0.2)] text-white p-8 min-h-[220px] rounded-[4px] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(var(--accent-rgb),0.2)]"
         >
           <div className="font-[Cormorant_Garamond] text-[3.5rem] font-bold leading-none mb-2 text-[var(--accent)]">
             9 Provinces
@@ -60,7 +67,7 @@ export default function BentoSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.8, delay: 0.16 }}
-          className="bg-[var(--surface-2)] border border-[rgba(var(--accent-rgb),0.2)] p-8 min-h-[220px] rounded-[4px] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(var(--accent-rgb),0.2)] hover:border-[var(--accent)] hover:translate-y-[-2px]"
+          className="bg-[var(--surface-2)] border border-[rgba(var(--accent-rgb),0.2)] p-8 min-h-[220px] rounded-[4px] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(var(--accent-rgb),0.2)]"
         >
           <div className="w-10 h-10 rounded-[10px] bg-[rgba(var(--accent-rgb),0.1)] border border-[rgba(var(--accent-rgb),0.25)] flex items-center justify-center mb-5">
             <Package className="w-[18px] h-[18px] text-[var(--accent)]" strokeWidth={1.5} />
@@ -76,7 +83,7 @@ export default function BentoSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.8, delay: 0.24 }}
-          className="sm:col-span-2 lg:col-span-2 bg-[var(--surface-2)] border border-[rgba(var(--accent-rgb),0.2)] p-8 min-h-[220px] rounded-[4px] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(var(--accent-rgb),0.2)] hover:border-[var(--accent)] hover:translate-y-[-2px]"
+          className="sm:col-span-2 lg:col-span-2 bg-[var(--surface-2)] border border-[rgba(var(--accent-rgb),0.2)] p-8 min-h-[220px] rounded-[4px] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(var(--accent-rgb),0.2)]"
         >
           <div className="font-[Cormorant_Garamond] text-[2.8rem] font-bold leading-none mb-2 text-[var(--accent)]">
             Authentic
@@ -94,7 +101,7 @@ export default function BentoSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.8, delay: 0.32 }}
-          className="bg-[var(--accent)] border border-[var(--accent)] text-white p-8 min-h-[220px] rounded-[4px] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(var(--accent-rgb),0.4)] hover:translate-y-[-2px]"
+          className="bg-[var(--accent)] border border-[var(--accent)] text-white p-8 min-h-[220px] rounded-[4px] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(var(--accent-rgb),0.4)]"
         >
           <div className="w-10 h-10 rounded-[10px] bg-[rgba(255,255,255,0.15)] border border-[rgba(255,255,255,0.25)] flex items-center justify-center mb-5">
             <Sparkles className="w-[18px] h-[18px] text-white" strokeWidth={1.5} />
