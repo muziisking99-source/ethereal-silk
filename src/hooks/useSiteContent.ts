@@ -5,6 +5,7 @@ import {
   DEFAULT_CTA,
   DEFAULT_HERO,
   DEFAULT_MARQUEE,
+  DEFAULT_BENTO,
   DEFAULT_SETTINGS,
 } from "@/lib/siteContentDefaults";
 
@@ -15,12 +16,14 @@ export type {
   HeroContent,
   MarqueeContent,
   CtaContent,
+  BentoContent,
 } from "@/lib/siteContentDefaults";
 
 export {
   DEFAULT_HERO,
   DEFAULT_MARQUEE,
   DEFAULT_CTA,
+  DEFAULT_BENTO,
   DEFAULT_ABOUT,
   DEFAULT_SETTINGS,
 } from "@/lib/siteContentDefaults";
@@ -72,6 +75,13 @@ export function useCtaContent() {
   return useQuery({
     queryKey: ["site_content", "cta"],
     queryFn: () => fetchContent("cta", DEFAULT_CTA),
+  });
+}
+
+export function useBentoContent() {
+  return useQuery({
+    queryKey: ["site_content", "bento"],
+    queryFn: () => fetchContent("bento", DEFAULT_BENTO),
   });
 }
 
