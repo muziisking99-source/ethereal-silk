@@ -19,7 +19,7 @@ export default function Navbar() {
     <>
       <nav
         className="fixed top-0 left-0 right-0 z-[500] flex items-center justify-between px-6 lg:px-12 py-6 backdrop-blur-[16px] border-b border-[rgba(var(--accent-rgb),0.2)] transition-colors duration-400"
-        style={{ background: "rgba(var(--bg-rgb),0.8)" }}
+        style={{ background: "var(--nav-bg)" }}
       >
         <Link
           to="/"
@@ -80,7 +80,7 @@ export default function Navbar() {
       {mobileOpen && (
         <div
           className="fixed inset-0 z-[499] backdrop-blur-lg flex flex-col items-center justify-center gap-8 md:hidden"
-          style={{ background: "rgba(var(--bg-rgb),0.97)" }}
+          style={{ background: "rgba(var(--bg-rgb),0.96)" }}
         >
           <ThemeToggle />
           {links.map((l) => (
